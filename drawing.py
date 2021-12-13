@@ -6,10 +6,10 @@ Created on Thu Dec  9 11:33:15 2021
 """
 
 #Modules used
-from initial_noodling import load_data #Delete this when actually implementing
+
 from ImageDB import ImageDB
 
-currentFile = load_data()
+
 
 #In the actual program this will be passed to drawing in a different way
 class drawing(object):
