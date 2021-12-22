@@ -1,3 +1,12 @@
+"""
+Created on Wed Dec 22 12:46 2021
+@author: pg
+Program for PCA analysis
+- The script's parts will be implemented separately in classes
+
+
+"""
+
 import mat73
 import numpy as np
 from numpy import array
@@ -35,8 +44,8 @@ from sklearn.cluster import KMeans
 # 7) create a scree plot
 # 8) create a score plot
 # 9) create a loadings plot
-# 10) a) Set up RGB channels by combining chosen PCs and create an image
-#     b) OR creat an image from each PC (not done yet, ask supervisor if it's necessary)
+# 10) a) [Not anymore] Set up RGB channels by combining chosen PCs and create an image
+#     b) [Priority] Create an image from each PC
 
 ################################################################################
 ################################################################################
@@ -62,7 +71,7 @@ def normalization(data,normalization='standardscaler'): #User chooses which meth
 
 
 ##########################  PCA analysis  ####################################
-def pca_analysis(data, numpc=3, normalization=None):
+def get_vector(data, numpc=3, normalization=None):
     #Convert 3D array to 2D array NxP
     # N = number of rows = number of spectra
     #       -> length(1st Dim) x length(2nd Dim)
@@ -77,9 +86,17 @@ def pca_analysis(data, numpc=3, normalization=None):
     pca = PCA(numpc)
     # 2) fit on data
     pca.fit(data2D)
+    # Once fit, the eigenvalues and principal components can be accessed
+    # on the PCA class via the explained_variance_ and components_ attributes.
     # to access values and vectors
-    #   - values:  pca.components_
-    #   - vectors: pca.explained_variance_
+    #   - values: pca.explained_variance_
+    #   - vectors: pca.components_
+    return pca
+
+def project_data(data,pca):
+
+    data2D = data.reshape(len(data[0])*len(data), len(data[0][0]))
+
     # 3) transform data
     score= pca.transform(data2D) # reconstructed data
     #dimensions should be the same as for data2D
@@ -221,58 +238,74 @@ def loadings_plot(loading,pca=[1,2,3]):
             plt.show()
 
 ###########################  CREATE RGB CHANNELS ###############################
-def rgb_channels(origin_data,scores_array,score_r=1,score_g=2,score_b=3):
-    #The user needs to choose which PCs will be rgb channels. By default it's first 3 scores
-    scoresPCAR = scores_array[:,score_r-1]
-    scoresPCAG = scores_array[:,score_g-1]
-    scoresPCAB = scores_array[:,score_b-1]
-
-    # reshape back to the original set up of data
-    scoresPCAR =  np.reshape(scoresPCAR,(len(origin_data), len(origin_data[0])))
-    scoresPCAG =  np.reshape(scoresPCAG,(len(origin_data), len(origin_data[0])))
-    scoresPCAB =  np.reshape(scoresPCAB,(len(origin_data), len(origin_data[0])))
-
-    #Code to create and show RGB channels:
-    # redChannel = np.zeros([len(origin_data),len(origin_data[0]),3])
-    # greenChannel = np.zeros([len(origin_data),len(origin_data[0]),3])
-    # blueChannel = np.zeros([len(origin_data),len(origin_data[0]),3])
-    #
-    # redChannel[:,:,0] = scoresPCAR # create an channel (X 0 0)
-    # greenChannel[:,:,1] = scoresPCAG # create an channel (0 X 0)
-    # blueChannel[:,:,2] = scoresPCAB # create an channel (0 0 X)
-    #
-    # plt.imshow(redChannel)
-    # plt.show()
-    # plt.imshow(greenChannel)
-    # plt.show()
-    # plt.imshow(blueChannel)
-    # plt.show()
-    return scoresPCAR,scoresPCAG,scoresPCAB
+# #NOT NEEDED ANYMORE
+# def rgb_channels(origin_data,scores_array,score_r=1,score_g=2,score_b=3):
+#     #The user needs to choose which PCs will be rgb channels. By default it's first 3 scores
+#     scoresPCAR = scores_array[:,score_r-1]
+#     scoresPCAG = scores_array[:,score_g-1]
+#     scoresPCAB = scores_array[:,score_b-1]
+#
+#     # reshape back to the original set up of data
+#     scoresPCAR =  np.reshape(scoresPCAR,(len(origin_data), len(origin_data[0])))
+#     scoresPCAG =  np.reshape(scoresPCAG,(len(origin_data), len(origin_data[0])))
+#     scoresPCAB =  np.reshape(scoresPCAB,(len(origin_data), len(origin_data[0])))
+#
+#     #Code to create and show RGB channels:
+#     # redChannel = np.zeros([len(origin_data),len(origin_data[0]),3])
+#     # greenChannel = np.zeros([len(origin_data),len(origin_data[0]),3])
+#     # blueChannel = np.zeros([len(origin_data),len(origin_data[0]),3])
+#     #
+#     # redChannel[:,:,0] = scoresPCAR # create an channel (X 0 0)
+#     # greenChannel[:,:,1] = scoresPCAG # create an channel (0 X 0)
+#     # blueChannel[:,:,2] = scoresPCAB # create an channel (0 0 X)
+#     #
+#     # plt.imshow(redChannel)
+#     # plt.show()
+#     # plt.imshow(greenChannel)
+#     # plt.show()
+#     # plt.imshow(blueChannel)
+#     # plt.show()
+#     return scoresPCAR,scoresPCAG,scoresPCAB
 ###########################  CREATE FULL IMAGE #################################
-def create_RGB_image(origin_data,scores_array):
-    channelRed,channelGreen,channelBlue = rgb_channels(origin_data,scores_array)
-    fullImage = np.empty([len(origin_data),len(origin_data[0]),3])
-    fullImage[:,:,0] = channelRed
-    fullImage[:,:,1] = channelGreen
-    fullImage[:,:,2] = channelBlue
 
-    plt.imshow(fullImage)
+#NOT NEEDED ANYMORE
+# def create_RGB_image(origin_data,scores_array):
+#     channelRed,channelGreen,channelBlue = rgb_channels(origin_data,scores_array)
+#     fullImage = np.empty([len(origin_data),len(origin_data[0]),3])
+#     fullImage[:,:,0] = channelRed
+#     fullImage[:,:,1] = channelGreen
+#     fullImage[:,:,2] = channelBlue
+#
+#     plt.imshow(fullImage)
+#     plt.colorbar()
+#     plt.show()
+#     return fullImage
+def display_image(origin_data, score): #allows to display image from any 2D data (projected or clustered)
+    reshaped_score =  np.reshape(score,(len(origin_data), len(origin_data[0])))
+    plt.imshow(reshaped_score)
     plt.colorbar()
     plt.show()
-    return fullImage
 
-def cluster_data(origin_data,image_to_cluster, n_clusters=10):
+#CHANGED
+# def cluster_data(origin_data,image_to_cluster, n_clusters=10):
+#     #The user has to specify the number of clusters for analysis. By default. it's 10
+#     Npixels = len(origin_data)*len(origin_data[0])
+#     newA = image_to_cluster.reshape([Npixels,3])
+#     kmeans = KMeans(n_clusters, random_state=0).fit(newA)
+#     clustered_image = kmeans.labels_
+#     clustered_image = clustered_image.reshape([len(origin_data),len(origin_data[0])])
+#
+#     plt.imshow(clustered_image)
+#     plt.colorbar()
+#     plt.show()
+#     return clustered_image
+
+def cluster_data(origin_data,score_to_cluster, n_clusters=10): #inputs projected data and outputs projected data that is grouped into clusters
     #The user has to specify the number of clusters for analysis. By default. it's 10
-    Npixels = len(origin_data)*len(origin_data[0]);
-    newA = image_to_cluster.reshape([Npixels,3]);
-    kmeans = KMeans(n_clusters, random_state=0).fit(newA)
-    clustered_image = kmeans.labels_
-    clustered_image = clustered_image.reshape([len(origin_data),len(origin_data[0])])
-
-    plt.imshow(clustered_image)
-    plt.colorbar()
-    plt.show()
-    return clustered_image
+    kmeans = KMeans(n_clusters,random_state=0).fit(score_to_cluster.reshape(-1,1))
+    clustered_score = kmeans.labels_
+    clustered_score=clustered_score.reshape([len(origin_data),len(origin_data[0])])
+    return clustered_score
 
 ################################################################################
 ################################################################################
@@ -299,13 +332,23 @@ matFile = mat73.loadmat('tissue_t3_1_workspace.mat')
 my_data = array(matFile["map_t3"])
 # If you want to print dimensions of the array:
 # print(data.shape)
-scores,loadings,explained_variance = pca_analysis(my_data)
+principal_comp_analysis = get_vector(my_data)
+scores,loadings,explained_variance = project_data(my_data, principal_comp_analysis)
 df_scores, df_loadings,df_explained_variance = data_frames(scores,loadings,explained_variance)
 scree_plot(df_explained_variance)
 scores_plot(df_scores,numpc=3,pc_list=[1,2,3])
 loadings_plot(loadings,pca=[1,2,3])
-image = create_RGB_image(my_data,scores)
-cluster_image = cluster_data(my_data,image)
+#image = create_RGB_image(my_data,scores) #NOT NEEDED ANYMORE
+display_image(my_data, scores[:,0]) #projected onto PC1
+display_image(my_data,scores[:,1])
+display_image(my_data,scores[:,2])
+#cluster_image = cluster_data(my_data,image)
+cluster_score1 = cluster_data(my_data,scores[:,0])
+cluster_score2 = cluster_data(my_data,scores[:,1])
+cluster_score3 = cluster_data(my_data,scores[:,2])
+display_image(my_data,cluster_score1) #clustered data projected onto PC1
+display_image(my_data,cluster_score2)
+display_image(my_data,cluster_score3)
 
 
 # fig, ax = plt.subplots() #without arguments returns a Figure and a single Axes.
