@@ -23,6 +23,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.preprocessing import scale
 from sklearn.cluster import KMeans
 
+
 ###############################   WORKFLOW  ####################################
 # 1) Import the file and select the data you want to work with
 #   - Dimensions could be any (200x200x1024, 500x300x1000 etc.)
