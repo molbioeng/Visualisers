@@ -1,10 +1,53 @@
-from tkinter import *
-from app import app
-from controls_frame import controls_frame
-from img_canvas import img_canvas
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Sun Dec 12 13:04:20 2021
 
-if __name__ == "__main__":
-    App = app()
-    frame = controls_frame(App)
-    frame2 = img_canvas(App)
-    App.mainloop()
+@author: aron
+"""
+
+# Import the library tkinter
+from tkinter import *
+from PIL import ImageTk, Image
+from tkinter import filedialog
+import os
+import tkinter
+
+from tkinter import filedialog as fd
+from tkinter.messagebox import showinfo
+
+from frame1 import filenamewindow
+from frame2 import filenamewindow2
+from frame3 import filenamewindow3
+
+# Create a GUI app
+app = Tk()
+
+# Give a title to your app
+app.title("Volumetric Data")
+
+
+
+################################################################################
+
+#FRAME 1
+
+
+filenamewindow1=filenamewindow(app)
+filename=filenamewindow1.value_chosen.get()
+filename="tissue_t3_2_workspace_old.mat"
+print(filename)
+################################################################################
+#FRAME 2
+
+
+filenamewindow2=filenamewindow2(app)
+
+################################################################################
+#FRAME 3
+
+
+filenamewindow3=filenamewindow3(app,filename)
+
+# Make the loop for displaying app
+app.mainloop()
