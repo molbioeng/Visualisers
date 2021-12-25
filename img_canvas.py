@@ -20,7 +20,7 @@ class img_canvas(Canvas):
         self.button.grid(row=1, column=0)
 
         # pack it onto container
-        self.grid(column=1, row=0)
+        self.pack(side='right', fill='both', expand=1)
 
     def button_clicked(self):
         showinfo(title='Information', message='Hello, Tkinter!')

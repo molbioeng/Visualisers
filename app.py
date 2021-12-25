@@ -9,8 +9,8 @@ class app(Tk):
         super().__init__()
         # configure the root window
         self.title('My Awesome App')
-        self.geometry('300x100')
+        self.geometry('500x500')
 
         # Creating grid layout on the root window
-        self.columnconfigure(0, weight=4)
-        self.columnconfigure(1, weight=1)
+        #self.columnconfigure(0, weight=4)
+        #self.columnconfigure(1, weight=1)
