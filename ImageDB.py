@@ -2,7 +2,7 @@
 """
 Created on Thu Dec  9 11:54:13 2021
 
-@author: thefr
+@author: FM
 
 This is a database of all of the Images saved 
 """

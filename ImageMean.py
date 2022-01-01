@@ -22,9 +22,17 @@ class ImageMean(Image):
             for i in range(np.shape(self.img)[1]):
                 self.img[i][j] =  np.average(self.data[i][j][:])
     
-    def plot(self):
-        """Plots image"""
-        imgplt = plt.imshow(self.img)
-        plt.show()
+# =============================================================================
+#     def plot(self):
+#         """Plots image"""
+#         fig, ax = plt.subplots()
+#         imgplt = plt.imshow(self.img)
+#         #show = PlotInteract(ax, self.data)
+#         #show.connect()
+#         super().plotInteract(ax)
+# 
+#         plt.show()
+# =============================================================================
+        
         
 
