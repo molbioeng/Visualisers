@@ -23,7 +23,7 @@ class ImageMean(Image):
 
         for j in range(np.shape(self.img)[0]):
             for i in range(np.shape(self.img)[1]):
-                self.img[i][j] =  np.average(self.data[i][j][:])
+                self.img[0][i][j] =  np.average(self.data[i][j][:])
 
     def display(self):
         """Displays image"""
