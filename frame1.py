@@ -20,20 +20,37 @@ from tkinter.messagebox import showinfo
 
 class filenamewindow:
     def select_files(self):
-        self.filetypes = (
-            ('text files', '*.png'),
-            ('All files', '*.*')
-        )
+        self.filetypes = (("MAT files", "*.mat"), ("all files", ''))
         self.filenames = fd.askopenfilenames(
             title='Open a files',
             initialdir='/',
             filetypes=self.filetypes)
+        self.lst = list(self.filenames)
+
+        self.drop1 = OptionMenu(self.frame1, self.value_inside, *self.lst, command=self.show)
+        self.drop1.pack(side=RIGHT, anchor="ne")
+
+
+        self.button1 = Button(self.frame1, text="Select Filename from list",
+                              command=self.select_from_list(self.value_inside)).pack()
+
+
+
+        #self.lst = list(self.filenames)
+
+        #self.drop1 = OptionMenu(self.frame1, self.value_inside, *self.lst)
+        #self.drop1.pack(side=RIGHT, anchor="ne")
+
+        #self.button1 = Button(self.frame1, text="Select Filename from list",
+                              #command=self.select_from_list(self.value_inside)).pack()
+
+        #print(self.filenames)
     
-        self.showinfo(
-            title='Selected Files',
-            message=self.filenames,
-            lst = list(self.filenames)
-        )
+        #self.showinfo(
+            #title='Selected Files',
+            #message=self.filenames,
+            #lst = list(self.filenames)
+        #)
         
 
     
@@ -59,8 +76,6 @@ class filenamewindow:
         
             self.frame1 = LabelFrame(app, text = "Select file", bg = "white", padx = 55, pady = 100)
 
-            self.filenames = ""
-
             # Displaying the frame1 in row 0 and column 0
            
             self.frame1.grid(row=2, column=0,  sticky='nsew')
@@ -69,6 +84,7 @@ class filenamewindow:
             open_button = tkinter.Button(self.frame1, text='Open Files', bg = "white", command=self.select_files)
     
             open_button.pack(expand=True)
+
     
     
     
@@ -91,20 +107,25 @@ class filenamewindow:
 
             
           
-
+            '''
             self.lst = list(self.filenames)
-            if len(self.lst)!=0:
-                self.drop1 = OptionMenu(self.frame1, self.value_inside, *self.lst)
-                self.drop1.pack(side=RIGHT, anchor="ne")
+            print(self.lst)
+
+            self.drop1 = OptionMenu(self.frame1, self.value_inside, *self.lst)
+            self.drop1.pack(side=RIGHT, anchor="ne")
+
             
-            #self.button1 = Button(self.frame1, text = "Select Filename from list", command=self.select_from_list(self.value_inside)).pack()
+            self.button1 = Button(self.frame1, text = "Select Filename from list", command=self.select_from_list(self.value_inside)).pack()
+            '''
             
         
     def show(self):
             myLabel = Label(self.frame1, text=self.value_inside.get()).pack()
             
     def select_from_list(self, value):
-        self.value_chosen=value
+        self.value_chosen=value.get()
+        #print(self.value_chosen)
+
         
     def update_value_inside(self, value):
         self.value_inside=value

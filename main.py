@@ -44,8 +44,8 @@ a.wm_attributes("-topmost", 1)
 
 filenamewindow1=filenamewindow(app)
 filename=filenamewindow1.value_chosen.get()
-filename="tissue_t3_2_workspace_old.mat"
-print(filename)
+#filename="tissue_t3_2_workspace_old.mat"
+#print(filename)
 ################################################################################
 #FRAME 2
 
