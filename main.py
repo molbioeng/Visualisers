@@ -29,9 +29,11 @@ app = Tk()
 app.title("Volumetric Data Visualiser")
 app.iconbitmap('icon.ico')
 
+
 # new user pop up
 a = newuser_pop(master=app)
 a.wm_attributes("-topmost", 1)
+
 
 
 
