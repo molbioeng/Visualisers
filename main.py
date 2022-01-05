@@ -43,22 +43,23 @@ a.wm_attributes("-topmost", 1)
 
 
 filenamewindow1=filenamewindow(app)
-print("hello")
+filename=filenamewindow1.value_chosen
+print("Ass")
 print(filenamewindow1.value_chosen)
-filename=filenamewindow1.value_chosen.get()
+
 #filename="tissue_t3_2_workspace_old.mat"
 #print(filename)
 ################################################################################
 #FRAME 2
 
 
-filenamewindow2=filenamewindow2(app)
+#filenamewindow2=filenamewindow2(app)
 
 ################################################################################
 #FRAME 3
 
 
-filenamewindow3=filenamewindow3(app,filename)
+#filenamewindow3=filenamewindow3(app,filename)
 
 # Make the loop for displaying app
 app.mainloop()

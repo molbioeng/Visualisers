@@ -17,7 +17,6 @@ from tkinter import filedialog as fd
 from tkinter.messagebox import showinfo
 
 #BUTTON 1 – FILENAME
-
 class filenamewindow:
     def __init__(self, app):
         logo = Image.open('kepu.png')
@@ -44,7 +43,8 @@ class filenamewindow:
         self.value_inside = tkinter.StringVar()
         self.lst = []
         self.value_chosen = self.value_inside
-        #self.om = None
+        self.button1 = Button(self.frame1, text="Select Filename from list",
+                command= self.select_from_list).pack()
 
             #self.value_inside.set("Select an Option") # Set the default value of the variable
             #self.om = OptionMenu(self.frame1, self.value_inside, *self.lst, command=self.show)
@@ -67,38 +67,26 @@ class filenamewindow:
         # Update list and option menu
         self.lst.append(list(self.filenames))
         if len(self.lst)==1: #Once the first file has been selected, display the list and 'select files button'
-            self.om = OptionMenu(self.frame1, self.value_inside, *self.lst, command=self.show)
+            self.value_inside.set(self.lst[0])
+            self.om = OptionMenu(self.frame1, self.value_inside, *self.lst) #, command=self.show)
             self.om.pack(side=RIGHT, anchor="ne")
-        
-            self.button1 = Button(self.frame1, text="Select Filename from list",
-                              command=self.select_from_list(self.value_inside)).pack()
+            
         else:    
             menu = self.om["menu"]
             menu.delete(0, "end")
             for file in self.lst:
                 menu.add_command(label=file, 
                              command=lambda value=file: self.value_inside.set(value))
+                   
         
-
-          
-            # '''
-            # self.lst = list(self.filenames)
-            # print(self.lst)
-
-            # self.drop1 = OptionMenu(self.frame1, self.value_inside, *self.lst)
-            # self.drop1.pack(side=RIGHT, anchor="ne")
-
+    def show(self): 
+        myLabel = Label(self.frame1, text=self.value_inside.get()).pack()
+        #return value_inside.get()
             
-            # self.button1 = Button(self.frame1, text = "Select Filename from list", command=self.select_from_list(self.value_inside)).pack()
-            # '''
-            
-        
-    def show(self):
-            myLabel = Label(self.frame1, text=self.value_inside.get()).pack()
-            
-    def select_from_list(self, value):
-        self.value_chosen=value.get()
-        print(self.value_chosen)
+    def select_from_list(self):
+        print("dick")
+        self.value_chosen=self.value_inside.get()
+        print(self.value_inside.get())
 
         
     def update_value_inside(self, value):
