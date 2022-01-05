@@ -25,7 +25,7 @@ app = Tk()
 
 # Give a title to your app
 app.title("Volumetric Data Visualiser")
-app.iconbitmap("imageDB")
+app.iconbitmap('icon.ico')
 
 
 

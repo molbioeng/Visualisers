@@ -46,12 +46,12 @@ class filenamewindow:
             
             logo = Image.open('kepu.png')
             logo = ImageTk.PhotoImage(logo)
-            logo_label=tkinter.Label(image=logo)
+            logo_label=tkinter.Label(image=logo, bg = "white")
             logo_label.image = logo
             logo_label.grid(column=0, row=0, sticky='nsew' )
             
             
-            textunderlogo = tkinter.Label(app, text="This is an application for visualising Raman Data.")
+            textunderlogo = tkinter.Label(app, text="This is an application for visualising Raman Data.", bg = "white")
             textunderlogo.grid(column=0, row=1,  sticky='nsew')
             
             
@@ -63,12 +63,7 @@ class filenamewindow:
             self.frame1.grid(row=2, column=0,  sticky='nsew')
                    
            # open button
-            open_button = tkinter.Button(
-               self.frame1,
-               text='Open Files',
-               bg = "grey",
-               command=self.select_files
-            )
+            open_button = tkinter.Button(self.frame1, text='Open Files', bg = "white", command=self.select_files)
     
             open_button.pack(expand=True)
     
