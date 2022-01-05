@@ -8,6 +8,8 @@ Created on Sun Dec 12 13:04:20 2021
 
 # Import the library tkinter
 from tkinter import *
+from newuser_pop import *
+from newuser_instructions import *
 from PIL import ImageTk, Image
 from tkinter import filedialog
 import os
@@ -26,6 +28,12 @@ app = Tk()
 # Give a title to your app
 app.title("Volumetric Data Visualiser")
 app.iconbitmap('icon.ico')
+
+
+# new user pop up
+a = newuser_pop(master=app)
+a.wm_attributes("-topmost", 1)
+
 
 
 

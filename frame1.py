@@ -19,21 +19,20 @@ from tkinter.messagebox import showinfo
 #BUTTON 1 – FILENAME
 
 class filenamewindow:
-    
     def select_files(self):
         self.filetypes = (
             ('text files', '*.png'),
             ('All files', '*.*')
         )
-        self.frame1.filenames2 = fd.askopenfilenames(
+        self.filenames = fd.askopenfilenames(
             title='Open a files',
             initialdir='/',
             filetypes=self.filetypes)
     
         self.showinfo(
             title='Selected Files',
-            message=self.frame1.filenames2,
-            lst = list(self.frame1.filenames2)
+            message=self.filenames,
+            lst = list(self.filenames)
         )
         
 
@@ -43,6 +42,7 @@ class filenamewindow:
             
         #Constructor
     def __init__(self, app):
+
             
             logo = Image.open('kepu.png')
             logo = ImageTk.PhotoImage(logo)
@@ -58,6 +58,9 @@ class filenamewindow:
             #self.create_image(20,20, anchor=NW, image=img)
         
             self.frame1 = LabelFrame(app, text = "Select file", bg = "white", padx = 55, pady = 100)
+
+            self.filenames = ""
+
             # Displaying the frame1 in row 0 and column 0
            
             self.frame1.grid(row=2, column=0,  sticky='nsew')
@@ -69,8 +72,8 @@ class filenamewindow:
     
     
     
-            self.frame1.filenames2 = filedialog.askopenfilenames(initialdir="/Users/Aron/Recents", title="Select a File",
-                                            filetypes=(("PNG files", "*.png"),("mat files", "*.mat"), ("all files", '')))
+            #self.frame1.filenames2 = filedialog.askopenfilenames(initialdir="/Users/Aron/Recents", title="Select a File",
+                                            #filetypes=(("PNG files", "*.png"),("mat files", "*.mat"), ("all files", '')))
             
             
             
@@ -85,13 +88,16 @@ class filenamewindow:
             
             #self.button1 = Button(frame1, text = "Show Filename", command=self.show).pack()
             #self.btn2= Button(self.frame2, text="Show Method", command=self.show).pack()
+
             
-            self.lst = list(self.frame1.filenames2)
-            self.drop1 = OptionMenu(self.frame1, self.value_inside, *self.lst, command=self.show)
-            #self.drop1.config(width = 30)
-            self.drop1.pack(side=RIGHT, anchor="ne")
+          
+
+            self.lst = list(self.filenames)
+            if len(self.lst)!=0:
+                self.drop1 = OptionMenu(self.frame1, self.value_inside, *self.lst)
+                self.drop1.pack(side=RIGHT, anchor="ne")
             
-            self.button1 = Button(self.frame1, text = "Select Filename from list", command=self.show).pack()
+            #self.button1 = Button(self.frame1, text = "Select Filename from list", command=self.select_from_list(self.value_inside)).pack()
             
         
     def show(self):
