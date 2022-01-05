@@ -76,10 +76,6 @@ class pcaPop(Toplevel): #Create a window
         self.canvas_preview = Canvas(self, height=400, bd=0, bg='Grey')
         self.canvas_preview.grid(column=1, row=4, columnspan=2, rowspan=6, sticky='EW')
 
-
-
-
-
         # PREVIEW BOX CODE
 
 
