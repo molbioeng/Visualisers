@@ -24,7 +24,7 @@ class newuser_pop(Toplevel): #Create a window
         self.yes_btn.grid(column=1, row=1, padx=10, pady=10)
 
     def openInstructions(self):
-        b = ft_instructions(master=app)
+        b = ft_instructions()
         self.destroy()
 
 

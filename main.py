@@ -9,6 +9,7 @@ Created on Sun Dec 12 13:04:20 2021
 # Import the library tkinter
 from tkinter import *
 from newuser_pop import *
+from newuser_instructions import *
 from PIL import ImageTk, Image
 from tkinter import filedialog
 import os
