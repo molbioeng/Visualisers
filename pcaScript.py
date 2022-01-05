@@ -3,8 +3,6 @@ Created on Wed Dec 22 12:46 2021
 @author: pg
 Program for PCA analysis
 - The script's parts will be implemented separately in classes
-
-
 """
 
 import mat73
