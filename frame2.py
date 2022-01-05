@@ -24,9 +24,9 @@ class filenamewindow2:
 
     #Constructor
     def __init__(self, app):
-        self.frame2 = LabelFrame(app, text = "Select method", bg = "yellow", padx = 50, pady = 100) # Constructing the second frame, frame2
+        self.frame2 = LabelFrame(app, text = "Select method", bg = "white", padx = 120, pady = 100) # Constructing the second frame, frame2
         # Displaying the frame2 in row 0 and column 1
-        self.frame2.grid(row=1, column=0)
+        self.frame2.grid(row=3, column=0)
         
         
         self.options = [

@@ -34,8 +34,8 @@ class filenamewindow3:
     
     def __init__(self, app, filename):
         self.filename=filename
-        self.frame3 = LabelFrame(app, text = "2D image", bg = "red", fg = "white", padx = 200, pady = 200)
-        self.frame3.grid(row=0, column=1, rowspan=2,  sticky='nsew')
+        self.frame3 = LabelFrame(app, text = "2D image", bg = "white", padx = 100, pady = 50)
+        self.frame3.grid(row=4, column=0,  sticky='nsew')
         
         self.b1 = Button(self.frame3, text="Show image", command=self.show_plot).pack()#self.show_plot(filename)).pack()
         

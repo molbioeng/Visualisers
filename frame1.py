@@ -44,16 +44,28 @@ class filenamewindow:
         #Constructor
     def __init__(self, app):
             
+            logo = Image.open('kepu.png')
+            logo = ImageTk.PhotoImage(logo)
+            logo_label=tkinter.Label(image=logo)
+            logo_label.image = logo
+            logo_label.grid(column=0, row=0 )
+            
+            
+            textunderlogo = tkinter.Label(app, text="This is an application for visualising Raman Data.")
+            textunderlogo.grid(column=0, row=1)
+            
+            
+            #self.create_image(20,20, anchor=NW, image=img)
         
-            self.frame1 = LabelFrame(app, text = "Select file", bg = "green", fg = "white", padx = 50, pady = 100)
+            self.frame1 = LabelFrame(app, text = "Select file", bg = "white", padx = 55, pady = 100)
             # Displaying the frame1 in row 0 and column 0
            
-            self.frame1.grid(row=0, column=0)
+            self.frame1.grid(row=2, column=0)
                    
            # open button
             open_button = tkinter.Button(
                self.frame1,
-               text='Open a Files',
+               text='Open Files',
                command=self.select_files
             )
     
@@ -76,13 +88,14 @@ class filenamewindow:
             self.value_inside.set("Select an Option") # Set the default value of the variable
             
             #self.button1 = Button(frame1, text = "Show Filename", command=self.show).pack()
-           # self.btn2= Button(self.frame2, text="Show Method", command=self.show).pack()
+            #self.btn2= Button(self.frame2, text="Show Method", command=self.show).pack()
             
             self.lst = list(self.frame1.filenames2)
-            self.drop1 = OptionMenu(self.frame1, self.value_inside, *self.lst, command=self.update_value_inside)
+            self.drop1 = OptionMenu(self.frame1, self.value_inside, *self.lst, command=self.show)
+            #self.drop1.config(width = 30)
             self.drop1.pack(side=RIGHT, anchor="ne")
             
-            self.button1 = Button(self.frame1, text = "Select Filename from list", command=self.select_from_list(self.value_inside)).pack()
+            self.button1 = Button(self.frame1, text = "Select Filename from list", command=self.show).pack()
             
         
     def show(self):
