@@ -24,7 +24,8 @@ from frame3 import filenamewindow3
 app = Tk()
 
 # Give a title to your app
-app.title("Volumetric Data")
+app.title("Volumetric Data Visualiser")
+app.iconbitmap('icon.ico')
 
 
 
