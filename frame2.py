@@ -26,7 +26,7 @@ class filenamewindow2:
     def __init__(self, app):
         self.frame2 = LabelFrame(app, text = "Select method", bg = "white", padx = 120, pady = 100) # Constructing the second frame, frame2
         # Displaying the frame2 in row 0 and column 1
-        self.frame2.grid(row=3, column=0)
+        self.frame2.grid(row=3, column=0, sticky='nsew')
         
         
         self.options = [
@@ -40,7 +40,7 @@ class filenamewindow2:
         # Variable to keep track of the option
         # selected in OptionMenu
         self.drop2 = OptionMenu(self.frame2, self.var2, *self.options)
-        self.drop2.pack(side=RIGHT, anchor="ne")
+        self.drop2.pack(side=RIGHT)
         
         self.btn2= Button(self.frame2, text="Show Method", command=self.show).pack()
         

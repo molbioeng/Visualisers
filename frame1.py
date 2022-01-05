@@ -48,11 +48,11 @@ class filenamewindow:
             logo = ImageTk.PhotoImage(logo)
             logo_label=tkinter.Label(image=logo)
             logo_label.image = logo
-            logo_label.grid(column=0, row=0 )
+            logo_label.grid(column=0, row=0, sticky='nsew' )
             
             
             textunderlogo = tkinter.Label(app, text="This is an application for visualising Raman Data.")
-            textunderlogo.grid(column=0, row=1)
+            textunderlogo.grid(column=0, row=1,  sticky='nsew')
             
             
             #self.create_image(20,20, anchor=NW, image=img)
@@ -60,12 +60,13 @@ class filenamewindow:
             self.frame1 = LabelFrame(app, text = "Select file", bg = "white", padx = 55, pady = 100)
             # Displaying the frame1 in row 0 and column 0
            
-            self.frame1.grid(row=2, column=0)
+            self.frame1.grid(row=2, column=0,  sticky='nsew')
                    
            # open button
             open_button = tkinter.Button(
                self.frame1,
                text='Open Files',
+               bg = "grey",
                command=self.select_files
             )
     
