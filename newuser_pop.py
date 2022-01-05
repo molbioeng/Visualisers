@@ -30,8 +30,8 @@ class newuser_pop(Toplevel): #Create a window
 
 # FOR TESTING
 
-app = Tk()
-app.geometry("400x400")
-a = newuser_pop(master=app)
-a.wm_attributes("-topmost", 1)
-app.mainloop()
+#app = Tk()
+#app.geometry("400x400")
+#a = newuser_pop(master=app)
+#a.wm_attributes("-topmost", 1)
+#app.mainloop()
