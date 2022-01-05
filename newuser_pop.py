@@ -1,5 +1,5 @@
 from tkinter import *
-from instructions import *
+from newuser_instructions import *
 
 class newuser_pop(Toplevel): #Create a window
     def __init__(self, master=None):
