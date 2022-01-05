@@ -27,7 +27,7 @@ app = Tk()
 
 # Give a title to your app
 app.title("Volumetric Data Visualiser")
-app.iconbitmap('icon.ico')
+#app.iconbitmap('icon.ico')
 
 
 # new user pop up
@@ -43,6 +43,8 @@ a.wm_attributes("-topmost", 1)
 
 
 filenamewindow1=filenamewindow(app)
+print("hello")
+print(filenamewindow1.value_chosen)
 filename=filenamewindow1.value_chosen.get()
 #filename="tissue_t3_2_workspace_old.mat"
 #print(filename)
