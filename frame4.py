@@ -33,6 +33,9 @@ class filenamewindow4:
         self.frame4.grid(row=1, column=0, sticky='nsew')
 
         self.main_btn = Button(self.frame4, text = "Browse Arrays", command = self.browse_arrays).pack()
+        
+        #self.label = Label(self.frame4, text="No File Selected").pack()
+        #print(type(self.label))
 
         '''
         self.filename = fL.File
@@ -67,7 +70,6 @@ class filenamewindow4:
         # opening selected MATLAB file
         #print("this works", fL.File)
         print(fL.File)
-        print("/Users/Shirin/Desktop/Prog3 Project/tissue_t3_1_workspace.mat")
 
 
         self.selected_files = self.open_file()
@@ -86,7 +88,8 @@ class filenamewindow4:
         self.btn4 = Button(self.frame4, text="Show Array", command=self.show).pack()
 
     def show(self):
-        myLabel = Label(self.frame4, text=self.var4.get()).pack()
+        self.label = Label(self.frame4, text=self.var4.get()).pack()
+        #self.label.config(text = self.var4.get())
         #print(fL.File)
 
     def open_file(self):
