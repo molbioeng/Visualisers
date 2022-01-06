@@ -17,6 +17,7 @@ from tkinter import filedialog as fd
 from tkinter.messagebox import showinfo
 
 import fileList as fL
+from frame4 import filenamewindow4
 
 #BUTTON 1 – FILENAME
 class filenamewindow:
@@ -31,11 +32,11 @@ class filenamewindow:
         # textunderlogo.grid(column=0, row=1,  sticky='nsew')
             
         
-        self.frame1 = LabelFrame(app, text = "Select file", bg = "white", padx = 55, pady = 100)
+        self.frame1 = LabelFrame(app, text = "Select file", bg = "white", padx = 50, pady = 30)
 
         # Displaying the frame1 in row 0 and column 0
-        self.frame1.grid(row=2, column=0,  sticky='nsew')
-                   
+        self.frame1.grid(row=0, column=0,  sticky='nsew')
+                         
         # open button
         open_button = tkinter.Button(self.frame1, text='Open Files', bg = "white", command=self.select_files)
         open_button.pack(expand=True)
@@ -46,6 +47,8 @@ class filenamewindow:
         self.button1 = Button(self.frame1, text="Select Filename from list",
                 command= self.select_from_list).pack()
         self.om = None
+        
+
 
             #self.value_inside.set("Select an Option") # Set the default value of the variable
             #self.om = OptionMenu(self.frame1, self.value_inside, *self.lst, command=self.show)

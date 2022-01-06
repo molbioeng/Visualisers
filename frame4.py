@@ -26,11 +26,11 @@ class filenamewindow4:
     #constructor
     def __init__(self, app):
         #constructing frame4
-        self.frame4 = LabelFrame(app, text = "Select 3D array", bg = "white", padx = 120, pady = 40)
+        self.frame4 = LabelFrame(app, text = "Select 3D array", bg = "white",padx = 50, pady = 30)
 
         #displaying the frame in row 3 and column 0
         #self.frame4.grid(row=3, column=0, sticky='nsew')
-        self.frame4.grid(row=5, column=0, sticky='nsew')
+        self.frame4.grid(row=1, column=0, sticky='nsew')
 
         self.main_btn = Button(self.frame4, text = "Browse Arrays", command = self.browse_arrays).pack()
 

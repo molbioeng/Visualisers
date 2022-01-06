@@ -26,19 +26,14 @@ class filenamewindow2:
 
     #Constructor
     def __init__(self, app):
-        self.frame2 = LabelFrame(app, text = "Select method", bg = "white", padx = 120, pady = 50) # Constructing the second frame, frame2
+        self.frame2 = LabelFrame(app, text = "Select method", bg = "white", padx = 50, pady = 30) # Constructing the second frame, frame2
         # Displaying the frame2 in row 0 and column 1
-        self.frame2.grid(row=3, column=0, sticky='nsew')
+        self.frame2.grid(row=2, column=0, sticky='nsew')
         
         
-        # self.options = [
-        #     "Mean",
-        #     "PCA"
-        #     ]
+        self.options = ["Mean","PCA", "K-Means Clustering"]
         
-        self.options = [0,1]
-        
-        self.var2 = IntVar()
+        self.var2 = StringVar()
         self.var2.set(self.options[0]) #.index())
         
         print("method in frame 2 is...",fL.method)
