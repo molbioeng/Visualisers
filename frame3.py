@@ -27,8 +27,9 @@ class filenamewindow3:
     def load_data(self):
         print("current file load")
         if fL.File is not None :
+            print(fL.File)
             mat = mat73.loadmat(fL.File)
-            self.c = mat["map_t3"]
+            return mat["map_t3"]
     
     def button_clicked(self):
         print('Button clicked')
@@ -37,13 +38,20 @@ class filenamewindow3:
         self.frame3 = LabelFrame(app, text = "2D image", bg = "white", padx = 100, pady = 30)
         self.frame3.grid(row=4, column=0,  sticky='nsew')
         
+        
         self.b1 = Button(self.frame3, text="Show image", command=self.show_plot).pack()#self.show_plot(filename)).pack()
         self.draw = drawing()
         
     def show_plot(self):
+        
         print("No worky")
         c = self.load_data()
+        print("Selected option is " , fL.method)
+        #if self.method == 0:
+        #    
+        #else:
+        #    print("Selected option is 1")
         self.draw.addImageMean(c)
-        self.draw.plotImage(0)
+        self.draw.displayImage(0)
         
         

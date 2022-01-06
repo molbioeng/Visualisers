@@ -45,6 +45,7 @@ class filenamewindow:
         currentFile = self.value_inside
         self.button1 = Button(self.frame1, text="Select Filename from list",
                 command= self.select_from_list).pack()
+        self.om = None
 
             #self.value_inside.set("Select an Option") # Set the default value of the variable
             #self.om = OptionMenu(self.frame1, self.value_inside, *self.lst, command=self.show)
@@ -63,20 +64,25 @@ class filenamewindow:
             title='Open a files',
             initialdir='/',
             filetypes=self.filetypes)
+        print(type(self.filenames))
+        self.filenames = list(self.filenames) 
         
         # Update list and option menu
-        fL.List.append(list(self.filenames))
-        if len(fL.List)==1: #Once the first file has been selected, display the list and 'select files button'
+        for i in self.filenames:
+            fL.List.append(i) #If there is none selected, don't ADD ANYTHING
+        
+        if (self.om == None) and len(fL.List) > 0: #Once the first file has been selected, display the list and 'select files button'
+        #if not self.om:   
             self.value_inside.set(fL.List[0])
             self.om = OptionMenu(self.frame1, self.value_inside, *fL.List) #, command=self.show)
             self.om.pack(side=RIGHT, anchor="ne")
             
-        else:    
+        else:
             menu = self.om["menu"]
             menu.delete(0, "end")
             for file in fL.List:
-                menu.add_command(label=file, 
-                             command=lambda value=file: self.value_inside.set(value))
+                 menu.add_command(label=file, 
+                              command=lambda value=file: self.value_inside.set(value))
                    
         
     def show(self): 
@@ -84,8 +90,8 @@ class filenamewindow:
         #return value_inside.get()
             
     def select_from_list(self):
-        fL.File=self.value_inside.get().lstrip("(")
-        fL.File = fL.File.rstrip(",)")
+        fL.File=self.value_inside.get() #.lstrip("(")
+        #fL.File = fL.File.rstrip(")
         print(fL.File)
 
         

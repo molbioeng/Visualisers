@@ -11,3 +11,5 @@ def init():
     List = []
     global File
     File = None
+    global method
+    method = 0
