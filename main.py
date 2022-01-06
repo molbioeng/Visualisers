@@ -22,6 +22,7 @@ from tkinter.messagebox import showinfo
 from frame1 import filenamewindow
 from frame2 import filenamewindow2
 from frame3 import filenamewindow3
+#from frame4 import filenamewindow4
 
 import fileList as fL
 
@@ -49,6 +50,13 @@ filenamewindow1=filenamewindow(app)
 
 #filename="tissue_t3_2_workspace_old.mat"
 #print(filename)
+
+################################################################################
+
+#FRAME 4 – 3D array selection
+
+#filenamewindow4=filenamewindow4(app, filename)
+
 ################################################################################
 #FRAME 2
 
