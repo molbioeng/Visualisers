@@ -16,6 +16,8 @@ import tkinter
 from tkinter import filedialog as fd
 from tkinter.messagebox import showinfo
 
+import fileList as fL
+
 #BUTTON 1 – FILENAME
 class filenamewindow:
     def __init__(self, app):
@@ -24,8 +26,7 @@ class filenamewindow:
         logo_label=tkinter.Label(image=logo, bg = "white")
         logo_label.image = logo
         logo_label.grid(column=0, row=0, sticky='nsew' )
-            
-            
+
         textunderlogo = tkinter.Label(app, text="This is an application for visualising Raman Data.", bg = "white")
         textunderlogo.grid(column=0, row=1,  sticky='nsew')
             
@@ -41,8 +42,7 @@ class filenamewindow:
             
         #Option menu
         self.value_inside = tkinter.StringVar()
-        self.lst = []
-        self.value_chosen = self.value_inside
+        currentFile = self.value_inside
         self.button1 = Button(self.frame1, text="Select Filename from list",
                 command= self.select_from_list).pack()
 
@@ -65,16 +65,16 @@ class filenamewindow:
             filetypes=self.filetypes)
         
         # Update list and option menu
-        self.lst.append(list(self.filenames))
-        if len(self.lst)==1: #Once the first file has been selected, display the list and 'select files button'
-            self.value_inside.set(self.lst[0])
-            self.om = OptionMenu(self.frame1, self.value_inside, *self.lst) #, command=self.show)
+        fL.List.append(list(self.filenames))
+        if len(fL.List)==1: #Once the first file has been selected, display the list and 'select files button'
+            self.value_inside.set(fL.List[0])
+            self.om = OptionMenu(self.frame1, self.value_inside, *fL.List) #, command=self.show)
             self.om.pack(side=RIGHT, anchor="ne")
             
         else:    
             menu = self.om["menu"]
             menu.delete(0, "end")
-            for file in self.lst:
+            for file in fL.List:
                 menu.add_command(label=file, 
                              command=lambda value=file: self.value_inside.set(value))
                    
@@ -84,13 +84,13 @@ class filenamewindow:
         #return value_inside.get()
             
     def select_from_list(self):
-        print("dick")
-        self.value_chosen=self.value_inside.get()
-        print(self.value_inside.get())
+        fL.File=self.value_inside.get().lstrip("(")
+        fL.File = fL.File.rstrip(",)")
+        print(fL.File)
 
         
-    def update_value_inside(self, value):
-        self.value_inside=value
+    def get_filename(self):
+        return self.value_inside
         
             
         
