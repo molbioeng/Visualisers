@@ -21,14 +21,14 @@ import fileList as fL
 #BUTTON 1 – FILENAME
 class filenamewindow:
     def __init__(self, app):
-        logo = Image.open('kepu.png')
-        logo = ImageTk.PhotoImage(logo)
-        logo_label=tkinter.Label(image=logo, bg = "white")
-        logo_label.image = logo
-        logo_label.grid(column=0, row=0, sticky='nsew' )
+        # logo = Image.open('kepu.png')
+        # logo = ImageTk.PhotoImage(logo)
+        # logo_label=tkinter.Label(image=logo, bg = "white")
+        # logo_label.image = logo
+        # logo_label.grid(column=0, row=0, sticky='nsew' )
 
-        textunderlogo = tkinter.Label(app, text="This is an application for visualising Raman Data.", bg = "white")
-        textunderlogo.grid(column=0, row=1,  sticky='nsew')
+        # textunderlogo = tkinter.Label(app, text="This is an application for visualising Raman Data.", bg = "white")
+        # textunderlogo.grid(column=0, row=1,  sticky='nsew')
             
         
         self.frame1 = LabelFrame(app, text = "Select file", bg = "white", padx = 55, pady = 100)

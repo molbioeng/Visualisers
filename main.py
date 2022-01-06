@@ -22,7 +22,7 @@ from tkinter.messagebox import showinfo
 from frame1 import filenamewindow
 from frame2 import filenamewindow2
 from frame3 import filenamewindow3
-#from frame4 import filenamewindow4
+from frame4 import filenamewindow4
 
 import fileList as fL
 
@@ -55,7 +55,7 @@ filenamewindow1=filenamewindow(app)
 
 #FRAME 4 – 3D array selection
 
-#filenamewindow4=filenamewindow4(app, filename)
+filenamewindow4=filenamewindow4(app)
 
 ################################################################################
 #FRAME 2
@@ -68,6 +68,8 @@ filenamewindow2=filenamewindow2(app)
 
 
 filenamewindow3=filenamewindow3(app)
+
+
 
 # Make the loop for displaying app
 app.mainloop()
