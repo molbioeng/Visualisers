@@ -1,24 +1,16 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Thu Jan  6 11:23:47 2022
-
-@author: thefr
-"""
-
-
-# Import the library tkinter
 import tkinter
 from tkinter import *
 from tkinter import filedialog as fd
 from tkinter import messagebox
 import os
-#import requests
 
 import mat73
 import scipy
 import scipy.io as sio
 import numpy as np
+
 import fileList as fL
+from ErrorPopupWindows import ArraySelectionPopup
 
 #FRAME 4 – SELECTING 3D ARRAY
 
@@ -33,34 +25,31 @@ class filenamewindow4:
         self.frame4.grid(row=1, column=0, sticky='nsew')
 
         self.main_btn = Button(self.frame4, text = "Browse Arrays", command = self.browse_arrays).pack()
-        
+
         #self.label = Label(self.frame4, text="No File Selected").pack()
         #print(type(self.label))
 
-        '''
-        self.filename = fL.File
-        self.filename2 ='/Users/Shirin/Desktop/Prog3 Project/tissue_t3_1_workspace.mat'
-        #self.filename = self.select_files()
-
-        #opening selected MATLAB file
-        print("this works",self.filename)
-
-        self.selected_files = self.open_file(self.filename2)
-
-        #filtering through arrays in MATLAB file and creating options list for dropdown menu
-        self.options = self.filter_options(self.selected_files)
-        #self.options = ["Testing"]
-
-        self.var4 = StringVar() #datatype of menu text
-        self.var4.set(self.options[0]) #initial menu text
-
-        #creating dropdown menu
-        self.drop4 = OptionMenu(self.frame4, self.var4, *self.options)
-        self.drop4.pack(side=RIGHT)
-
-        self.btn4= Button(self.frame4, text = "Show Array", command=self.show).pack()
-        '''
-
+        # self.filename = fL.File
+        # self.filename2 ='/Users/Shirin/Desktop/Prog3 Project/tissue_t3_1_workspace.mat'
+        # #self.filename = self.select_files()
+        #
+        # #opening selected MATLAB file
+        # print("this works",self.filename)
+        #
+        # self.selected_files = self.open_file(self.filename2)
+        #
+        # #filtering through arrays in MATLAB file and creating options list for dropdown menu
+        # self.options = self.filter_options(self.selected_files)
+        # #self.options = ["Testing"]
+        #
+        # self.var4 = StringVar() #datatype of menu text
+        # self.var4.set(self.options[0]) #initial menu text
+        #
+        # #creating dropdown menu
+        # self.drop4 = OptionMenu(self.frame4, self.var4, *self.options)
+        # self.drop4.pack(side=RIGHT)
+        #
+        # self.btn4= Button(self.frame4, text = "Show Array", command=self.show).pack()
 
     def browse_arrays(self):
         #self.filename = fL.File
@@ -69,23 +58,30 @@ class filenamewindow4:
 
         # opening selected MATLAB file
         #print("this works", fL.File)
-        print(fL.File)
+        if not fL.File:
+            self.popup_window()
+            #tkinter.messagebox.showerror("Warning", "Please upload a file.")
+            #print("ERROR!")
+        else:
+            print(fL.File)
 
+            self.selected_files = self.open_file()
 
-        self.selected_files = self.open_file()
+            # filtering through arrays in MATLAB file and creating options list for dropdown menu
+            self.options = self.filter_options(self.selected_files)
+            # self.options = ["Testing"]
 
-        # filtering through arrays in MATLAB file and creating options list for dropdown menu
-        self.options = self.filter_options(self.selected_files)
-        # self.options = ["Testing"]
+            self.var4 = StringVar()  # datatype of menu text
+            self.var4.set(self.options[0])  # initial menu text
 
-        self.var4 = StringVar()  # datatype of menu text
-        self.var4.set(self.options[0])  # initial menu text
+            # creating dropdown menu
+            self.drop4 = OptionMenu(self.frame4, self.var4, *self.options)
+            self.drop4.pack(side=RIGHT)
 
-        # creating dropdown menu
-        self.drop4 = OptionMenu(self.frame4, self.var4, *self.options)
-        self.drop4.pack(side=RIGHT)
+            self.btn4 = Button(self.frame4, text="Show Array", command=self.show).pack()
 
-        self.btn4 = Button(self.frame4, text="Show Array", command=self.show).pack()
+    def popup_window(self):
+        ArraySelectionPopup(self.frame4)
 
     def show(self):
         self.label = Label(self.frame4, text=self.var4.get()).pack()
@@ -104,18 +100,6 @@ class filenamewindow4:
                 selected_file = "dummy"
         return selected_file
 
-    # def open_file(self):
-    #     global selected_file
-    #     filename = fd.askopenfilename(initialdir = "/",filetypes = (("MAT files", "*.mat"), ("all files", '')))
-    #     try:
-    #         selected_file = mat73.loadmat(filename)
-    #     except Exception:
-    #         try:
-    #             selected_file = sio.loadmat(filename)
-    #         except Exception as e:
-    #             print(e, "\n MATLAB file not supported.")
-    #     return selected_file
-
     def filter_options(self, file):
         file_variables = list(file.keys())
         menu_options = ["Select an array"]
@@ -128,4 +112,3 @@ class filenamewindow4:
             menu_options.append("File selected does not contain 3D number data.")
             #tkinter.messagebox.showerror("Warning", "File selected does not contain 3D number data.")
         return menu_options
-

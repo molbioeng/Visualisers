@@ -1,11 +1,4 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Sun Dec 12 16:20:18 2021
-
-@author: aron
-"""
-# Import the library tkinter
+# import the tkinter library
 from tkinter import *
 from PIL import ImageTk, Image
 from tkinter import filedialog
@@ -18,8 +11,11 @@ from tkinter.messagebox import showinfo
 from drawing import drawing
 import fileList as fL
 #import filenamewindow
+from ErrorPopupWindows import ImagePopup
 
-import mat73 
+#FRAME 3 - SHOW 2D IMAGE
+
+import mat73
 import scipy.io
 
 class filenamewindow3:
@@ -31,20 +27,22 @@ class filenamewindow3:
             print(fL.File)
             mat = mat73.loadmat(fL.File)
             return mat["map_t3"]
-    
+
     def button_clicked(self):
         print('Button clicked')
-    
-    def __init__(self, app): 
+
+    def __init__(self, app):
         self.frame3 = LabelFrame(app, text = "2D image", bg = "white", padx = 50, pady = 30)
         self.frame3.grid(row=3, column=0,  sticky='nsew')
-        
-        
+
+
         self.b1 = Button(self.frame3, text="Show image", command=self.show_plot).pack()#self.show_plot(filename)).pack()
         self.draw = drawing()
-        
+
+    def popup_window(self):
+        FileSelectionPopup(self.frame3)
+
     def show_plot(self):
-        
         print("No worky")
         c = self.load_data()
         print("Selected option is " , fL.method)
@@ -54,9 +52,10 @@ class filenamewindow3:
             self.draw.addImageMean(c)
             self.draw.displayImage(0)
         #if self.method == 0:
-        #    
+        #
         #else:
         #    print("Selected option is 1")
-        
-        
-        
+
+        #if array and method not select, display warning message
+        # if not fL.Array and fL.method:
+        #     self.popup_window()
