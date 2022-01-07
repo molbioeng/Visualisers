@@ -175,6 +175,7 @@ class ImagePCA(Image):
 
 
 ######## FOR TESTING OUT #####
+<<<<<<< HEAD
 # matFile = mat73.loadmat('tissue_t3_1_workspace.mat') # .mat file must be in the same local directory
 # my_data = np.array(matFile["map_t3"])
 # pca_t3 = PrincipalComponent(my_data)
@@ -188,3 +189,18 @@ class ImagePCA(Image):
 # #clustered_image.display()
 # image_from_pca.display()
 # #image_from_pca.display(3)
+=======
+matFile = mat73.loadmat('tissue_t3_1_workspace.mat') # .mat file must be in the same local directory
+my_data = np.array(matFile["map_t3"])
+pca_t3 = PrincipalComponent(my_data)
+image_from_pca = ImagePCA(my_data,pca_t3)
+#image_from_pca.data_frames()
+#image_from_pca.scree_plot()
+#x=image_from_pca.scores_plot()
+#image_from_pca.scores_plt_higher_dim(x)
+#image_from_pca.loadings_plot()
+#clustered_image = ImageKMCluster(image_from_pca.display(1),10)
+#clustered_image.display()
+image_from_pca.display()
+#image_from_pca.display(3)
+>>>>>>> 4c4d152fd91ce06abdaa1e2b21c2ad76cda15337

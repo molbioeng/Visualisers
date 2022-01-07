@@ -40,14 +40,10 @@ class filenamewindow2(LabelFrame):
         self.drop2 = OptionMenu(self.frame2, self.var2, *self.options)
 
         self.drop2.grid(column=0, row=0)
-        
+
         self.btn2= Button(self.frame2, text="Confirm Selection", command=self.show).grid(row=0, column=1)
-        
-        
+
+
     def show(self):
         fL.method = self.var2.get()
-        if 'self.myLabel' in locals():
-            self.Label.config(text = (str(fL.method) + " selected"))
-        else:
-            self.Label = Label(self.frame2, text=(str(fL.method) + " selected")).grid(column=0, row=2, columnspan=2)
-
+        myLabel = Label(self.frame2, text=str(fL.method)).grid(column=0, row=2, columnspan=2)

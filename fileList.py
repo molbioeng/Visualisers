@@ -15,5 +15,3 @@ def init():
     method = 0
     global Array
     global Data
-    
-    

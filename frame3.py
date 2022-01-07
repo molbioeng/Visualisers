@@ -30,7 +30,7 @@ class filenamewindow3(LabelFrame):
 
     def button_clicked(self):
         print('Button clicked')
-    
+
     def __init__(self, container):
         super().__init__(container)
         self.frame3 = LabelFrame(container, text = "2D image", bg = "white", padx = 120, pady = 50)
@@ -39,8 +39,8 @@ class filenamewindow3(LabelFrame):
         # configuration of grid on frame
         self.columnconfigure(0, weight=1)
         self.columnconfigure(1, weight=2)
-        
-        
+
+
         self.b1 = Button(self.frame3, text="Show Image", command=self.show_plot).grid(column=0, row=0, columnspan=2)#self.show_plot(filename)).pack()
         self.draw = drawing()
 
