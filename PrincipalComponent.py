@@ -47,6 +47,7 @@ class PrincipalComponent:
         self.X_pca = self.pca.fit(data)
         self.loadings = self.X_pca.components_.T #Retrieve the loadings values
         self.explained_variance = self.X_pca.explained_variance_ratio_
+        self.name =
 
     def transform(self,array):
         r_data = self.X_pca.transform(array)

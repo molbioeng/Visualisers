@@ -2,119 +2,201 @@ from tkinter import *
 from tkinter import filedialog
 import os
 import tkinter
-#from tkinter import font
-
+# from tkinter import font
 from tkinter import filedialog as fd
 from tkinter.messagebox import showinfo
 
-class ft_instructions(Toplevel): #Create a window
+##########PG
+import tkinter as tk
+from tkinter import ttk
+import matplotlib
+
+matplotlib.use('TkAgg')
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+from matplotlib.figure import Figure
+import matplotlib.pyplot as plt
+
+##########PG
+import mat73
+from Image import Image
+from PrincipalComponent import PrincipalComponent
+import numpy as np
+from ImagePCA import ImagePCA
+from PrincipalComponentDB import*
+
+
+class pcaPop(Toplevel):  # Create a window
     def __init__(self, master=None):
-        #using toplevel to create a new window that isn't root
+        # using toplevel to create a new window that isn't root
         Toplevel.__init__(self, master)
-        #configuring the pop up window
-        self.title("How to Navigate Visualizer")
-        self.geometry('460x600')
+        # configuring the pop up window
+        self.title("PCA Settings")
+        self.geometry('800x600')
 
-        # The following set up with frame and canvas is to enable coding of a scrollbar
+        # CONFIGURING GRID GEOMETRY OF WINDOW
+        self.columnconfigure(0, weight=1)
+        self.columnconfigure(1, weight=1)
+        self.columnconfigure(2, weight=2)
 
-        # Create Frame
-        self.main_frame = Frame(self)
-        # expands frames to the size of container
-        self.main_frame.pack(fill=BOTH, expand=1)
+        # TITLE ON WINDOW AND SUBMIT BUTTON
+        # msg = 'PCA SETTINGS'
+        # self.toplabel = Label(self, text=msg)
+        # self.toplabel.grid(column=1,row=0,sticky=N, padx=10, pady=10)
 
-        # Create a Canvas
-        self.scroll_canvas = Canvas(self.main_frame)
-        self.scroll_canvas.pack(side=LEFT, fill=BOTH, expand=1)
+        # self.button = Button(self, text="Submit", command=self.destroy)
+        # self.button.grid(column=0,row=10, columnspan=3, sticky=S, padx=10, pady=10)
 
-        # Add A Scrollbar to the Canvas
-        self.scrollbar = Scrollbar(self.main_frame, orient=VERTICAL, command=self.scroll_canvas.yview)
-        # we have positioned this on the frame but have attached it to the canvas
-        self.scrollbar.pack(side=RIGHT, fill=Y)
+        buttonX = ttk.Button(self, text="Submit", command=self.destroy)
+        buttonX.grid(column=0, row=10, columnspan=3, sticky=S, padx=10, pady=10)
 
-        # Configure the Canvas
-        self.scroll_canvas.configure(yscrollcommand=self.scrollbar.set)
-        # lambda e -> we are passing an event eg. mouse clicking
-        self.scroll_canvas.bind('<Configure>', lambda e: self.scroll_canvas.configure(scrollregion=self.scroll_canvas.bbox("all")))
+        ### FOR TESTING SIMPLE IMAGE
+        # f = Figure(figsize=(5,5),dpi=100)
+        # a = f.add_subplot(111)
+        # a.plot([1,2,3,4,5,6,7,8],[5,1,2,6,3,3,7,1])
+        #
+        # canvas = FigureCanvasTkAgg(f,self)
+        # canvas.draw()
+        # # canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=True )
+        # canvas.get_tk_widget().grid(column=0,row=11, columnspan=3, sticky=S, padx=10, pady=10)
 
-        # Create ANOTHER Frame INSIDE the Canvas
-        self.second_frame = Frame(self.scroll_canvas)
+        # DROP DOWN MENU - CODE FOR SELECTING OPTION AND CONFIRMING IT
+        # variable that stores index for array of drop down options
+        lst = list
+        lst_names = list
+        for x in PrincipalComponentDB:
+            lst.append(x)
+            #name = 'File name'+'PC number'
+            lst_names.append()
 
-        # Add that New frame to a Window in the Canvas
-        self.scroll_canvas.create_window((0, 0), window=self.second_frame, anchor="nw")
+        #['phone', 'laptop', 'car', 'plane', 'digger']
+        self.dd_var = StringVar()
+        # self.var.set(app.lst[0])
+        self.dd_var.set(lst[0])
 
-        # Title at the top of the Window
-        self.welcome_label = Label(self.second_frame, text="Welcome to Visualize!",
-                                   font="lucida 16 bold")
-        self.welcome_label.pack(pady=(15,0))
+        # label for drop down menu
+        drop_down_text = "If you would like to use PCs from a previous image please select:"
+        self.dd_label = Label(self, text=drop_down_text, font="lucida 14")
+        self.dd_label.grid(column=0, row=0, columnspan=2, sticky=N, padx=10, pady=(15, 5))
 
-        # Instructions
+        self.drop = OptionMenu(self, self.dd_var, *lst)
+        # self.drop = OptionMenu(self, self.var, *app.lst)
+        self.drop.grid(column=0, row=1, columnspan=2, sticky=N, padx=10, pady=5)
+        self.cfm_opt_btn = Button(self, text="Confirm Selection", command=lambda: print(self.var.get()))
+        self.cfm_opt_btn.grid(column=2, row=1, sticky=N, pady=10, padx=10)
 
-        # STEP 1
-        self.step1_label = Label(self.second_frame, text="Step(1): Click on the button on the top and select the file or files \n you would like to analyse",
-                                 font="lucida 14")
-        self.step1_label.pack(pady=(20,5), padx=5, side= TOP, anchor="w")
-        self.step1_note_label = Label(self.second_frame, text="Note - The program only accepts .mat files",
-                                 font="lucida 14 underline")
-        self.step1_note_label.pack(padx=5)
-        # STEP 2
-        self.step2_label = Label(self.second_frame, text="Step(2): Click on the dropdown menu at the bottom to select the \n method you'd like to employ to visualize the data",
-                                 font="lucida 14")
-        self.step2_label.pack(pady=10, side= TOP, anchor="w", padx=5)
-        self.step2_note_text = Label(self.second_frame,
-                                 text="Note: The options available are Mean or \n PCA (Principal Component Analysis)",
-                                 font="lucida 14 underline").pack(expand=True, fill=BOTH, padx=5)
-        # IF PCA SELECTED
-        self.pca_lf = LabelFrame(self.second_frame, text="If PCA is selected", font="lucida 14 bold", bg="Light Grey",
-                                 height="100", pady=5, padx=5)
-        self.pca_lf.pack(fill="both", expand="yes", padx=10, pady=10)
+        # LINE TO SEPARATE MENU IN TWO SECTIONS
+        self.canvas_line = Canvas(self, height=10, bd=0)
+        self.canvas_line.grid(column=0, row=2, columnspan=3, sticky='EW')
+        self.canvas_line.create_line(15, 5, 785, 5, dash=(8, 3))
 
-        self.pca_lf_1 = Label(self.pca_lf, text="When PCA is selected, a new PCA settings window will pop up.",
-                              bg="Light Grey").pack(side= TOP, anchor="w")
-        self.pca_lf_2 = Label(self.pca_lf, text="There are 2 main options available: ",
-                              bg="Light Grey", font="lucida 13 bold").pack(side= TOP, anchor="w", pady=(1,8))
-        self.pca_lf_3 = Label(self.pca_lf, text="(1) You may choose to plot data based on PCs calculated from \n a previous data set.",
-                              bg="Light Grey", font="lucida 13 underline").pack(side=TOP, anchor="w")
-        self.pca_lf_4 = Label(self.pca_lf, text="This option requires you to have already used the program to \n analyse a data set using PCA.",
-                              bg="Light Grey").pack(expand=True, fill=BOTH, side=TOP, anchor="w")
-        self.pca_lf_5 = Label(self.pca_lf, text="(2) You can plot based on PCs calculated on the current data set.",
-                              bg="Light Grey", font="lucida 13 underline").pack(side=TOP, anchor="w", pady=(10,5))
-        self.pca_lf_6 = Label(self.pca_lf, text="Using the checkbox you can select the number of PCs you'd like \n to use for plotting.",
-                              bg="Light Grey", font="lucida 13").pack(side=TOP, anchor="w")
-        self.pca_lf_7 = Label(self.pca_lf, text="To aid you in making this decision, there is a preview box on the \n right, here "
-                                                "you can see what the image will look like with \n the PCs chosen.",
-                          bg="Light Grey", font="lucida 13").pack(side=TOP, anchor="w")
-        self.pca_lf_8 = Label(self.pca_lf, text="Once you have finalized your selection, click Submit.",
-                              bg="Light Grey", font="lucida 13 underline").pack(side=TOP, anchor="w")
+        # PC CHECK LIST CODE
+        # label at the top of the check list
+        self.cl_label = Label(self, text="Select PC to be included in the image:", font="lucida 14 underline")
+        self.cl_label.grid(column=0, row=3, pady=(15, 5))
 
-        # AFTER METHOD IS CHOSEN
-        self.step3_label = Label(self.second_frame, text="Step(3): Navigate the Interactive Image Plot",
-                                 font="lucida 14").pack(side=TOP, anchor="w", padx=5, pady=(0,10))
-        self.step3_opts1_label = Label(self.second_frame, text="The interactive image will appear in a new window.",
-                                      font="lucida 14").pack(side=TOP, anchor="w", padx=5)
-        self.step3_opts2_label = Label(self.second_frame, text="At the top bar of the window, you can explore different "
-                                                              "tools such \nas zoom.",
-                                       font="lucida 14", justify=LEFT).pack(side=TOP, anchor="w", padx=5)
-        self.step3_opts3_label = Label(self.second_frame, text="The image is also mouse-click sensitive, by clicking "
-                                                               "on a pixel you \ncan have the raw raman spectrum "
-                                                               "for that (x,y) co-ordinate \nappear in a new window.",
-                                       font="lucida 14", justify=LEFT).pack(side=TOP,anchor="w", padx=5)
+        # variables to store on/off value of checkbox
+        self.rb_var = IntVar()
+        #
+        '''
+        matFile = mat73.loadmat('/Users/Shirin/Desktop/Prog3 Project/tissue_t3_1_workspace.mat') # .mat file must be in the same local directory
+        my_data = np.array(matFile["map_t3"])
+        pca_t3 = PrincipalComponent(my_data)
+        image = ImagePCA(my_data,pca_t3)
+        f = Figure()
+        a = f.add_subplot(111)
+        a.axis('off')
+        '''
 
-        #Goodbye Message
+        #Radiobutton(root, text="PC1", variable=r, value=1, command=lambda: clicked(r.get())).pack()
 
-        self.ty_label = Label(self.second_frame, text="We hope you enjoy using Visualize!",
-                              font="lucida 14 bold").pack(side=TOP, padx=5, pady=10)
+        # checkboxes
+        self.rb_1 = Radiobutton(self, text="PC 1", variable=self.rb_var, value=0, command=lambda: self.displayxxx(self.rb_var.get()))
+        self.rb_1.grid(column=0, row=4)
 
+        self.rb_2 = Radiobutton(self, text="PC 2", variable=self.rb_var, value=1, command=lambda: self.displayxxx(self.rb_var.get()))
+        self.rb_2.grid(column=0, row=5)
 
+        self.rb_3 = Radiobutton(self, text="PC 3", variable=self.rb_var, value=2, command=lambda: self.displayxxx(self.rb_var.get()))
+        self.rb_3.grid(column=0, row=6)
 
+        # PREVIEW BOX
+        # title
+        self.pb_label = Label(self, text="Preview Image", font="lucida 13 bold")
+        self.pb_label.grid(column=1, row=3, columnspan=2, sticky='N', pady=(15, 0))
+
+    # setting up canvas
+    # self.canvas_preview = Canvas(self, height=400, bd=0, bg='Grey')
+    # self.canvas_preview.grid(column=1, row=4, columnspan=2, rowspan=6, sticky='EW')
+
+    # PREVIEW BOX CODE
+
+    # canvas = FigureCanvasTkAgg(f,self)
+    # canvas.draw()
+    # # # canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=True )
+    # canvas.get_tk_widget().grid(column=0,row=11, columnspan=3, sticky=S, padx=10, pady=10)
+    # canvas.get_tk_widget().configure(bg="black")
+
+    # self.canvas_preview2 = FigureCanvasTkAgg(f,self)
+    # self.canvas_preview2.draw()
+    # # canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=True )
+    # self.canvas_preview2.get_tk_widget().grid(column=1,row=4, columnspan=2,rowspan=6, sticky='EW')
+    # self.canvas_preview2.get_tk_widget().configure(bg="grey")
+
+    def displayxxx(self, rb_var):
+        f = Figure()
+        a = f.add_subplot(111)
+        a.axis('off')
+        matFile = mat73.loadmat(
+            '/Users/Shirin/Desktop/Prog3 Project/tissue_t3_1_workspace.mat')  # .mat file must be in the same local directory
+        my_data = np.array(matFile["map_t3"])
+        # my_data = fL.Array
+        pca_t3 = PrincipalComponent(my_data)
+        image = ImagePCA(my_data, pca_t3)
+        self.canvas_preview2 = FigureCanvasTkAgg(f, self)
+        if rb_var == 0:
+            print('Var1 is 1')
+            x = image.return_Image(1)
+            # plt.cla()
+            #a.plot([1, 2, 3, 4, 5, 6, 7, 8], [5, 1, 2, 6, 3, 3, 7, 1])
+            a.imshow(x)
+            self.canvas_preview2.draw()
+            self.canvas_preview2.get_tk_widget().grid(column=1, row=4, columnspan=2, rowspan=6, sticky='EW')
+            self.canvas_preview2.get_tk_widget().configure(bg="grey")
+        elif rb_var == 1:
+            print('Var2 is 1')
+            # plt.cla()
+            x = image.return_Image(2)
+            a.imshow(x)
+            #a.plot([1, 2, 3, 4, 5, 6, 7, 8], [7, 2, 2, 4, 3, 3, 4, 8])
+            self.canvas_preview2.draw()
+            self.canvas_preview2.get_tk_widget().grid(column=1, row=4, columnspan=2, rowspan=6, sticky='EW')
+            self.canvas_preview2.get_tk_widget().configure(bg="grey")
+        elif rb_var == 2:
+            print('Var3 is 1')
+            x = image.return_Image(3)
+            a.imshow(x)
+            # plt.cla()
+            a.plot([1, 2, 3, 4, 5, 6, 7, 8], [9, 1, 2, 2, 5, 1, 6, 8])
+            self.canvas_preview2.draw()
+            self.canvas_preview2.get_tk_widget().grid(column=1, row=4, columnspan=2, rowspan=6, sticky='EW')
+            self.canvas_preview2.get_tk_widget().configure(bg="grey")
+
+        else:
+            print('error')
 
 
 # FOR TESTING
+def openSettings():
+    a=pcaPop()
 
-def openInstructions():
-    a = ft_instructions(master=app)
+def select_files():
+    app.filenames = fd.askopenfilenames(title='Open a files', initialdir='/')
+    app.lst = list(app.filenames)
 
 app = Tk()
 app.geometry("400x400")
-b2 = Button(app, text="Open Instructions", command=openInstructions)
+b1 = Button(app, text="Load Files", command=select_files)
+b1.pack()
+b2 = Button(app, text="Open PCA Settings", command=openSettings)
 b2.pack()
-app.mainloop() 
+app.mainloop()
