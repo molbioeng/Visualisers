@@ -43,6 +43,9 @@ class PrincipalComponent:
                 #End the loop
                 break
 
+        #TO REMOVE LATER##########
+        self.n_components =  3
+        ##########################
         self.pca = PCA(n_components=self.n_components)
         self.X_pca = self.pca.fit(data)
         self.loadings = self.X_pca.components_.T #Retrieve the loadings values

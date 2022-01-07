@@ -17,6 +17,15 @@ class Image(ABC):
     def __init__(self, array):
         self.data = array #data passed into the image
         self.img = np.empty(shape=(np.shape(array)[0:2])) #Flattened Raman data
+    
+    def plot(self):
+        """Module allows for plot interaction"""
+        fig, ax = plt.subplots()
+        imgplt = plt.imshow(self.img)
+        show = PlotInteract(ax, self.data)
+        show.connect()
+
+        plt.show()
 
     def display(self):
         """Module allows for plot interaction"""

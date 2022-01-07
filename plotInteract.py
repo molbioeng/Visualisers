@@ -65,3 +65,4 @@ class PlotInteract:
         self.ax.draw_artist(self.text)
         self.ax.draw_artist(self.square)
         self.ax.figure.canvas.blit(self.ax.bbox)
+
