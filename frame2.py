@@ -15,7 +15,7 @@ import fileList as fL
 class filenamewindow2(LabelFrame):
 
     #Constructor
-    def __init__(self, app):
+    def __init__(self, container):
         super().__init__(container)
         self.frame2 = LabelFrame(container, text = "Select method", bg = "white", padx = 120, pady = 50) # Constructing the second frame, frame2
 
