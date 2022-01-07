@@ -14,17 +14,24 @@ from ErrorPopupWindows import ArraySelectionPopup
 
 #FRAME 4 – SELECTING 3D ARRAY
 
-class filenamewindow4:
+class filenamewindow4(LabelFrame):
     #constructor
-    def __init__(self, app):
+    def __init__(self, container):
+        super().__init__(container)
         #constructing frame4
-        self.frame4 = LabelFrame(app, text = "Select 3D array", bg = "white",padx = 50, pady = 30)
+        self.frame4 = LabelFrame(container, text = "Select 3D array", bg = "white", padx = 120, pady = 50)
+
 
         #displaying the frame in row 3 and column 0
         #self.frame4.grid(row=3, column=0, sticky='nsew')
         self.frame4.grid(row=1, column=0, sticky='nsew')
 
-        self.main_btn = Button(self.frame4, text = "Browse Arrays", command = self.browse_arrays).pack()
+        # configuration of grid on frame
+        self.columnconfigure(0, weight=1)
+        self.columnconfigure(1, weight=2)
+
+        self.main_btn = Button(self.frame4, text = "Browse Arrays", command = self.browse_arrays)
+        self.main_btn.grid(row=0, column=0, columnspan=2)
 
         #self.label = Label(self.frame4, text="No File Selected").pack()
         #print(type(self.label))
@@ -76,16 +83,16 @@ class filenamewindow4:
 
             # creating dropdown menu
             self.drop4 = OptionMenu(self.frame4, self.var4, *self.options)
-            self.drop4.pack(side=RIGHT)
-
-            self.btn4 = Button(self.frame4, text="Show Array", command=self.show).pack()
+            self.drop4.grid(row=1, column=0)
+            self.btn4 = Button(self.frame4, text="Show Array", command=self.show).grid(row=1, column=1)
 
     def popup_window(self):
         ArraySelectionPopup(self.frame4)
 
     def show(self):
-        self.label = Label(self.frame4, text=self.var4.get()).pack()
+        self.label = Label(self.frame4, text=self.var4.get()).grid(column=0, row=2, columnspan=2)
         #self.label.config(text = self.var4.get())
+
         #print(fL.File)
 
     def open_file(self):

@@ -18,8 +18,14 @@ from ErrorPopupWindows import FileSelectionPopup
 
 #FRAME 1 – OPEN AND SELECT FILE
 
-class filenamewindow:
-    def __init__(self, app):
+#BUTTON 1 – FILENAME
+class filenamewindow(LabelFrame):
+    def __init__(self, container):
+        super().__init__(container)
+        # configuration of grid on frame
+        self.columnconfigure(0, weight=1)
+        self.columnconfigure(1, weight=2)
+        
         # logo = Image.open('kepu.png')
         # logo = ImageTk.PhotoImage(logo)
         # logo_label=tkinter.Label(image=logo, bg = "white")
@@ -28,21 +34,22 @@ class filenamewindow:
 
         # textunderlogo = tkinter.Label(app, text="This is an application for visualising Raman Data.", bg = "white")
         # textunderlogo.grid(column=0, row=1,  sticky='nsew')
-
-        self.frame1 = LabelFrame(app, text = "Select file", bg = "white", padx = 50, pady = 30)
+            
+        
+        self.frame1 = LabelFrame(container, text = "Select file", bg = "white", padx = 120, pady = 50)
 
         # Displaying the frame1 in row 0 and column 0
-        self.frame1.grid(row=0, column=0,  sticky='nsew')
-
+        self.frame1.grid(column=0, row=0,  sticky='nsew')
+                   
         # open button
         open_button = tkinter.Button(self.frame1, text='Open Files', bg = "white", command=self.select_files)
-        open_button.pack(expand=True)
-
+        open_button.grid(row=0, column=0, columnspan=2)
+            
         #Option menu
         self.value_inside = tkinter.StringVar()
         currentFile = self.value_inside
         self.button1 = Button(self.frame1, text="Select Filename from list",
-                command= self.select_from_list).pack()
+                command= self.select_from_list).grid(row=1, column=1)
         self.om = None
 
 
@@ -75,18 +82,19 @@ class filenamewindow:
         #if not self.om:
             self.value_inside.set(fL.List[0])
             self.om = OptionMenu(self.frame1, self.value_inside, *fL.List) #, command=self.show)
-            self.om.pack(side=RIGHT, anchor="ne")
 
+            self.om.grid(row=1, column=0)
+            
         else:
             menu = self.om["menu"]
             menu.delete(0, "end")
             for file in fL.List:
                  menu.add_command(label=file,
-                              command=lambda value=file: self.value_inside.set(value))
+                              command=lambda value=file: self.value_inside.set(value))                
+        
+    def show(self): 
+        myLabel = Label(self.frame1, text=self.value_inside.get()).grid(column=0, row=2, columnspan=2)
 
-
-    def show(self):
-        myLabel = Label(self.frame1, text=self.value_inside.get()).pack()
         #return value_inside.get()
 
     def popup_window(self):
