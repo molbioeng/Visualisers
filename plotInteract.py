@@ -47,7 +47,7 @@ class PlotInteract:
         """Plot the associated Raman spectra when a pixel is right-clicked"""
         if event.inaxes!=self.ax.axes: return #Return if plot not clicked
         if str(event.button)!='MouseButton.RIGHT': return #Ensure right click to open new plot
-        print('clicked pixel at (', event.xdata, ',' , event.ydata, ')')
+
         fig2, ax2 = plt.subplots()
         plt.plot(self.data[int(round(event.ydata))][int(round(event.xdata))][:]) #Double check why this is flipped
         plt.title('Raman Spectra at pixel (%i, %i)' % (int(round(event.xdata)), int(round(event.ydata))))
