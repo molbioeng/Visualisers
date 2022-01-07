@@ -91,6 +91,7 @@ class filenamewindow4(LabelFrame):
 
     def confirm(self):
         fL.Array = fL.Data[self.var4.get()]
+        fL.Array_name = self.var4.get()
         print(self.var4.get())
         self.myLabel = Label(self.frame4, text=(str(self.var4.get()) + " selected")).grid(column=0, row=2, columnspan=2)
         #self.label = Label(self.frame4, text=self.var4.get()).grid(column=0, row=2, columnspan=2)

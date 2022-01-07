@@ -4,8 +4,12 @@ Created on Wed Dec 22 17:09 2021
 
 Class for all PCs calculated from an input dataset
 """
+import os
 
 from sklearn.decomposition import PCA
+from Loadings import *
+import fileList as fL
+from LoadingsDB import *
 import numpy as np
 
 
@@ -13,8 +17,10 @@ import numpy as np
 # import mat73
 
 class PrincipalComponent:
-    def __init__(self,array, goal_var=0.99):
+    def __init__(self, array, ldb, goal_var=0.99):
         # TODO: SET UP ERROR HANDLING FOR GOAL_VAR
+        # loadings database variable
+        self.ldb = ldb
         npArray = np.array(array) #transform into numpy array
         data = npArray.reshape(len(npArray)*len(npArray[0]),len(npArray[0][0])) #Convert 3D array to 2D array NxP
         # self.pca = PCA(3) #3 PCs
@@ -49,8 +55,13 @@ class PrincipalComponent:
         self.pca = PCA(n_components=self.n_components)
         self.X_pca = self.pca.fit(data)
         self.loadings = self.X_pca.components_.T #Retrieve the loadings values
+        filename = (os.path.basename(fL.File)).rsplit(".", 1)[0]
+        for index in range(3):
+            current_loading = Loadings(filename, fL.Array_name, index+1, self.loadings[:,index])
+            print("this is from pc class", current_loading.__repr__())
+            self.ldb.loadingDB.append(current_loading)
+
         self.explained_variance = self.X_pca.explained_variance_ratio_
-        self.name =
 
     def transform(self,array):
         r_data = self.X_pca.transform(array)

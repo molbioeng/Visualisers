@@ -9,4 +9,4 @@ class App(Tk):
         super().__init__()
         # configure the root window
         self.title('Visualizer')
-        self.geometry('500x500')
+        self.geometry('800x600')

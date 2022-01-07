@@ -33,7 +33,7 @@ class ImagePCA(Image):
     def return_Image(self,pc): #Used for displaying an image in the given window
         #You have to specify the pc for which the image has to be displayed
         score = self.scores[:,pc-1] #get the score for chosen pc
-        self.reshaped_score =  np.reshape(score,(len(self.array), len(self.array[0])))
+        self.reshaped_score =  np.reshape(score,(len(self.data), len(self.data[0])))
         return self.reshaped_score
 
     #def display(self): #For displaying image in a separate window
@@ -42,10 +42,10 @@ class ImagePCA(Image):
        #  plt.show()
 
     def preview(self,pc): #For dislaying image in a separate window (no navigation bar)
-        self.img = return_Image(self,pc)
+        self.img = self.return_Image(self,pc)
         import matplotlib as mpl
         mpl.rcParams['toolbar'] = 'None'
-        plt.imshow(img)
+        plt.imshow(self.img)
         plt.axis('off')
         plt.show()
         mpl.rcParams['toolbar'] = 'toolbar2'

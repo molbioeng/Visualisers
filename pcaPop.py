@@ -24,7 +24,7 @@ from PrincipalComponentDB import*
 
 
 class pcaPop(Toplevel):  # Create a window
-    def __init__(self, master=None):
+    def __init__(self, ldb, data,  master=None):
         # using toplevel to create a new window that isn't root
         Toplevel.__init__(self, master)
         # configuring the pop up window
@@ -35,6 +35,10 @@ class pcaPop(Toplevel):  # Create a window
         self.columnconfigure(0, weight=1)
         self.columnconfigure(1, weight=1)
         self.columnconfigure(2, weight=2)
+
+        # variables for PCA analysis
+        self.ldb = ldb
+        self.data = data
 
         # TITLE ON WINDOW AND SUBMIT BUTTON
         # msg = 'PCA SETTINGS'
@@ -59,14 +63,16 @@ class pcaPop(Toplevel):  # Create a window
 
         # DROP DOWN MENU - CODE FOR SELECTING OPTION AND CONFIRMING IT
         # variable that stores index for array of drop down options
+        '''
         lst = list
         lst_names = list
         for x in PrincipalComponentDB:
-            lst.append(x)
+            lst.append(x.loadings)
             #name = 'File name'+'PC number'
             lst_names.append()
+        '''
 
-        #['phone', 'laptop', 'car', 'plane', 'digger']
+        lst = ['phone', 'laptop', 'car', 'plane', 'digger']
         self.dd_var = StringVar()
         # self.var.set(app.lst[0])
         self.dd_var.set(lst[0])
@@ -144,12 +150,11 @@ class pcaPop(Toplevel):  # Create a window
         f = Figure()
         a = f.add_subplot(111)
         a.axis('off')
-        matFile = mat73.loadmat(
-            '/Users/Shirin/Desktop/Prog3 Project/tissue_t3_1_workspace.mat')  # .mat file must be in the same local directory
-        my_data = np.array(matFile["map_t3"])
-        # my_data = fL.Array
-        pca_t3 = PrincipalComponent(my_data)
-        image = ImagePCA(my_data, pca_t3)
+        #matFile = mat73.loadmat(
+        #    '/Users/Shirin/Desktop/Prog3 Project/tissue_t3_1_workspace.mat')  # .mat file must be in the same local directory
+        #my_data = np.array(matFile["map_t3"])
+        pca_t3 = PrincipalComponent(array=self.data, ldb=self.ldb)
+        image = ImagePCA(self.data, pca_t3)
         self.canvas_preview2 = FigureCanvasTkAgg(f, self)
         if rb_var == 0:
             print('Var1 is 1')
@@ -187,7 +192,7 @@ class pcaPop(Toplevel):  # Create a window
 def openSettings():
     a=pcaPop()
 
-
+'''
 def openSettings():
     a = pcaPop(master=app)
 
@@ -204,4 +209,5 @@ b2 = Button(app, text="Open PCA Settings", command=openSettings)
 b2.pack()
 
 app.mainloop()
+'''
 

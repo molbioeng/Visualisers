@@ -15,3 +15,4 @@ def init():
     method = 0
     global Array
     global Data
+    global Array_name
