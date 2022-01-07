@@ -110,11 +110,11 @@ class ft_instructions(Toplevel): #Create a window
 
 # FOR TESTING
 
-def openInstructions():
-    a = ft_instructions(master=app)
+#def openInstructions():
+    #a = ft_instructions(master=app)
 
-app = Tk()
-app.geometry("400x400")
-b2 = Button(app, text="Open Instructions", command=openInstructions)
-b2.pack()
-app.mainloop()
+#app = Tk()
+#app.geometry("400x400")
+#b2 = Button(app, text="Open Instructions", command=openInstructions)
+#b2.pack()
+#app.mainloop()
