@@ -46,7 +46,7 @@ class filenamewindow3(LabelFrame):
         self.b1 = Button(self.frame3, text="Show Image", command=self.show_plot).grid(column=0, row=0, columnspan=2)#self.show_plot(filename)).pack()
 
         self.draw = drawing()
-        self.ldb = LoadingsDB()
+        self.ldb = LoadingsDB().loadingDB
 
     def popup_window(self):
         FileSelectionPopup(self.frame3)

@@ -71,22 +71,25 @@ class pcaPop(Toplevel):  # Create a window
             #name = 'File name'+'PC number'
             lst_names.append()
         '''
+        #
+        print("This is ldb ",self.ldb)
+        if len(self.ldb)!=0:
+            self.dd_var = StringVar()
+            print("This is first dd_var ",self.dd_var)
+            # self.var.set(app.lst[0])
+            self.dd_var.set(self.ldb[0])
+            print("This is second dd_var ",self.dd_var)
 
-        lst = ['phone', 'laptop', 'car', 'plane', 'digger']
-        self.dd_var = StringVar()
-        # self.var.set(app.lst[0])
-        self.dd_var.set(lst[0])
+            # label for drop down menu
+            drop_down_text = "If you would like to use PCs from a previous image please select:"
+            self.dd_label = Label(self, text=drop_down_text, font="lucida 14")
+            self.dd_label.grid(column=0, row=0, columnspan=2, sticky=N, padx=10, pady=(15, 5))
 
-        # label for drop down menu
-        drop_down_text = "If you would like to use PCs from a previous image please select:"
-        self.dd_label = Label(self, text=drop_down_text, font="lucida 14")
-        self.dd_label.grid(column=0, row=0, columnspan=2, sticky=N, padx=10, pady=(15, 5))
-
-        self.drop = OptionMenu(self, self.dd_var, *lst)
-        # self.drop = OptionMenu(self, self.var, *app.lst)
-        self.drop.grid(column=0, row=1, columnspan=2, sticky=N, padx=10, pady=5)
-        self.cfm_opt_btn = Button(self, text="Confirm Selection", command=lambda: print(self.var.get()))
-        self.cfm_opt_btn.grid(column=2, row=1, sticky=N, pady=10, padx=10)
+            self.drop = OptionMenu(self, self.dd_var, *self.ldb)
+            # self.drop = OptionMenu(self, self.var, *app.lst)
+            self.drop.grid(column=0, row=1, columnspan=2, sticky=N, padx=10, pady=5)
+            self.cfm_opt_btn = Button(self, text="Confirm Selection", command=lambda: print(self.var.get()))
+            self.cfm_opt_btn.grid(column=2, row=1, sticky=N, pady=10, padx=10)
 
         # LINE TO SEPARATE MENU IN TWO SECTIONS
         self.canvas_line = Canvas(self, height=10, bd=0)
@@ -210,4 +213,3 @@ b2.pack()
 
 app.mainloop()
 '''
-

@@ -59,7 +59,7 @@ class PrincipalComponent:
         for index in range(3):
             current_loading = Loadings(filename, fL.Array_name, index+1, self.loadings[:,index])
             print("this is from pc class", current_loading.__repr__())
-            self.ldb.loadingDB.append(current_loading)
+            self.ldb.append(current_loading)
 
         self.explained_variance = self.X_pca.explained_variance_ratio_
 
