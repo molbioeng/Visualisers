@@ -1,11 +1,4 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Sun Dec 12 16:20:18 2021
-
-@author: aron
-"""
-# Import the library tkinter
+# import the tkinter library
 from tkinter import *
 from PIL import ImageTk, Image
 from tkinter import filedialog
@@ -18,19 +11,23 @@ from tkinter.messagebox import showinfo
 from drawing import drawing
 import fileList as fL
 #import filenamewindow
+from ErrorPopupWindows import ImagePopup
 
-import mat73 
+#FRAME 3 - SHOW 2D IMAGE
+
+import mat73
 import scipy.io
 
 class filenamewindow3(LabelFrame):
     #Constructor
     def load_data(self):
+        """Update the Array"""
         print("current file load")
         if fL.File is not None :
             print(fL.File)
             mat = mat73.loadmat(fL.File)
             return mat["map_t3"]
-    
+
     def button_clicked(self):
         print('Button clicked')
     
@@ -46,17 +43,24 @@ class filenamewindow3(LabelFrame):
         
         self.b1 = Button(self.frame3, text="Show image", command=self.show_plot).grid(column=0, row=0, columnspan=2)#self.show_plot(filename)).pack()
         self.draw = drawing()
-        
+
+    def popup_window(self):
+        FileSelectionPopup(self.frame3)
+
     def show_plot(self):
-        
         print("No worky")
         c = self.load_data()
         print("Selected option is " , fL.method)
+        #"Mean","PCA", "K-Means Clustering"
+        if fL.method == "Mean":
+            print("Adding mean...")
+            self.draw.addImageMean(c)
+            self.draw.displayImage(0)
         #if self.method == 0:
-        #    
+        #
         #else:
         #    print("Selected option is 1")
-        self.draw.addImageMean(c)
-        self.draw.displayImage(0)
-        
-        
+
+        #if array and method not select, display warning message
+        # if not fL.Array and fL.method:
+        #     self.popup_window()
