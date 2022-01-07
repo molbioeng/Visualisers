@@ -20,15 +20,18 @@ import fileList as fL
 #FRAME 2 – FILENAME
 
 
-class filenamewindow2:
-    
-    
-
+class filenamewindow2(LabelFrame):
     #Constructor
-    def __init__(self, app):
-        self.frame2 = LabelFrame(app, text = "Select method", bg = "white", padx = 120, pady = 50) # Constructing the second frame, frame2
+    def __init__(self, container):
+        super().__init__(container)
+        self.frame2 = LabelFrame(container, text = "Select method", bg = "white", padx = 120, pady = 50) # Constructing the second frame, frame2
+
+        # configuration of grid on frame
+        self.columnconfigure(0, weight=1)
+        self.columnconfigure(1, weight=2)
+
         # Displaying the frame2 in row 0 and column 1
-        self.frame2.grid(row=3, column=0, sticky='nsew')
+        self.frame2.grid(row=2, column=0, sticky='nsew')
         
         
         # self.options = [
@@ -46,11 +49,11 @@ class filenamewindow2:
         # Variable to keep track of the option
         # selected in OptionMenu
         self.drop2 = OptionMenu(self.frame2, self.var2, *self.options)
-        self.drop2.pack(side=RIGHT)
+        self.drop2.grid(column=0, row=0)
         
-        self.btn2= Button(self.frame2, text="Select Method", command=self.show).pack()
+        self.btn2= Button(self.frame2, text="Select Method", command=self.show).grid(row=0, column=1)
         
         
     def show(self):
         fL.method = self.var2.get()
-        myLabel = Label(self.frame2, text=str(fL.method)).pack()
+        myLabel = Label(self.frame2, text=str(fL.method)).grid(column=0, row=2, columnspan=2)

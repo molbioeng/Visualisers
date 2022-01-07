@@ -22,7 +22,7 @@ import fileList as fL
 import mat73 
 import scipy.io
 
-class filenamewindow3:
+class filenamewindow3(LabelFrame):
     #Constructor
     def load_data(self):
         print("current file load")
@@ -34,12 +34,17 @@ class filenamewindow3:
     def button_clicked(self):
         print('Button clicked')
     
-    def __init__(self, app): 
-        self.frame3 = LabelFrame(app, text = "2D image", bg = "white", padx = 100, pady = 30)
-        self.frame3.grid(row=4, column=0,  sticky='nsew')
+    def __init__(self, container):
+        super().__init__(container)
+        self.frame3 = LabelFrame(container, text = "2D image", bg = "white", padx = 120, pady = 50)
+        self.frame3.grid(row=3, column=0, sticky='nsew')
+
+        # configuration of grid on frame
+        self.columnconfigure(0, weight=1)
+        self.columnconfigure(1, weight=2)
         
         
-        self.b1 = Button(self.frame3, text="Show image", command=self.show_plot).pack()#self.show_plot(filename)).pack()
+        self.b1 = Button(self.frame3, text="Show image", command=self.show_plot).grid(column=0, row=0, columnspan=2)#self.show_plot(filename)).pack()
         self.draw = drawing()
         
     def show_plot(self):
