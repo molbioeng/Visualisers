@@ -15,17 +15,19 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import axes3d
 
 #For testing out:
-# import mat73
-# from ImageKMCluster import ImageKMCluster
+import mat73
+from ImageKMCluster import ImageKMCluster
 
 class ImagePCA(Image):
 
     def __init__(self,array,pca):
-        self.array = array
+        super().__init__(array)
         self.pca = pca
-        data = np.array(array)
-        self.data = data.reshape(len(data)*len(data[0]),len(data[0][0]))
-        self.scores = self.pca.transform(self.data)  # reconstructed data
+        data = self.data
+        data = data.reshape(len(data)*len(data[0]),len(data[0][0]))
+        self.scores = self.pca.transform(data)  # reconstructed data
+
+
 
 
     def return_Image(self,pc): #Used for displaying an image in the given window
@@ -34,17 +36,16 @@ class ImagePCA(Image):
         self.reshaped_score =  np.reshape(score,(len(self.array), len(self.array[0])))
         return self.reshaped_score
 
-    def display(self): #For displaying image in a separate window
-        plt.imshow(self.reshaped_score)
-        plt.colorbar()
-        plt.show()
+    #def display(self): #For displaying image in a separate window
+     #    plt.imshow(self.img)
+      #   plt.colorbar()
+       #  plt.show()
 
     def preview(self,pc): #For dislaying image in a separate window (no navigation bar)
-        score = self.scores[:,pc-1] #get the score for chosen pc
-        reshaped_score =  np.reshape(score,(len(self.array), len(self.array[0])))
+        self.img = return_Image(self,pc)
         import matplotlib as mpl
         mpl.rcParams['toolbar'] = 'None'
-        plt.imshow(reshaped_score)
+        plt.imshow(img)
         plt.axis('off')
         plt.show()
         mpl.rcParams['toolbar'] = 'toolbar2'
@@ -178,12 +179,12 @@ class ImagePCA(Image):
 # my_data = np.array(matFile["map_t3"])
 # pca_t3 = PrincipalComponent(my_data)
 # image_from_pca = ImagePCA(my_data,pca_t3)
-# image_from_pca.data_frames()
-# # image_from_pca.scree_plot()
-# # x=image_from_pca.scores_plot()
-# # image_from_pca.scores_plt_higher_dim(x)
-# image_from_pca.loadings_plot()
-# # clustered_image = ImageKMCluster(image_from_pca.display(1),10)
-# # clustered_image.display()
-# # image_from_pca.display(2)
-# # image_from_pca.display(3)
+# #image_from_pca.data_frames()
+# #image_from_pca.scree_plot()
+# #x=image_from_pca.scores_plot()
+# #image_from_pca.scores_plt_higher_dim(x)
+# #image_from_pca.loadings_plot()
+# #clustered_image = ImageKMCluster(image_from_pca.display(1),10)
+# #clustered_image.display()
+# image_from_pca.display()
+# #image_from_pca.display(3)

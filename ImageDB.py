@@ -13,7 +13,8 @@ This is a database of all of the Images saved
 
 #Modules used
 from ImageMean import ImageMean
-#from ImagePCA import ImagePCA
+from ImagePCA import ImagePCA
+from ImageKMCluster import ImageKMCluster
 
 
 class ImageDB(object):
@@ -27,14 +28,13 @@ class ImageDB(object):
         """Creates and adds an image to the database"""
         self.images.append(ImageMean(currentFile))
 
-
     def addImagePCA(self, currentFile):
         """Creates and adds an image to the database"""
         self.images.append(ImagePCA(currentFile))
 
-    def addImageKMCluster(self,currentFile):
+    def addImageKMCluster(self,currentFile, n_clusters):
         """Creates and adds an image to the database"""
-        self.images.append(ImageKMCluster(currentFile))
+        self.images.append(ImageKMCluster(currentFile, n_clusters))
 
     def displayImage(self, index):
         """Displays image"""
