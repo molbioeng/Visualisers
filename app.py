@@ -3,14 +3,10 @@ from tkinter import ttk
 from controls_frame import controls_frame
 
 
-class app(Tk):
+class App(Tk):
     # Constructor
     def __init__(self):
         super().__init__()
         # configure the root window
-        self.title('My Awesome App')
+        self.title('Visualizer')
         self.geometry('500x500')
-
-        # Creating grid layout on the root window
-        #self.columnconfigure(0, weight=4)
-        #self.columnconfigure(1, weight=1)
