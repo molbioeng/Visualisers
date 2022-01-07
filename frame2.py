@@ -15,6 +15,7 @@ import fileList as fL
 class filenamewindow2(LabelFrame):
 
     #Constructor
+
     def __init__(self, container):
         super().__init__(container)
         self.frame2 = LabelFrame(container, text = "Select method", bg = "white", padx = 120, pady = 50) # Constructing the second frame, frame2
@@ -40,11 +41,9 @@ class filenamewindow2(LabelFrame):
         self.drop2 = OptionMenu(self.frame2, self.var2, *self.options)
 
         self.drop2.grid(column=0, row=0)
-        
-        self.btn2= Button(self.frame2, text="Select Method", command=self.show).grid(row=0, column=1)
-        
-        
+
+        self.btn2= Button(self.frame2, text="Confirm Selection", command=self.show).grid(row=0, column=1)
+
     def show(self):
         fL.method = self.var2.get()
         myLabel = Label(self.frame2, text=str(fL.method)).grid(column=0, row=2, columnspan=2)
-

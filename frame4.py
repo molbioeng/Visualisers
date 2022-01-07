@@ -72,10 +72,10 @@ class filenamewindow4(LabelFrame):
         else:
             print(fL.File)
 
-            self.selected_files = self.open_file()
+            fL.Data = self.open_file()
 
             # filtering through arrays in MATLAB file and creating options list for dropdown menu
-            self.options = self.filter_options(self.selected_files)
+            self.options = self.filter_options(fL.Data)
             # self.options = ["Testing"]
 
             self.var4 = StringVar()  # datatype of menu text
@@ -84,16 +84,19 @@ class filenamewindow4(LabelFrame):
             # creating dropdown menu
             self.drop4 = OptionMenu(self.frame4, self.var4, *self.options)
             self.drop4.grid(row=1, column=0)
-            self.btn4 = Button(self.frame4, text="Show Array", command=self.show).grid(row=1, column=1)
+            self.btn4 = Button(self.frame4, text="Confirm Selection", command=self.confirm).grid(row=1, column=1)
 
     def popup_window(self):
         ArraySelectionPopup(self.frame4)
 
-    def show(self):
-        self.label = Label(self.frame4, text=self.var4.get()).grid(column=0, row=2, columnspan=2)
+    def confirm(self):
+        fL.Array = fL.Data[self.var4.get()]
+        print(self.var4.get())
+        self.myLabel = Label(self.frame4, text=(str(self.var4.get()) + " selected")).grid(column=0, row=2, columnspan=2)
+        #self.label = Label(self.frame4, text=self.var4.get()).grid(column=0, row=2, columnspan=2)
         #self.label.config(text = self.var4.get())
 
-        #print(fL.File)
+        print(fL.Array)
 
     def open_file(self):
         try:
@@ -102,9 +105,9 @@ class filenamewindow4(LabelFrame):
             try:
                 selected_file = sio.loadmat(fL.File)
             except Exception as e:
-                print(e, "\n MATLAB file not supported.")
-            finally:
-                selected_file = "dummy"
+                #print(e, "\n MATLAB file not supported.")
+                self.popup_window()
+                #selected_file = "dummy"
         return selected_file
 
     def filter_options(self, file):

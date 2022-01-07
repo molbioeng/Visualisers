@@ -6,7 +6,6 @@ import tkinter
 from tkinter import filedialog as fd
 from tkinter.messagebox import showinfo
 
-##########PG
 import tkinter as tk
 from tkinter import ttk
 import matplotlib
@@ -16,7 +15,6 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 import matplotlib.pyplot as plt
 
-##########PG
 import mat73
 from Image import Image
 from PrincipalComponent import PrincipalComponent
@@ -189,6 +187,11 @@ class pcaPop(Toplevel):  # Create a window
 def openSettings():
     a=pcaPop()
 
+
+def openSettings():
+    a = pcaPop(master=app)
+
+
 def select_files():
     app.filenames = fd.askopenfilenames(title='Open a files', initialdir='/')
     app.lst = list(app.filenames)
@@ -199,4 +202,6 @@ b1 = Button(app, text="Load Files", command=select_files)
 b1.pack()
 b2 = Button(app, text="Open PCA Settings", command=openSettings)
 b2.pack()
+
 app.mainloop()
+

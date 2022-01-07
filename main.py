@@ -10,6 +10,7 @@ Created on Sun Dec 12 13:04:20 2021
 from tkinter import *
 from newuser_pop import *
 from newuser_instructions import *
+
 from app import *
 from PIL import ImageTk, Image
 from tkinter import filedialog
@@ -30,7 +31,6 @@ import fileList as fL
 # Create a GUI app
 app = App()
 frame = main_frame(app)
-
 
 # new user pop up
 a = newuser_pop(master=app)

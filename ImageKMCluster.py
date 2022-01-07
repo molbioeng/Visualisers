@@ -13,12 +13,8 @@ import matplotlib.pyplot as plt
 
 class ImageKMCluster(Image):
     def __init__(self,array,n_clusters): #inputs projected data and outputs projected data that is grouped into clusters
+        super().__init__(array)
         #The user has to specify the number of clusters for analysis. By default. it's 10
         kmeans = KMeans(n_clusters,random_state=0).fit(array.reshape(-1,1))
         clustered_score = kmeans.labels_
-        self.clustered_score=clustered_score.reshape([len(array),len(array[0])])
-
-    def display(self):
-        plt.imshow(self.clustered_score)
-        plt.colorbar()
-        plt.show()
+        self.img=clustered_score.reshape([len(array),len(array[0])])

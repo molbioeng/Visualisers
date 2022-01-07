@@ -9,10 +9,9 @@ Globals file, prevents them from being initialised more than once, but can be us
 def init():
     global List #MAYBE NOT GLOBALA CHENGE LATER
     List = []
-    global File
+    global File #MAKE GLOBAL FILE NAME LATERRR
     File = None
     global method
     method = 0
     global Array
-    
-    
+    global Data

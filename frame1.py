@@ -1,5 +1,15 @@
+
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Sun Dec 12 13:05:18 2021
+@author: aron
+"""
+
+# Import the library tkinter
 # import the tkinter library
 import tkinter
+
 from tkinter import *
 from tkinter import filedialog as fd
 from tkinter.messagebox import showinfo
@@ -14,7 +24,6 @@ import numpy as np
 import fileList as fL
 from frame4 import filenamewindow4
 from ErrorPopupWindows import FileSelectionPopup
-
 
 #FRAME 1 – OPEN AND SELECT FILE
 
@@ -64,7 +73,6 @@ class filenamewindow(LabelFrame):
             #self.button1 = Button(frame1, text = "Show Filename", command=self.show).pack()
             #self.btn2= Button(self.frame2, text="Show Method", command=self.show).pack()
 
-
     def select_files(self):
         self.filetypes = (("MAT files", "*.mat"), ("all files", ''))
         self.filenames = fd.askopenfilenames(
@@ -110,3 +118,4 @@ class filenamewindow(LabelFrame):
 
     def get_filename(self):
         return self.value_inside
+

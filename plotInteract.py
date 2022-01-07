@@ -29,9 +29,9 @@ class PlotInteract:
         self.ciddraw = self.ax.figure.canvas.mpl_connect('draw_event', self.on_draw)
         self.cidpress = self.ax.figure.canvas.mpl_connect('button_press_event', self.on_press)
         self.cidmotion = self.ax.figure.canvas.mpl_connect('motion_notify_event', self.on_motion)
-        
+
     def on_draw(self, event):
-        """Create background image of data when initially plotted. 
+        """Create background image of data when initially plotted.
         This is for efficiency so the image doesn't need to be replotted every time the cursor moves..."""
         if self.creating_background: return #discard calls triggered from within this function
         self.creating_background = True
@@ -42,12 +42,11 @@ class PlotInteract:
         self.text.set_visible(True)
         self.square.set_visible(True)
         self.creating_background = False
-        
+
     def on_press(self, event):
         """Plot the associated Raman spectra when a pixel is right-clicked"""
         if event.inaxes!=self.ax.axes: return #Return if plot not clicked
         if str(event.button)!='MouseButton.RIGHT': return #Ensure right click to open new plot
-        print('clicked pixel at (', event.xdata, ',' , event.ydata, ')')
         fig2, ax2 = plt.subplots()
         plt.plot(self.data[int(round(event.ydata))][int(round(event.xdata))][:]) #Double check why this is flipped
         plt.title('Raman Spectra at pixel (%i, %i)' % (int(round(event.xdata)), int(round(event.ydata))))
@@ -60,7 +59,7 @@ class PlotInteract:
         # update the line positions
         self.text.set_text('x=%i, y=%i' % (x, y))
         self.square.set_xy([x-0.5,y-0.5])
-        
+
         #Updating the display
         self.ax.figure.canvas.restore_region(self.background)
         self.ax.draw_artist(self.text)
