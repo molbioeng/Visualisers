@@ -12,8 +12,4 @@ class PrincipalComponentDB(object):
 
     #Constructor
     def __init__(self):
-        self.principalComponents = [] #List of principal components
-
-    def addPC(self, originArray):
-        """Creates and adds PC to the database"""
-        self.principalComponents.append(PrincipalComponent(originArray))
+        self.principalComponents = {} #List of principal components

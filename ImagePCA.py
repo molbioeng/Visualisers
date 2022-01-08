@@ -27,19 +27,16 @@ class ImagePCA(Image):
         data = data.reshape(len(data)*len(data[0]),len(data[0][0]))
         self.scores = self.pca.transform(data)  # reconstructed data
 
-
-
-
     def return_Image(self,pc): #Used for displaying an image in the given window
         #You have to specify the pc for which the image has to be displayed
         score = self.scores[:,pc-1] #get the score for chosen pc
         self.reshaped_score =  np.reshape(score,(len(self.data), len(self.data[0])))
         return self.reshaped_score
 
-    #def display(self): #For displaying image in a separate window
-     #    plt.imshow(self.img)
-      #   plt.colorbar()
-       #  plt.show()
+    # def display(self): #For displaying image in a separate window
+    #     plt.imshow(self.img)
+    #     plt.colorbar()
+    #     plt.show()
 
     def preview(self,pc): #For dislaying image in a separate window (no navigation bar)
         self.img = self.return_Image(self,pc)
@@ -188,4 +185,3 @@ class ImagePCA(Image):
 # #clustered_image.display()
 # image_from_pca.display()
 # #image_from_pca.display(3)
-

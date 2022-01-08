@@ -21,10 +21,11 @@ from PrincipalComponent import PrincipalComponent
 import numpy as np
 from ImagePCA import ImagePCA
 from PrincipalComponentDB import*
+import pcaGraphs
 
 
 class pcaPop(Toplevel):  # Create a window
-    def __init__(self, ldb, data,  master=None):
+    def __init__(self, pcdb, data,  master=None):
         # using toplevel to create a new window that isn't root
         Toplevel.__init__(self, master)
         # configuring the pop up window
@@ -37,8 +38,11 @@ class pcaPop(Toplevel):  # Create a window
         self.columnconfigure(2, weight=2)
 
         # variables for PCA analysis
-        self.ldb = ldb
+        self.pcdb = pcdb
+        self.pcdb_names = list(pcdb.keys())
         self.data = data
+        self.new_pc =False
+        self.pca_t3 = None
 
         # TITLE ON WINDOW AND SUBMIT BUTTON
         # msg = 'PCA SETTINGS'
@@ -48,7 +52,9 @@ class pcaPop(Toplevel):  # Create a window
         # self.button = Button(self, text="Submit", command=self.destroy)
         # self.button.grid(column=0,row=10, columnspan=3, sticky=S, padx=10, pady=10)
 
-        buttonX = ttk.Button(self, text="Submit", command=self.destroy)
+        buttonX = ttk.Button(self, text="Submit", command= lambda: self.submit())
+        #Before it was self.destroy
+        # command=lambda: self.display_interactive_img(self.rb_var.get())
         buttonX.grid(column=0, row=10, columnspan=3, sticky=S, padx=10, pady=10)
 
         ### FOR TESTING SIMPLE IMAGE
@@ -72,12 +78,11 @@ class pcaPop(Toplevel):  # Create a window
             lst_names.append()
         '''
         #
-        print("This is ldb ",self.ldb)
-        if len(self.ldb)!=0:
+        print("This is pcdb before if", self.pcdb_names)
+        if len(self.pcdb_names)!=0:
             self.dd_var = StringVar()
             print("This is first dd_var ",self.dd_var)
-            # self.var.set(app.lst[0])
-            self.dd_var.set(self.ldb[0])
+            self.dd_var.set(self.pcdb_names[0])
             print("This is second dd_var ",self.dd_var)
 
             # label for drop down menu
@@ -85,10 +90,11 @@ class pcaPop(Toplevel):  # Create a window
             self.dd_label = Label(self, text=drop_down_text, font="lucida 14")
             self.dd_label.grid(column=0, row=0, columnspan=2, sticky=N, padx=10, pady=(15, 5))
 
-            self.drop = OptionMenu(self, self.dd_var, *self.ldb)
-            # self.drop = OptionMenu(self, self.var, *app.lst)
+            new_pc_label = "Create new PCs"
+            self.pcdb_names.insert(0,new_pc_label)
+            self.drop = OptionMenu(self, self.dd_var, *self.pcdb_names)
             self.drop.grid(column=0, row=1, columnspan=2, sticky=N, padx=10, pady=5)
-            self.cfm_opt_btn = Button(self, text="Confirm Selection", command=lambda: print(self.var.get()))
+            self.cfm_opt_btn = Button(self, text="Confirm Selection", command=self.get_sel_principal_component)
             self.cfm_opt_btn.grid(column=2, row=1, sticky=N, pady=10, padx=10)
 
         # LINE TO SEPARATE MENU IN TWO SECTIONS
@@ -104,26 +110,16 @@ class pcaPop(Toplevel):  # Create a window
         # variables to store on/off value of checkbox
         self.rb_var = IntVar()
         #
-        '''
-        matFile = mat73.loadmat('/Users/Shirin/Desktop/Prog3 Project/tissue_t3_1_workspace.mat') # .mat file must be in the same local directory
-        my_data = np.array(matFile["map_t3"])
-        pca_t3 = PrincipalComponent(my_data)
-        image = ImagePCA(my_data,pca_t3)
-        f = Figure()
-        a = f.add_subplot(111)
-        a.axis('off')
-        '''
 
-        #Radiobutton(root, text="PC1", variable=r, value=1, command=lambda: clicked(r.get())).pack()
 
         # checkboxes
-        self.rb_1 = Radiobutton(self, text="PC 1", variable=self.rb_var, value=0, command=lambda: self.displayxxx(self.rb_var.get()))
+        self.rb_1 = Radiobutton(self, text="PC 1", variable=self.rb_var, value=0, command=lambda: self.display_preview(self.rb_var.get()))
         self.rb_1.grid(column=0, row=4)
 
-        self.rb_2 = Radiobutton(self, text="PC 2", variable=self.rb_var, value=1, command=lambda: self.displayxxx(self.rb_var.get()))
+        self.rb_2 = Radiobutton(self, text="PC 2", variable=self.rb_var, value=1, command=lambda: self.display_preview(self.rb_var.get()))
         self.rb_2.grid(column=0, row=5)
 
-        self.rb_3 = Radiobutton(self, text="PC 3", variable=self.rb_var, value=2, command=lambda: self.displayxxx(self.rb_var.get()))
+        self.rb_3 = Radiobutton(self, text="PC 3", variable=self.rb_var, value=2, command=lambda: self.display_preview(self.rb_var.get()))
         self.rb_3.grid(column=0, row=6)
 
         # PREVIEW BOX
@@ -149,47 +145,72 @@ class pcaPop(Toplevel):  # Create a window
     # self.canvas_preview2.get_tk_widget().grid(column=1,row=4, columnspan=2,rowspan=6, sticky='EW')
     # self.canvas_preview2.get_tk_widget().configure(bg="grey")
 
-    def displayxxx(self, rb_var):
+    # def display_preview2(self,var):
+    #     # ldb list
+    #     # ldb[var] ---> PC selected from Option menu
+
+    def get_sel_principal_component(self):
+        if self.dd_var.get()=="Create new PCs":
+            print('User selected \'Create new PCs\'')
+            self.new_pc = True
+        else:
+            self.pca_t3=self.pcdb[self.dd_var.get()]
+
+    def display_preview(self, rb_var):
         f = Figure()
         a = f.add_subplot(111)
         a.axis('off')
         #matFile = mat73.loadmat(
         #    '/Users/Shirin/Desktop/Prog3 Project/tissue_t3_1_workspace.mat')  # .mat file must be in the same local directory
         #my_data = np.array(matFile["map_t3"])
-        pca_t3 = PrincipalComponent(array=self.data, ldb=self.ldb)
-        image = ImagePCA(self.data, pca_t3)
+
+        # if there is saved PCs
+        # if ldb length is none --->
+        # else pca_new = self.ldb[selected]
+        # new_image = ImagePCA(self.data,)
+        # img = new_image.return_Image()
+        # img.display()
+        if (self.pca_t3==None) or (self.new_pc==True):
+            self.pca_t3 = PrincipalComponent(array=self.data)
+            self.new_pc=False
+            print('Creating new pc')
+            #new_pc= False
+        # if self.new_pc==True:
+        #     self.pca_t3 = PrincipalComponent(array=self.data)
+        #     self.new_pc=False
+        #     print('new_pc is true!')
+
+        self.image = ImagePCA(self.data, self.pca_t3)
         self.canvas_preview2 = FigureCanvasTkAgg(f, self)
         if rb_var == 0:
             print('Var1 is 1')
-            x = image.return_Image(1)
-            # plt.cla()
-            #a.plot([1, 2, 3, 4, 5, 6, 7, 8], [5, 1, 2, 6, 3, 3, 7, 1])
-            a.imshow(x)
+            self.image.img = self.image.return_Image(1)
+            a.imshow(self.image.img)
             self.canvas_preview2.draw()
             self.canvas_preview2.get_tk_widget().grid(column=1, row=4, columnspan=2, rowspan=6, sticky='EW')
             self.canvas_preview2.get_tk_widget().configure(bg="grey")
         elif rb_var == 1:
             print('Var2 is 1')
-            # plt.cla()
-            x = image.return_Image(2)
-            a.imshow(x)
-            #a.plot([1, 2, 3, 4, 5, 6, 7, 8], [7, 2, 2, 4, 3, 3, 4, 8])
+            self.image.img = self.image.return_Image(2)
+            a.imshow(self.image.img)
             self.canvas_preview2.draw()
             self.canvas_preview2.get_tk_widget().grid(column=1, row=4, columnspan=2, rowspan=6, sticky='EW')
             self.canvas_preview2.get_tk_widget().configure(bg="grey")
         elif rb_var == 2:
             print('Var3 is 1')
-            x = image.return_Image(3)
-            a.imshow(x)
-            # plt.cla()
-            a.plot([1, 2, 3, 4, 5, 6, 7, 8], [9, 1, 2, 2, 5, 1, 6, 8])
+            self.image.img = self.image.return_Image(3)
+            a.imshow(self.image.img)
             self.canvas_preview2.draw()
             self.canvas_preview2.get_tk_widget().grid(column=1, row=4, columnspan=2, rowspan=6, sticky='EW')
             self.canvas_preview2.get_tk_widget().configure(bg="grey")
-
         else:
             print('error')
 
+    def submit(self):
+        self.destroy()
+        self.pcdb[self.pca_t3.name] = self.pca_t3
+        self.image.display()
+        # self.pcaGraphs = pcaGraphs()
 
 # FOR TESTING
 def openSettings():

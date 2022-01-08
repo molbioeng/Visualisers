@@ -12,13 +12,13 @@ from drawing import drawing
 import fileList as fL
 #import filenamewindow
 from ErrorPopupWindows import ImagePopup, FileSelectionPopup
-from LoadingsDB import LoadingsDB
+from PrincipalComponentDB import PrincipalComponentDB
 from pcaPop import pcaPop
 
 #FRAME 3 - SHOW 2D IMAGE
 
 import mat73
-import scipy.io
+import scipy.io as sio
 
 class filenamewindow3(LabelFrame):
     #Constructor
@@ -26,9 +26,15 @@ class filenamewindow3(LabelFrame):
         """Update the Array"""
         print("current file load")
         if fL.File is not None :
-            print(fL.File)
-            mat = mat73.loadmat(fL.File)
-            return fL.Array
+            try:
+                print(fL.File)
+                mat = mat73.loadmat(fL.File)
+                return fL.Array
+            except NotImplementedError:
+                print(fl.File)
+                mat = sio.loadmat(fl.File)
+            except:
+                ValueError('Could not read at all')
 
     def button_clicked(self):
         print('Button clicked')
@@ -46,7 +52,8 @@ class filenamewindow3(LabelFrame):
         self.b1 = Button(self.frame3, text="Show Image", command=self.show_plot).grid(column=0, row=0, columnspan=2)#self.show_plot(filename)).pack()
 
         self.draw = drawing()
-        self.ldb = LoadingsDB().loadingDB
+        # self.ldb = LoadingsDB().loadingDB
+        self.pcdb = PrincipalComponentDB().principalComponents
 
     def popup_window(self):
         FileSelectionPopup(self.frame3)
@@ -62,9 +69,9 @@ class filenamewindow3(LabelFrame):
             self.draw.displayImage(0)
 
         elif fL.method == "PCA":
-            self.pcaPop = pcaPop(self.ldb, fL.Array)
+            self.pcaPop = pcaPop(self.pcdb, fL.Array)
             #testing
-            print("this is from frame 3",self.ldb)
+            print("this is from frame 3",self.pcdb)
 
 
         #if self.method == 0:
