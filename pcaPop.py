@@ -25,7 +25,7 @@ import pcaGraphs
 
 
 class pcaPop(Toplevel):  # Create a window
-    def __init__(self, pcdb, data,  master=None):
+    def __init__(self, pcdb, data, draw, master=None):
         # using toplevel to create a new window that isn't root
         Toplevel.__init__(self, master)
         # configuring the pop up window
@@ -43,6 +43,7 @@ class pcaPop(Toplevel):  # Create a window
         self.data = data
         self.new_pc =False
         self.pca_t3 = None
+        self.draw = draw
 
         # TITLE ON WINDOW AND SUBMIT BUTTON
         # msg = 'PCA SETTINGS'
@@ -107,12 +108,10 @@ class pcaPop(Toplevel):  # Create a window
         self.cl_label = Label(self, text="Select PC to be included in the image:", font="lucida 14 underline")
         self.cl_label.grid(column=0, row=3, pady=(15, 5))
 
-        # variables to store on/off value of checkbox
+        # variables to store on/off value of radiobutton
         self.rb_var = IntVar()
-        #
 
-
-        # checkboxes
+        # Radiobuttons
         self.rb_1 = Radiobutton(self, text="PC 1", variable=self.rb_var, value=0, command=lambda: self.display_preview(self.rb_var.get()))
         self.rb_1.grid(column=0, row=4)
 
@@ -181,6 +180,7 @@ class pcaPop(Toplevel):  # Create a window
         #     print('new_pc is true!')
 
         self.image = ImagePCA(self.data, self.pca_t3)
+        self.draw.addImagePCA(self.image)
         self.canvas_preview2 = FigureCanvasTkAgg(f, self)
         if rb_var == 0:
             print('Var1 is 1')

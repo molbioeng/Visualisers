@@ -5,7 +5,7 @@ Created on Thu Dec  9 11:54:13 2021
 @author: FM
 
 Updated on Sun Jan 2 13:01 2022
-@author: pg 
+@author: pg
 
 This is a database of all of the Images saved
 """
@@ -22,20 +22,23 @@ class ImageDB(object):
 
     #Constructor
     def __init__(self):
-        self.images = [] #List of Images
+        self.images = {} #List of Images
 
-    def addImageMean(self, currentFile):
+    def addImageMean(self, currentImg):
         """Creates and adds an image to the database"""
-        self.images.append(ImageMean(currentFile))
+        # self.images.append(ImageMean(currentFile))
+        self.images[currentImg.name] = currentImg
 
-    def addImagePCA(self, currentFile):
+    def addImagePCA(self, currentImg):
         """Creates and adds an image to the database"""
-        self.images.append(ImagePCA(currentFile))
+        # self.images.append(imgPCA))
+        self.images[currentImg.name] = currentImg
 
     def addImageKMCluster(self,currentFile, n_clusters):
         """Creates and adds an image to the database"""
-        self.images.append(ImageKMCluster(currentFile, n_clusters))
+        # self.images.append(ImageKMCluster(currentFile, n_clusters))
+        pass
 
-    def displayImage(self, index):
+    def displayImage(self, img):
         """Displays image"""
-        self.images[index].display()
+        self.images[img.name].display()

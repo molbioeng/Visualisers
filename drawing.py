@@ -24,23 +24,22 @@ import mat73
 
 class drawing(object):
     def __init__(self):
-        self.InputDB = ImageDB()
+        self.imgDB = ImageDB()
 
-    def addImageMean(self, currentFile):
+    def addImageMean(self, currentImg):
         """Adds image to ImageDB"""
-        self.InputDB.addImageMean(currentFile)
+        self.imgDB.addImageMean(currentImg)
 
-    def addImagePCA(self, currentFile):
+    def addImagePCA(self, imgPCA):
         """Adds image to ImageDB"""
-        self.InputDB.addImagePCA(currentFile)
+        self.imgDB.addImagePCA(imgPCA)
 
     def addImageKMCluster(self, currentFile, n_clusters):
         """Adds image to ImageKMClustering"""
-        self.InputDB.addImageKMCluster(currentFile, n_clusters)
+        self.imgDB.addImageKMCluster(currentFile, n_clusters)
 
-    def displayImage(self, index):
-        """plots image of specified index in database in a new window"""
-        self.InputDB.displayImage(index)
+    def displayImage(self, img):
+        self.imgDB.displayImage(img)
 
 
 # TESTING

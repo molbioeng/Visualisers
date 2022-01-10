@@ -13,10 +13,9 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import axes3d
+import os
+import fileList as fL
 
-#For testing out:
-import mat73
-from ImageKMCluster import ImageKMCluster
 
 class ImagePCA(Image):
 
@@ -26,11 +25,18 @@ class ImagePCA(Image):
         data = self.data
         data = data.reshape(len(data)*len(data[0]),len(data[0][0]))
         self.scores = self.pca.transform(data)  # reconstructed data
+        filename = (os.path.basename(fL.File)).rsplit(".", 1)[0]
+        self.name = str(filename)+ '/' + str(fL.Array_name)+'/'+'PCA'
+        self.img = self.img
+
+    def __repr__(self):
+        return self.name
 
     def return_Image(self,pc): #Used for displaying an image in the given window
         #You have to specify the pc for which the image has to be displayed
         score = self.scores[:,pc-1] #get the score for chosen pc
         self.reshaped_score =  np.reshape(score,(len(self.data), len(self.data[0])))
+        self.img = self.reshaped_score
         return self.reshaped_score
 
     # def display(self): #For displaying image in a separate window

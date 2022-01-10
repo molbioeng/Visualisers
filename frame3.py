@@ -14,6 +14,8 @@ import fileList as fL
 from ErrorPopupWindows import ImagePopup, FileSelectionPopup
 from PrincipalComponentDB import PrincipalComponentDB
 from pcaPop import pcaPop
+from KMClusterPop import KMClusterPop
+from ImageMean import ImageMean
 
 #FRAME 3 - SHOW 2D IMAGE
 
@@ -55,6 +57,7 @@ class filenamewindow3(LabelFrame):
         # self.ldb = LoadingsDB().loadingDB
         self.pcdb = PrincipalComponentDB().principalComponents
 
+
     def popup_window(self):
         FileSelectionPopup(self.frame3)
 
@@ -65,13 +68,16 @@ class filenamewindow3(LabelFrame):
         #"Mean","PCA", "K-Means Clustering"
         if fL.method == "Mean":
             print("Adding mean...")
-            self.draw.addImageMean(c)
-            self.draw.displayImage(0)
+            img_mean = ImageMean(c)
+            self.draw.addImageMean(img_mean)
+            self.draw.displayImage(img_mean)
 
         elif fL.method == "PCA":
-            self.pcaPop = pcaPop(self.pcdb, fL.Array)
+            self.pcaPop = pcaPop(self.pcdb, fL.Array,draw=self.draw)
             #testing
             print("this is from frame 3",self.pcdb)
+        elif fL.method == "K-Means Clustering":
+            self.KMClusterPop = KMClusterPop(self.draw.imgDB.images)
 
 
         #if self.method == 0:

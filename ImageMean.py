@@ -13,6 +13,8 @@ Class for all of the Raman images reduced by mean
 from Image import Image
 import numpy as np
 import matplotlib.pyplot as plt
+import os
+import fileList as fL
 
 
 class ImageMean(Image):
@@ -25,3 +27,8 @@ class ImageMean(Image):
             for i in range(np.shape(self.img)[1]):
                 self.img[i][j] =  np.average(self.data[i][j][:])
 
+        filename = (os.path.basename(fL.File)).rsplit(".", 1)[0]
+        self.name = str(filename)+ '/' + str(fL.Array_name)+'/'+'mean'
+
+    def __repr__(self):
+        return self.name
