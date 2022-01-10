@@ -14,10 +14,11 @@ import fileList as fL
 
 
 class ImageKMCluster(Image):
-    def __init__(self,array,n_clusters): #inputs projected data and outputs projected data that is grouped into clusters
-        super().__init__(array)
+    def __init__(self, par, n_clusters): #inputs projected data and outputs projected data that is grouped into clusters
+        super().__init__(par.data)
+        self.name = self.name + '/'+'KMCluster'
         #The user has to specify the number of clusters for analysis. By default. it's 10
         # kmeans = KMeans(n_clusters,random_state=0).fit(np.array.reshape(-1,1))
-        kmeans = KMeans(n_clusters,random_state=0).fit(np.reshape(array,(-1,1)))
+        kmeans = KMeans(n_clusters,random_state=0).fit(np.reshape(par.img,(-1,1)))
         clustered_score = kmeans.labels_
-        self.img=clustered_score.reshape([len(array),len(array[0])])
+        self.img=clustered_score.reshape([len(par.img),len(par.img[0])])

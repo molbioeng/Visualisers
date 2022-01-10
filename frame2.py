@@ -2,7 +2,6 @@
 from tkinter import *
 from PIL import ImageTk, Image
 from tkinter import filedialog
-import os
 import tkinter
 
 from tkinter import filedialog as fd
@@ -43,7 +42,9 @@ class filenamewindow2(LabelFrame):
         self.drop2.grid(column=0, row=0)
 
         self.btn2= Button(self.frame2, text="Confirm Selection", command=self.show).grid(row=0, column=1)
+        self.label = Label(self.frame2, text=str(self.var2.get() + " Selected"))
+        self.label.grid(column=0, row=2, columnspan=2)
 
     def show(self):
         fL.method = self.var2.get()
-        myLabel = Label(self.frame2, text=str(fL.method)).grid(column=0, row=2, columnspan=2)
+        self.label['text'] = str(fL.method + " Selected")

@@ -41,14 +41,3 @@ class drawing(object):
     def displayImage(self, img):
         self.imgDB.displayImage(img)
 
-
-# TESTING
-# import mat73
-# mat = mat73.loadmat('./tissue_t3_1_workspace.mat')
-# data = mat["map_t3"]
-# draw = drawing()
-# draw.addImageMean(data)
-# #draw.addImagePCA(data)
-# #draw.addImageKMCluster(data, 3)
-# draw.displayImage(0)
-# #draw.displayImage(1)
