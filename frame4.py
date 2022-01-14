@@ -130,7 +130,7 @@ class filenamewindow4(LabelFrame):
         class_list = [np.float32, np.float64, np.int8, np.uint8, np.int16, np.uint16, np.int32, np.uint32, np.int64, np.uint64]
         for i in range(len(file_variables)):
             if type(file[file_variables[i]]) == np.ndarray:
-                if (file[file_variables[i]].squeeze().ndim == 3) and (np.array(list(file[file_variables[i]])).dtype in class_list):
+                if (file[file_variables[i]].squeeze().ndim == 3) and (np.array(list(file[file_variables[i]])).dtype in class_list) and (file[file_variables[i]].squeeze().shape[2] >= 3):
                     menu_options.append(file_variables[i])
         if menu_options == ["Select an array"]:
             fL.ErrorMessage = "File selected does not contain 3D number data."
