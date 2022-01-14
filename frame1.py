@@ -56,32 +56,62 @@ class filenamewindow(LabelFrame):
         self.label.grid(row=2, column=0, columnspan=2, sticky="nsew")
 
 
+    # def select_files(self):
+    #     self.filetypes = (("MAT files", "*.mat"), ("all files", ''))
+    #     self.filenames = fd.askopenfilenames(
+    #         title='Open a files',
+    #         initialdir='/',
+    #         filetypes=self.filetypes)
+    #     print(type(self.filenames))
+    #     self.filenames = list(self.filenames)
+    #
+    #     # Update list and option menu
+    #     for i in self.filenames:
+    #         fL.List.append(i) #If there is none selected, don't ADD ANYTHING
+    #
+    #     if (self.om == None) and len(fL.List) > 0: #Once the first file has been selected, display the list and 'select files button'
+    #         self.value_inside.set(fL.List[0])
+    #         self.om = OptionMenu(self.frame1, self.value_inside, *fL.List) #, command=self.show)
+    #
+    #         self.om.grid(row=1, column=0, sticky="ne")
+    #
+    #     else:
+    #         menu = self.om["menu"]
+    #         menu.delete(0, "end")
+    #         for file in fL.List:
+    #              menu.add_command(label=file,
+    #                           command=lambda value=file: self.value_inside.set(value))
+
+
     def select_files(self):
-        self.filetypes = (("MAT files", "*.mat"), ("all files", ''))
-        self.filenames = fd.askopenfilenames(
-            title='Open a files',
-            initialdir='/',
-            filetypes=self.filetypes)
-        print(type(self.filenames))
-        self.filenames = list(self.filenames)
+        try:
+            self.filetypes = (("MAT files", "*.mat"), ("all files", ''))
+            self.filenames = fd.askopenfilenames(
+                title='Open a files',
+                initialdir='/',
+                filetypes=self.filetypes)
+            print(type(self.filenames))
+            self.filenames = list(self.filenames)
 
-        # Update list and option menu
-        for i in self.filenames:
-            fL.List.append(i) #If there is none selected, don't ADD ANYTHING
+            # Update list and option menu
+            for i in self.filenames:
+                fL.List.append(i) #If there is none selected, don't ADD ANYTHING
 
-        if (self.om == None) and len(fL.List) > 0: #Once the first file has been selected, display the list and 'select files button'
-            self.value_inside.set(fL.List[0])
-            self.om = OptionMenu(self.frame1, self.value_inside, *fL.List) #, command=self.show)
+            if (self.om == None) and len(fL.List) > 0: #Once the first file has been selected, display the list and 'select files button'
+                self.value_inside.set(fL.List[0])
+                self.om = OptionMenu(self.frame1, self.value_inside, *fL.List) #, command=self.show)
 
-            self.om.grid(row=1, column=0, sticky="ne")
+                self.om.grid(row=1, column=0, sticky="ne")
 
-        else:
-            menu = self.om["menu"]
-            menu.delete(0, "end")
-            for file in fL.List:
-                 menu.add_command(label=file,
-                              command=lambda value=file: self.value_inside.set(value))
-
+            else:
+                menu = self.om["menu"]
+                menu.delete(0, "end")
+                for file in fL.List:
+                     menu.add_command(label=file,
+                                  command=lambda value=file: self.value_inside.set(value))
+        except TypeError:
+            fL.ErrorMessage = "No MATLAB file has been imported."
+            self.popup_window()
 
     def popup_window(self):
         ErrorPopup(self.frame1)
