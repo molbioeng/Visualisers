@@ -23,7 +23,7 @@ class filenamewindow4(LabelFrame):
 
         #displaying the frame in row 3 and column 0
         #self.frame4.grid(row=3, column=0, sticky='nsew')
-        self.frame4.grid(row=1, column=0, sticky='nsew')
+        self.frame4.grid(row=2, column=0, sticky='nsew')
 
         # configuration of grid on frame
         self.columnconfigure(0, weight=1)

@@ -39,6 +39,10 @@ class filenamewindow(LabelFrame):
         # open button
         self.open_button = Button(self.frame1, text='Open Files', bg = "white", command=self.select_files)
         self.open_button.grid(row=0, column=0, columnspan=2)
+
+        #open_button = Button(self.frame1, text='Open Files', bg = "white", command=self.select_files)
+        #open_button.grid(row=0, column=0, columnspan=2)
+
         #self.open_button.grid_rowconfigure(1, weight=1)
         #self.open_button.grid_columnconfigure(1, weight=1)
 

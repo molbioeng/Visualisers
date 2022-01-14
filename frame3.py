@@ -63,7 +63,12 @@ class filenamewindow3(LabelFrame):
 
 
     def open_img_viewer(self):
-        self.img_viewer_pop = filenamewindow5(self.draw.imgDB.images)
+        try:
+            self.img_viewer_pop = filenamewindow5(self.draw.imgDB.images)
+        except Exception as e:
+            #print(e, "\n No valid array was selected.")
+            fL.ErrorMessage = "Please select a 3D array and method of analysis."
+            self.popup_window()
 
     def popup_window(self):
         ErrorPopup(self.frame3)
