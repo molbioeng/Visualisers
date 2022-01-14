@@ -13,7 +13,9 @@ import mat73
 import scipy.io as sio
 import fileList as fL
 import os
+from ImageDB import ImageDB
 file_list = fL
+
 file_list.File = "Booboo"
 file_list.Array_name = "yaasss"
 
@@ -27,11 +29,21 @@ class TestDataReduction(unittest.TestCase):
         i = ImageMean(a)
         self.assertEqual(m, np.ndarray.tolist(i.img))
                          
-# class TestDataBases(unittest.TestCase)):
-#     """Tests that components have been correctly added to the databases"""
-#     def test_ImageDB(self):
-            
-#     def test_PCDB(self):
+class TestDataBases(unittest.TestCase):
+    """Tests that components have been correctly added to the databases"""
+    
+    def test_ImageDB(self):
+        m = [[[1, 2, 3], [4, 5, 6], [7, 8, 9]],
+             [[10, 11, 12], [13, 14, 15], [16, 17, 18]],
+             [[19, 20, 21], [22, 23, 24], [25, 26, 27]]]
+        imagem=ImageMean(m)
+        imageDB=ImageDB()
+        imageDB.addImageMean(imagem)
+        self.assertEqual(imagem, imageDB.images[imagem.name])
+ 
+
+    
+    #  def test_PCDB(self):
             
 # class TestFileLoad(unittest.TestCase)):
 #     """Tests that files have been correctly loaded"""
