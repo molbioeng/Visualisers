@@ -43,7 +43,7 @@ class Image(ABC):
         plt.title(self.name)
 
         #Plot interaction and connect to event manager
-        show = PlotInteract(ax, self.data, self.name)
+        show = PlotInteract(ax, self.data)
         show.connect()
         plt.show()
 

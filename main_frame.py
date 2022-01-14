@@ -22,11 +22,16 @@ class main_frame(Frame):
         # Create ANOTHER Frame INSIDE the Canvas
         self.second_frame = Frame(self.scroll_canvas)
         # configuration of grid on frame
-        self.second_frame.columnconfigure(0, weight=2)
-        self.second_frame.columnconfigure(1, weight=1)
+        self.second_frame.grid_columnconfigure(0, weight=1)
+        #self.second_frame.grid_columnconfigure(1, weight=1)
+        #self.second_frame.columnconfigure(2, weight=1)
 
         # Add that New frame to a Window in the Canvas
         self.scroll_canvas.create_window((0, 0), window=self.second_frame, anchor="nw")
 
         # Expands frames to the size of container
         self.pack(fill=BOTH, expand=1)
+
+        # Add logo at the top of second_frame
+        self.logo = PhotoImage(file='logo.png')
+        self.logo_lb = Label(self.second_frame, image=self.logo).grid(row=0, column=0, columnspan=2, sticky="nsew")

@@ -16,6 +16,7 @@ from PrincipalComponentDB import PrincipalComponentDB
 from pcaPop import pcaPop
 from KMClusterPop import KMClusterPop
 from ImageMean import ImageMean
+from ImageViewerFrame import *
 
 #FRAME 3 - SHOW 2D IMAGE
 
@@ -33,8 +34,8 @@ class filenamewindow3(LabelFrame):
                 mat = mat73.loadmat(fL.File)
                 return fL.Array
             except NotImplementedError:
-                print(fl.File)
-                mat = sio.loadmat(fl.File)
+                print(fL.File)
+                mat = sio.loadmat(fL.File)
             except:
                 ValueError('Could not read at all')
 
@@ -44,7 +45,7 @@ class filenamewindow3(LabelFrame):
     def __init__(self, container):
         super().__init__(container)
         self.frame3 = LabelFrame(container, text = "2D image", bg = "white", padx = 120, pady = 50)
-        self.frame3.grid(row=3, column=0, sticky='nsew')
+        self.frame3.grid(row=4, column=0, sticky="nsew")
 
         # configuration of grid on frame
         self.columnconfigure(0, weight=1)
@@ -57,6 +58,11 @@ class filenamewindow3(LabelFrame):
         # self.ldb = LoadingsDB().loadingDB
         self.pcdb = PrincipalComponentDB().principalComponents
 
+        self.b2 = Button(self.frame3, text="Show All Images", command=self.open_img_viewer).grid(column=0, row=1, columnspan=2)
+
+
+    def open_img_viewer(self):
+        self.img_viewer_pop = filenamewindow5(self.draw.imgDB.images)
 
     def popup_window(self):
         FileSelectionPopup(self.frame3)
@@ -74,8 +80,7 @@ class filenamewindow3(LabelFrame):
 
         elif fL.method == "PCA":
             self.pcaPop = pcaPop(self.pcdb, fL.Array,draw=self.draw)
-            #testing
-            print("this is from frame 3",self.pcdb)
+
         elif fL.method == "K-Means Clustering":
             if bool(self.draw.imgDB.images):
                 self.KMClusterPop = KMClusterPop(self.draw.imgDB.images)

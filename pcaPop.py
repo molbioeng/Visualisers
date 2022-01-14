@@ -21,7 +21,9 @@ from PrincipalComponent import PrincipalComponent
 import numpy as np
 from ImagePCA import ImagePCA
 from PrincipalComponentDB import*
-from pcaGraphs import pcaGraphs
+import fileList as fL
+import pcaGraphs
+
 
 
 class pcaPop(Toplevel):  # Create a window
@@ -46,26 +48,11 @@ class pcaPop(Toplevel):  # Create a window
         self.draw = draw
         self.did_select = False # Used to check if the user had selected PC
 
+        # TITLE ON WINDOW AND SUBMIT BUTTON
 
-        buttonX = ttk.Button(self, text="Submit", command= lambda: self.submit())
+        buttonX = ttk.Button(self, text="Submit", command=self.submit)
         buttonX.grid(column=0, row=10, columnspan=3, sticky=S, padx=10, pady=10)
 
-        ### FOR TESTING SIMPLE IMAGE
-        # f = Figure(figsize=(5,5),dpi=100)
-        # a = f.add_subplot(111)
-        # a.plot([1,2,3,4,5,6,7,8],[5,1,2,6,3,3,7,1])
-
-        # DROP DOWN MENU - CODE FOR SELECTING OPTION AND CONFIRMING IT
-        # variable that stores index for array of drop down options
-        '''
-        lst = list
-        lst_names = list
-        for x in PrincipalComponentDB:
-            lst.append(x.loadings)
-            #name = 'File name'+'PC number'
-            lst_names.append()
-        '''
-        #
         print("This is pcdb before if", self.pcdb_names)
         if len(self.pcdb_names)!=0:
             self.dd_var = StringVar()
@@ -98,21 +85,23 @@ class pcaPop(Toplevel):  # Create a window
 
         # variables to store on/off value of radiobutton
         self.rb_var = IntVar()
+        self.rb_var.set(0)
 
         # Radiobuttons
-        self.rb_1 = Radiobutton(self, text="PC 1", variable=self.rb_var, value=0, command=lambda: self.display_preview(self.rb_var.get()))
+        self.rb_1 = Radiobutton(self, text="PC 1", variable=self.rb_var, value=1, command=lambda: self.display_preview(self.rb_var.get()))
         self.rb_1.grid(column=0, row=4)
 
-        self.rb_2 = Radiobutton(self, text="PC 2", variable=self.rb_var, value=1, command=lambda: self.display_preview(self.rb_var.get()))
+        self.rb_2 = Radiobutton(self, text="PC 2", variable=self.rb_var, value=2, command=lambda: self.display_preview(self.rb_var.get()))
         self.rb_2.grid(column=0, row=5)
 
-        self.rb_3 = Radiobutton(self, text="PC 3", variable=self.rb_var, value=2, command=lambda: self.display_preview(self.rb_var.get()))
+        self.rb_3 = Radiobutton(self, text="PC 3", variable=self.rb_var, value=3, command=lambda: self.display_preview(self.rb_var.get()))
         self.rb_3.grid(column=0, row=6)
 
         # PREVIEW BOX
         # title
         self.pb_label = Label(self, text="Preview Image", font="lucida 13 bold")
         self.pb_label.grid(column=1, row=3, columnspan=2, sticky='N', pady=(15, 0))
+        self.image = None
 
     # setting up canvas
     # self.canvas_preview = Canvas(self, height=400, bd=0, bg='Grey')
@@ -169,10 +158,10 @@ class pcaPop(Toplevel):  # Create a window
         #     print('new_pc is true!')
 
         self.image = ImagePCA(self.data, self.pca_t3)
-        self.draw.addImagePCA(self.image)
+        #self.draw.addImagePCA(self.image)
         self.canvas_preview2 = FigureCanvasTkAgg(f, self)
 
-        if rb_var == 0:
+        if rb_var == 1:
             print('Var1 is 1')
             self.image.img = self.image.return_Image(1)
             a.imshow(self.image.img)
@@ -180,19 +169,14 @@ class pcaPop(Toplevel):  # Create a window
             self.canvas_preview2.get_tk_widget().grid(column=1, row=4, columnspan=2, rowspan=6, sticky='EW')
             self.canvas_preview2.get_tk_widget().configure(bg="grey")
 
-
-
-        elif rb_var == 1:
+        elif rb_var == 2:
             print('Var2 is 1')
             self.image.img = self.image.return_Image(2)
             a.imshow(self.image.img)
             self.canvas_preview2.draw()
             self.canvas_preview2.get_tk_widget().grid(column=1, row=4, columnspan=2, rowspan=6, sticky='EW')
             self.canvas_preview2.get_tk_widget().configure(bg="grey")
-
-
-
-        elif rb_var == 2:
+        elif rb_var == 3:
             print('Var3 is 1')
             self.image.img = self.image.return_Image(3)
             a.imshow(self.image.img)
@@ -212,7 +196,8 @@ class pcaPop(Toplevel):  # Create a window
             self.destroy()
             self.pcaGraphs = pcaGraphs(self.image)
             self.pcdb[self.pca_t3.name] = self.pca_t3
-            self.image.display(self.rb_var.get()+1)
+            self.image.display(self.rb_var.get())
+            self.draw.addImagePCA(self.image)
 
 
 # FOR TESTING
