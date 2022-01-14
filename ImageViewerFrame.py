@@ -74,15 +74,30 @@ class filenamewindow5(Toplevel):
         else:
             print("no Image yet")
     def back(self):
+        if self.index == 0:
+            pass
+        else:
+            self.index = self.index-1
+            self.image = self.imgList[self.index]
+            self.image = self.image.img
+            self.a.imshow(self.image)
+            self.canvas_preview.draw()
+            self.canvas_preview.get_tk_widget().grid(column=0, row=0, columnspan=2, sticky='EW')
+            self.canvas_preview.get_tk_widget().configure(bg="grey")
+
         #self.fig.clear()
         return
 
     def forward(self):
         #self.canvas_preview.clear()
-        self.image = self.imgList[self.index+1]
-        self.image = self.image.img
-        self.a.imshow(self.image)
-        self.canvas_preview.draw()
-        self.canvas_preview.get_tk_widget().grid(column=0, row=0, columnspan=2, sticky='EW')
-        self.canvas_preview.get_tk_widget().configure(bg="grey")
+        if self.index == len(self.imgList)-1:
+            pass
+        else:
+            self.index = self.index+1
+            self.image = self.imgList[self.index]
+            self.image = self.image.img
+            self.a.imshow(self.image)
+            self.canvas_preview.draw()
+            self.canvas_preview.get_tk_widget().grid(column=0, row=0, columnspan=2, sticky='EW')
+            self.canvas_preview.get_tk_widget().configure(bg="grey")
         return
