@@ -53,7 +53,7 @@ class filenamewindow3(LabelFrame):
 
         self.b1 = Button(self.frame3, text="Show Image", command=self.show_plot).grid(column=0, row=0, columnspan=2)#self.show_plot(filename)).pack()
 
-        self.draw = ImageDB()
+        self.imgdb = ImageDB()
         # self.ldb = LoadingsDB().loadingDB
         self.pcdb = PrincipalComponentDB().principalComponents
 
@@ -62,23 +62,22 @@ class filenamewindow3(LabelFrame):
         FileSelectionPopup(self.frame3)
 
     def show_plot(self):
-        print("No worky")
         c = self.load_data()
         print("Selected option is " , fL.method)
         #"Mean","PCA", "K-Means Clustering"
         if fL.method == "Mean":
             print("Adding mean...")
             img_mean = ImageMean(c)
-            self.draw.addImageMean(img_mean)
-            self.draw.displayImage(img_mean)
+            self.imgdb.addImage(img_mean)
+            self.imgdb.displayImage(img_mean)
 
         elif fL.method == "PCA":
-            self.pcaPop = pcaPop(self.pcdb, fL.Array,draw=self.draw)
+            self.pcaPop = pcaPop(self.pcdb, fL.Array,draw=self.imgdb)
             #testing
             print("this is from frame 3",self.pcdb)
         elif fL.method == "K-Means Clustering":
-            if bool(self.draw.imgDB.images):
-                self.KMClusterPop = KMClusterPop(self.draw.imgDB.images)
+            if bool(self.imgdb.images):
+                self.KMClusterPop = KMClusterPop(self.imgdb.images)
             else:
                 print('no images to work on')
                 noImgPopup = NoImageForKMCPopup()

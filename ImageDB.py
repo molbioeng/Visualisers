@@ -10,32 +10,18 @@ Updated on Sun Jan 2 13:01 2022
 This is a database of all of the Images saved
 """
 
-
-#Modules used
-from ImageMean import ImageMean
-from ImagePCA import ImagePCA
-from ImageKMCluster import ImageKMCluster
-
-
 class ImageDB(object):
-    """ Image database"""
+    """ Image database used to store plots that the user has created, and may 
+    want to access again."""
 
-    #Constructor
     def __init__(self):
-        self.images = {} #List of Images
+        self.images = {} #List of Images, used a dict so images could be accessed by name
 
-    def addImageMean(self, currentImg):
+    def addImage(self, currentImg):
         """Creates and adds an image to the database"""
         self.images[currentImg.name] = currentImg
-
-    def addImagePCA(self, currentImg):
-        """Creates and adds an image to the database"""
-        self.images[currentImg.name] = currentImg
-
-    def addImageKMCluster(self,currentImg, n_clusters):
-        """Creates and adds an image to the database"""
-        # self.images.append(ImageKMCluster(currentFile, n_clusters))
-        pass
+        print("Current images in imageDB:")
+        print(self.images.keys())
 
     def displayImage(self, img):
         """Displays image"""

@@ -98,6 +98,7 @@ class KMClusterPop(Toplevel):
             #self.clustered_img = ImageKMCluster(data=self.selected_img.data, array=self.selected_img.img,n_clusters=n_cluster_int)
             self.clustered_img = ImageKMCluster(self.selected_img, n_cluster_int)
             self.clustered_img.display()
+            self.imgDB.addImage(self.clustered_img)
             self.destroy()
 
         else:

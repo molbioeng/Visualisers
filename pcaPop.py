@@ -43,7 +43,7 @@ class pcaPop(Toplevel):  # Create a window
         self.data = data
         self.new_pc =False
         self.pca_t3 = None
-        self.draw = draw
+        self.imgdb = draw
         self.did_select = False # Used to check if the user had selected PC
 
 
@@ -169,16 +169,16 @@ class pcaPop(Toplevel):  # Create a window
         #     print('new_pc is true!')
 
         self.image = ImagePCA(self.data, self.pca_t3)
-        self.draw.addImagePCA(self.image)
-        self.canvas_preview2 = FigureCanvasTkAgg(f, self)
+        
+        self.canvas_preview = FigureCanvasTkAgg(f, self)
 
         if rb_var == 0:
             print('Var1 is 1')
             self.image.img = self.image.return_Image(1)
             a.imshow(self.image.img)
-            self.canvas_preview2.draw()
-            self.canvas_preview2.get_tk_widget().grid(column=1, row=4, columnspan=2, rowspan=6, sticky='EW')
-            self.canvas_preview2.get_tk_widget().configure(bg="grey")
+            self.canvas_preview.draw()
+            self.canvas_preview.get_tk_widget().grid(column=1, row=4, columnspan=2, rowspan=6, sticky='EW')
+            self.canvas_preview.get_tk_widget().configure(bg="grey")
 
 
 
@@ -186,9 +186,9 @@ class pcaPop(Toplevel):  # Create a window
             print('Var2 is 1')
             self.image.img = self.image.return_Image(2)
             a.imshow(self.image.img)
-            self.canvas_preview2.draw()
-            self.canvas_preview2.get_tk_widget().grid(column=1, row=4, columnspan=2, rowspan=6, sticky='EW')
-            self.canvas_preview2.get_tk_widget().configure(bg="grey")
+            self.canvas_preview.draw()
+            self.canvas_preview.get_tk_widget().grid(column=1, row=4, columnspan=2, rowspan=6, sticky='EW')
+            self.canvas_preview.get_tk_widget().configure(bg="grey")
 
 
 
@@ -196,9 +196,9 @@ class pcaPop(Toplevel):  # Create a window
             print('Var3 is 1')
             self.image.img = self.image.return_Image(3)
             a.imshow(self.image.img)
-            self.canvas_preview2.draw()
-            self.canvas_preview2.get_tk_widget().grid(column=1, row=4, columnspan=2, rowspan=6, sticky='EW')
-            self.canvas_preview2.get_tk_widget().configure(bg="grey")
+            self.canvas_preview.draw()
+            self.canvas_preview.get_tk_widget().grid(column=1, row=4, columnspan=2, rowspan=6, sticky='EW')
+            self.canvas_preview.get_tk_widget().configure(bg="grey")
         else:
             print('error')
 
@@ -212,7 +212,9 @@ class pcaPop(Toplevel):  # Create a window
             self.destroy()
             self.pcaGraphs = pcaGraphs(self.image)
             self.pcdb[self.pca_t3.name] = self.pca_t3
-            self.image.display(self.rb_var.get()+1)
+            self.image.name = self.image.name + '/' + str(self.rb_var.get()+1)
+            self.imgdb.addImage(self.image)
+            self.image.display()
 
 
 # FOR TESTING

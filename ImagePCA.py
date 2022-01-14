@@ -13,8 +13,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import axes3d
-import os
-import fileList as fL
+
 from plotInteract import PlotInteract
 
 class ImagePCA(Image):
@@ -26,14 +25,9 @@ class ImagePCA(Image):
         #data = self.data
         data = self.data.reshape(len(self.data)*len(self.data[0]),len(self.data[0][0]))
         self.scores = self.pca.transform(data)  # reconstructed data
-        filename = (os.path.basename(fL.File)).rsplit(".", 1)[0]
-        self.name = str(filename)+ '/' + str(fL.Array_name)+'/'+'PCA'
-        self.img_name = self.name
 
         self.list_store_pc_n =[]
 
-    def __repr__(self):
-        return self.name
 
 
     def return_Image(self,pc): #Used for displaying an image in the given window
@@ -43,23 +37,22 @@ class ImagePCA(Image):
         self.img = self.reshaped_score
         return self.reshaped_score
 
-    def display(self,pc_n):
-        """Module allows for plot interaction"""
+    # def display(self,pc_n):
+    #     """Module allows for plot interaction"""
 
-        pc_n_text = 'PC'+str(pc_n)
-        self.list_store_pc_n.append(pc_n)
+    #     pc_n_text = 'PC'+str(pc_n)
+    #     self.list_store_pc_n.append(pc_n)
 
-        self.img_name = self.name+'/'+pc_n_text
-        #for img in self.img:
-        fig, ax = plt.subplots()
-        fig.suptitle(self.img_name)
-        imgplt = plt.imshow(self.img)
-        plt.colorbar()
+    #     self.img_name = self.name+'/'+pc_n_text
+    #     fig, ax = plt.subplots()
+    #     fig.suptitle(self.img_name)
+    #     imgplt = plt.imshow(self.img)
+    #     plt.colorbar()
 
-        #Plot interaction and connect to event manager
-        show = PlotInteract(ax, self.data)
-        show.connect()
-        plt.show()
+    #     #Plot interaction and connect to event manager
+    #     show = PlotInteract(ax, self.data)
+    #     show.connect()
+    #     plt.show()
 
     # def display(self): #For displaying image in a separate window
     #     plt.imshow(self.img)
