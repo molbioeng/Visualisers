@@ -11,7 +11,8 @@ from tkinter.messagebox import showinfo
 from ImageDB import ImageDB
 import fileList as fL
 #import filenamewindow
-from ErrorPopupWindows import ImagePopup, FileSelectionPopup, NoImageForKMCPopup
+#from ErrorPopupWindows import ImagePopup, FileSelectionPopup, NoImageForKMCPopup
+from ErrorPopupWindows import ErrorPopup, NoImageForKMCPopup
 from PrincipalComponentDB import PrincipalComponentDB
 from pcaPop import pcaPop
 from KMClusterPop import KMClusterPop
@@ -65,30 +66,34 @@ class filenamewindow3(LabelFrame):
         self.img_viewer_pop = filenamewindow5(self.draw.imgDB.images)
 
     def popup_window(self):
-        FileSelectionPopup(self.frame3)
+        ErrorPopup(self.frame3)
 
     def show_plot(self):
         print("No worky")
         c = self.load_data()
         print("Selected option is " , fL.method)
         #"Mean","PCA", "K-Means Clustering"
-        if fL.method == "Mean":
-            print("Adding mean...")
-            img_mean = ImageMean(c)
-            self.draw.addImageMean(img_mean)
-            self.draw.displayImage(img_mean)
+        try:
+            if fL.method == "Mean":
+                print("Adding mean...")
+                img_mean = ImageMean(c)
+                self.draw.addImageMean(img_mean)
+                self.draw.displayImage(img_mean)
 
-        elif fL.method == "PCA":
-            self.pcaPop = pcaPop(self.pcdb, fL.Array,draw=self.draw)
+            elif fL.method == "PCA":
+                self.pcaPop = pcaPop(self.pcdb, fL.Array,draw=self.draw)
 
-        elif fL.method == "K-Means Clustering":
-            if bool(self.draw.imgDB.images):
-                self.KMClusterPop = KMClusterPop(self.draw.imgDB.images)
-            else:
-                print('no images to work on')
-                noImgPopup = NoImageForKMCPopup()
-                #To display erroPopup window if there is no image class which user can apply KMClustering method to
-
+            elif fL.method == "K-Means Clustering":
+                if bool(self.draw.imgDB.images):
+                    self.KMClusterPop = KMClusterPop(self.draw.imgDB.images)
+                else:
+                    print('no images to work on')
+                    noImgPopup = NoImageForKMCPopup()
+                    #To display erroPopup window if there is no image class which user can apply KMClustering method to
+        except Exception as e:
+            #print(e, "\n No valid array was selected.")
+            fL.ErrorMessage = "Please select a 3D array and method of analysis."
+            self.popup_window()
 
 
         #if self.method == 0:
