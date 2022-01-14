@@ -18,7 +18,7 @@ import scipy.io as sio
 import numpy as np
 
 import fileList as fL
-from ErrorPopupWindows import ArraySelectionPopup
+#from ErrorPopupWindows import ArraySelectionPopup
 
 #IMAGE VIEWER FRAME - VIEW THROUGH ALL IMAGES PRODUCED USING THE APP
 
