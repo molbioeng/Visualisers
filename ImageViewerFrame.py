@@ -74,11 +74,11 @@ class filenamewindow5(Toplevel):
         else:
             print("no Image yet")
     def back(self):
-        self.fig.clear()
+        #self.fig.clear()
         return
 
     def forward(self):
-        self.fig.clear()
+        #self.canvas_preview.clear()
         self.image = self.imgList[self.index+1]
         self.image = self.image.img
         self.a.imshow(self.image)
