@@ -54,7 +54,7 @@ class filenamewindow3(LabelFrame):
 
         self.b1 = Button(self.frame3, text="Show Image", command=self.show_plot).grid(column=0, row=0, columnspan=2)#self.show_plot(filename)).pack()
 
-        self.draw = ImageDB()
+        self.imgdb = ImageDB()
         # self.ldb = LoadingsDB().loadingDB
         self.pcdb = PrincipalComponentDB().principalComponents
 
@@ -74,7 +74,6 @@ class filenamewindow3(LabelFrame):
         ErrorPopup(self.frame3)
 
     def show_plot(self):
-        print("No worky")
         c = self.load_data()
         print("Selected option is " , fL.method)
         #"Mean","PCA", "K-Means Clustering"
@@ -82,15 +81,15 @@ class filenamewindow3(LabelFrame):
             if fL.method == "Mean":
                 print("Adding mean...")
                 img_mean = ImageMean(c)
-                self.draw.addImageMean(img_mean)
+                self.draw.addImage(img_mean)
                 self.draw.displayImage(img_mean)
 
             elif fL.method == "PCA":
-                self.pcaPop = pcaPop(self.pcdb, fL.Array,draw=self.draw)
+                self.pcaPop = pcaPop(self.pcdb, fL.Array,draw=self.imgdb)
 
             elif fL.method == "K-Means Clustering":
-                if bool(self.draw.imgDB.images):
-                    self.KMClusterPop = KMClusterPop(self.draw.imgDB.images)
+                if bool(self.imgdb.images):
+                    self.KMClusterPop = KMClusterPop(self.draw.imgdb.images)
                 else:
                     print('No images to work on')
                     #noImgPopup = NoImageForKMCPopup()
@@ -101,6 +100,7 @@ class filenamewindow3(LabelFrame):
             print("The error is: \n", e)
             #fL.ErrorMessage = "Please select a 3D array and method of analysis."
             #self.popup_window()
+
 
 
         #if self.method == 0:

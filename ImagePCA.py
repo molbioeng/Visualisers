@@ -13,8 +13,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import axes3d
-import os
-import fileList as fL
+
 from plotInteract import PlotInteract
 
 class ImagePCA(Image):
@@ -25,13 +24,6 @@ class ImagePCA(Image):
         data = self.data
         data = data.reshape(len(data) * len(data[0]), len(data[0][0]))
         self.scores = self.pca.transform(data)  # reconstructed data
-        filename = (os.path.basename(fL.File)).rsplit(".", 1)[0]
-        self.name = str(filename) + '/' + str(fL.Array_name) + '/' + 'PCA'
-        self.img_name = self.name
-
-
-    def __repr__(self):
-        return self.img_name
 
     def return_Image(self, pc):  # Used for displaying an image in the given window
         # You have to specify the pc for which the image has to be displayed
@@ -39,26 +31,23 @@ class ImagePCA(Image):
         self.reshaped_score = np.reshape(score, (len(self.data), len(self.data[0])))
         self.img = self.reshaped_score
         return self.reshaped_score
+      
+    # def display(self,pc_n):
+    #     """Module allows for plot interaction"""
 
+    #     pc_n_text = 'PC'+str(pc_n)
+    #     self.list_store_pc_n.append(pc_n)
 
-    def display(self,pc_n):
-        """Module allows for plot interaction"""
+    #     self.img_name = self.name+'/'+pc_n_text
+    #     fig, ax = plt.subplots()
+    #     fig.suptitle(self.img_name)
+    #     imgplt = plt.imshow(self.img)
+    #     plt.colorbar()
 
-        pc_n_text = 'PC'+str(pc_n)
-
-        self.img_name = self.name+'/'+pc_n_text
-        #for img in self.img:
-
-        fig, ax = plt.subplots()
-        fig.suptitle(self.img_name)
-        imgplt = plt.imshow(self.img)
-        plt.colorbar()
-
-        # Plot interaction and connect to event manager
-
-        show = PlotInteract(ax, self.data)
-        show.connect()
-        plt.show()
+    #     #Plot interaction and connect to event manager
+    #     show = PlotInteract(ax, self.data)
+    #     show.connect()
+    #     plt.show()
 
     # def display(self): #For displaying image in a separate window
     #     plt.imshow(self.img)
