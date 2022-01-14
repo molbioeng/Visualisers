@@ -16,3 +16,4 @@ def init():
     global Array
     global Data
     global Array_name
+    global ErrorMessage #error popup window messages
