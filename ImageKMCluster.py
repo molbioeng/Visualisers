@@ -21,3 +21,13 @@ class ImageKMCluster(Image):
         kmeans = KMeans(n_clusters,random_state=0).fit(np.reshape(array,(-1,1)))
         clustered_score = kmeans.labels_
         self.img=clustered_score.reshape([len(array),len(array[0])])
+
+        filename = (os.path.basename(fL.File)).rsplit(".", 1)[0]
+        self.name = str(filename)+ '/' + str(fL.Array_name)+'/'+'KMC/'+str(n_clusters)
+        self.img_name = self.name
+
+    def __repr__(self):
+        return self.name
+
+    def return_r_data(self):
+        return self.img
