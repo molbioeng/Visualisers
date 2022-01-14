@@ -21,6 +21,7 @@ from PrincipalComponent import PrincipalComponent
 import numpy as np
 from ImagePCA import ImagePCA
 from PrincipalComponentDB import*
+import fileList as fL
 import pcaGraphs
 
 
@@ -46,39 +47,11 @@ class pcaPop(Toplevel):  # Create a window
         self.draw = draw
 
         # TITLE ON WINDOW AND SUBMIT BUTTON
-        # msg = 'PCA SETTINGS'
-        # self.toplabel = Label(self, text=msg)
-        # self.toplabel.grid(column=1,row=0,sticky=N, padx=10, pady=10)
 
-        # self.button = Button(self, text="Submit", command=self.destroy)
-        # self.button.grid(column=0,row=10, columnspan=3, sticky=S, padx=10, pady=10)
-
-        buttonX = ttk.Button(self, text="Submit", command= lambda: self.submit())
-        #Before it was self.destroy
-        # command=lambda: self.display_interactive_img(self.rb_var.get())
+        buttonX = ttk.Button(self, text="Submit", command=self.submit)
         buttonX.grid(column=0, row=10, columnspan=3, sticky=S, padx=10, pady=10)
 
-        ### FOR TESTING SIMPLE IMAGE
-        # f = Figure(figsize=(5,5),dpi=100)
-        # a = f.add_subplot(111)
-        # a.plot([1,2,3,4,5,6,7,8],[5,1,2,6,3,3,7,1])
-        #
-        # canvas = FigureCanvasTkAgg(f,self)
-        # canvas.draw()
-        # # canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=True )
-        # canvas.get_tk_widget().grid(column=0,row=11, columnspan=3, sticky=S, padx=10, pady=10)
 
-        # DROP DOWN MENU - CODE FOR SELECTING OPTION AND CONFIRMING IT
-        # variable that stores index for array of drop down options
-        '''
-        lst = list
-        lst_names = list
-        for x in PrincipalComponentDB:
-            lst.append(x.loadings)
-            #name = 'File name'+'PC number'
-            lst_names.append()
-        '''
-        #
         print("This is pcdb before if", self.pcdb_names)
         if len(self.pcdb_names)!=0:
             self.dd_var = StringVar()
@@ -126,6 +99,7 @@ class pcaPop(Toplevel):  # Create a window
         # title
         self.pb_label = Label(self, text="Preview Image", font="lucida 13 bold")
         self.pb_label.grid(column=1, row=3, columnspan=2, sticky='N', pady=(15, 0))
+        self.image = None
 
     # setting up canvas
     # self.canvas_preview = Canvas(self, height=400, bd=0, bg='Grey')
@@ -181,7 +155,7 @@ class pcaPop(Toplevel):  # Create a window
         #     print('new_pc is true!')
 
         self.image = ImagePCA(self.data, self.pca_t3)
-        self.draw.addImagePCA(self.image)
+        #self.draw.addImagePCA(self.image)
         self.canvas_preview2 = FigureCanvasTkAgg(f, self)
         if rb_var == 1:
             print('Var1 is 1')
@@ -210,7 +184,11 @@ class pcaPop(Toplevel):  # Create a window
     def submit(self):
         self.destroy()
         self.pcdb[self.pca_t3.name] = self.pca_t3
-        self.image.display()
+        self.image.display(self.rb_var.get())
+        self.draw.addImagePCA(self.image)
+        #fL.Pc_n[self.image.name] = int(self.rb_var.get())
+
+
         # self.pcaGraphs = pcaGraphs()
 
 # FOR TESTING

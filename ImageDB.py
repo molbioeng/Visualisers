@@ -30,7 +30,7 @@ class ImageDB(object):
 
     def addImagePCA(self, currentImg):
         """Creates and adds an image to the database"""
-        self.images[currentImg.name] = currentImg
+        self.images[currentImg.img_name] = currentImg
 
     def addImageKMCluster(self,currentImg, n_clusters):
         """Creates and adds an image to the database"""

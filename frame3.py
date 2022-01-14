@@ -80,8 +80,7 @@ class filenamewindow3(LabelFrame):
 
         elif fL.method == "PCA":
             self.pcaPop = pcaPop(self.pcdb, fL.Array,draw=self.draw)
-            #testing
-            print("this is from frame 3",self.pcdb)
+
         elif fL.method == "K-Means Clustering":
             self.KMClusterPop = KMClusterPop(self.draw.imgDB.images)
 
