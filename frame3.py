@@ -11,8 +11,7 @@ from tkinter.messagebox import showinfo
 from ImageDB import ImageDB
 import fileList as fL
 #import filenamewindow
-#from ErrorPopupWindows import ImagePopup, FileSelectionPopup, NoImageForKMCPopup
-from ErrorPopupWindows import ErrorPopup, NoImageForKMCPopup
+from ErrorPopupWindows import ErrorPopup
 from PrincipalComponentDB import PrincipalComponentDB
 from pcaPop import pcaPop
 from KMClusterPop import KMClusterPop
@@ -63,12 +62,13 @@ class filenamewindow3(LabelFrame):
 
 
     def open_img_viewer(self):
-        try:
-            self.img_viewer_pop = filenamewindow5(self.draw.imgDB.images)
-        except Exception as e:
-            #print(e, "\n No valid array was selected.")
-            fL.ErrorMessage = "Please select a 3D array and method of analysis."
-            self.popup_window()
+        self.img_viewer_pop = filenamewindow5(self.draw.imgDB.images)
+        # try:
+        #     self.img_viewer_pop = filenamewindow5(self.draw.imgDB.images)
+        # except Exception as e:
+        #     #print(e, "\n No valid array was selected.")
+        #     fL.ErrorMessage = "Please select a 3D array and method of analysis."
+        #     self.popup_window()
 
     def popup_window(self):
         ErrorPopup(self.frame3)
@@ -92,13 +92,15 @@ class filenamewindow3(LabelFrame):
                 if bool(self.draw.imgDB.images):
                     self.KMClusterPop = KMClusterPop(self.draw.imgDB.images)
                 else:
-                    print('no images to work on')
-                    noImgPopup = NoImageForKMCPopup()
+                    print('No images to work on')
+                    #noImgPopup = NoImageForKMCPopup()
+                    fL.ErrorMessage = "No images in memory. \n Please apply reduction method before KM-Clustering."
+                    self.popup_window()
                     #To display erroPopup window if there is no image class which user can apply KMClustering method to
         except Exception as e:
-            #print(e, "\n No valid array was selected.")
-            fL.ErrorMessage = "Please select a 3D array and method of analysis."
-            self.popup_window()
+            print("The error is: \n", e)
+            #fL.ErrorMessage = "Please select a 3D array and method of analysis."
+            #self.popup_window()
 
 
         #if self.method == 0:

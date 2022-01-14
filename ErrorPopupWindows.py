@@ -24,15 +24,3 @@ class ErrorPopup():
 
         button_close = tk.Button(window, text = "Close", command = window.destroy)
         button_close.pack(fill = 'x')
-
-class NoImageForKMCPopup():
-
-    def __init__(self,master):
-        window = tk.Toplevel(master)
-        window.title("Warning")
-
-        label = tk.Label(window,text="No images in memory.\nPlease apply reduction method before KM-Clustering.")
-        label.pack(fill='x', padx=50,pady=10)
-
-        button_close = tk.Button(window,text='Close',command=window.destroy)
-        button_close.pack()
