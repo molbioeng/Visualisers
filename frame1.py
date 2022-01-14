@@ -2,8 +2,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Sun Dec 12 13:05:18 2021
-@author: aron
+The first frame on the main app window. It contains an button that opens an open file dialog box
+and widgets that allow the user to select the file they want to analyze.
 """
 
 # Import the tkinter library

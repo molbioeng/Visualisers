@@ -6,6 +6,10 @@ import tkinter
 
 from tkinter import filedialog as fd
 from tkinter.messagebox import showinfo
+"""
+The third frame on the main app window. Allows user to select data reduction method of choice.
+When the choice is confirmed it gets stored into global variable fL.method.    
+"""
 
 import fileList as fL
 

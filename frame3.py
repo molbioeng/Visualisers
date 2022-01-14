@@ -16,7 +16,16 @@ from PrincipalComponentDB import PrincipalComponentDB
 from pcaPop import pcaPop
 from KMClusterPop import KMClusterPop
 from ImageMean import ImageMean
-from ImageViewerFrame import *
+from ImageViewerPop import *
+
+"""
+The final frame on the main app window. Allows user to display an interactive image, generated based on selections made 
+in previous frames, as well as from pop up setting windows. Each image displayed is stored in the 
+image database (ImageDB). 
+
+The frame contains a button that opens a window where the user can view all images contained in the image database.
+"""
+
 
 #FRAME 3 - SHOW 2D IMAGE
 
@@ -62,7 +71,7 @@ class filenamewindow3(LabelFrame):
 
 
     def open_img_viewer(self):
-        self.img_viewer_pop = filenamewindow5(self.draw.imgDB.images)
+        self.img_viewer_pop = ImgViewPop(self.draw.imgDB.images)
 
     def popup_window(self):
         FileSelectionPopup(self.frame3)

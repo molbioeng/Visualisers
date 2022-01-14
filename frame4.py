@@ -12,6 +12,16 @@ import numpy as np
 import fileList as fL
 from ErrorPopupWindows import ArraySelectionPopup
 
+"""
+The second frame on the main app window. Checks that the file selected by user is a .mat file that can be loaded 
+by the program and that contains a 3D array. The aim of the program is to apply data reduction techniques to 3D array
+data for it to be visualized in an intuitive manner. If the file doesn't contain any 3D arrays, an error pop up window
+will appear. 
+
+The frame also has widgets enabling the user to select which array out of those contained in the selected file,
+they wish to analyze. 
+"""
+
 #FRAME 4 – SELECTING 3D ARRAY
 
 class filenamewindow4(LabelFrame):

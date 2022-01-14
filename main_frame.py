@@ -1,5 +1,10 @@
 from tkinter import *
 
+"""
+Frame designed to enable integration of a vertical scrollbar on main app window, as well as configuring a
+grid that can be used to plot other frames onto the main app window.
+"""
+
 class main_frame(Frame):
     def __init__(self, container):
         super().__init__(container)

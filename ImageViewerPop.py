@@ -20,9 +20,14 @@ import numpy as np
 import fileList as fL
 from ErrorPopupWindows import ArraySelectionPopup
 
+"""
+Pop up window with display of all images in image database (ImageDB). The display is mouse click sensitive, if 
+clicked it will create a pop up of the same image in its matplotlib interactive version.  
+"""
+
 #IMAGE VIEWER FRAME - VIEW THROUGH ALL IMAGES PRODUCED USING THE APP
 
-class filenamewindow5(Toplevel):
+class ImgViewPop(Toplevel):
     #constructor
     def __init__(self, imgDB, master=None):
         # using toplevel to create a new window that isn't root
