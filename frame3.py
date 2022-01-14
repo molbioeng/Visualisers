@@ -11,11 +11,12 @@ from tkinter.messagebox import showinfo
 from ImageDB import ImageDB
 import fileList as fL
 #import filenamewindow
-from ErrorPopupWindows import ImagePopup, FileSelectionPopup, NoImageForKMCPopup
+from ErrorPopupWindows import ErrorPopup
 from PrincipalComponentDB import PrincipalComponentDB
 from pcaPop import pcaPop
 from KMClusterPop import KMClusterPop
 from ImageMean import ImageMean
+from ImageViewerFrame import *
 
 #FRAME 3 - SHOW 2D IMAGE
 
@@ -33,8 +34,8 @@ class filenamewindow3(LabelFrame):
                 mat = mat73.loadmat(fL.File)
                 return fL.Array
             except NotImplementedError:
-                print(fl.File)
-                mat = sio.loadmat(fl.File)
+                print(fL.File)
+                mat = sio.loadmat(fL.File)
             except:
                 ValueError('Could not read at all')
 
@@ -44,7 +45,7 @@ class filenamewindow3(LabelFrame):
     def __init__(self, container):
         super().__init__(container)
         self.frame3 = LabelFrame(container, text = "2D image", bg = "white", padx = 120, pady = 50)
-        self.frame3.grid(row=3, column=0, sticky='nsew')
+        self.frame3.grid(row=4, column=0, sticky="nsew")
 
         # configuration of grid on frame
         self.columnconfigure(0, weight=1)
@@ -57,31 +58,48 @@ class filenamewindow3(LabelFrame):
         # self.ldb = LoadingsDB().loadingDB
         self.pcdb = PrincipalComponentDB().principalComponents
 
+        self.b2 = Button(self.frame3, text="Show All Images", command=self.open_img_viewer).grid(column=0, row=1, columnspan=2)
+
+
+    def open_img_viewer(self):
+        self.img_viewer_pop = filenamewindow5(self.draw.imgDB.images)
+        # try:
+        #     self.img_viewer_pop = filenamewindow5(self.draw.imgDB.images)
+        # except Exception as e:
+        #     #print(e, "\n No valid array was selected.")
+        #     fL.ErrorMessage = "Please select a 3D array and method of analysis."
+        #     self.popup_window()
 
     def popup_window(self):
-        FileSelectionPopup(self.frame3)
+        ErrorPopup(self.frame3)
 
     def show_plot(self):
         c = self.load_data()
         print("Selected option is " , fL.method)
         #"Mean","PCA", "K-Means Clustering"
-        if fL.method == "Mean":
-            print("Adding mean...")
-            img_mean = ImageMean(c)
-            self.imgdb.addImage(img_mean)
-            self.imgdb.displayImage(img_mean)
+        try:
+            if fL.method == "Mean":
+                print("Adding mean...")
+                img_mean = ImageMean(c)
+                self.draw.addImage(img_mean)
+                self.draw.displayImage(img_mean)
 
-        elif fL.method == "PCA":
-            self.pcaPop = pcaPop(self.pcdb, fL.Array,draw=self.imgdb)
-            #testing
-            print("this is from frame 3",self.pcdb)
-        elif fL.method == "K-Means Clustering":
-            if bool(self.imgdb.images):
-                self.KMClusterPop = KMClusterPop(self.imgdb.images)
-            else:
-                print('no images to work on')
-                noImgPopup = NoImageForKMCPopup()
-                #To display erroPopup window if there is no image class which user can apply KMClustering method to
+            elif fL.method == "PCA":
+                self.pcaPop = pcaPop(self.pcdb, fL.Array,draw=self.imgdb)
+
+            elif fL.method == "K-Means Clustering":
+                if bool(self.imgdb.images):
+                    self.KMClusterPop = KMClusterPop(self.draw.imgdb.images)
+                else:
+                    print('No images to work on')
+                    #noImgPopup = NoImageForKMCPopup()
+                    fL.ErrorMessage = "No images in memory. \n Please apply reduction method before KM-Clustering."
+                    self.popup_window()
+                    #To display erroPopup window if there is no image class which user can apply KMClustering method to
+        except Exception as e:
+            print("The error is: \n", e)
+            #fL.ErrorMessage = "Please select a 3D array and method of analysis."
+            #self.popup_window()
 
 
 

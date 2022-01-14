@@ -90,6 +90,7 @@ class KMClusterPop(Toplevel):
 
     def display_clustered_img(self):
         self.chosen_cluster_n = self.input_widget.get()
+        self.chosen_cluster_n = self.chosen_cluster_n.replace(" ", "")
         if self.chosen_cluster_n =='':
             print('nothing there')
         elif self.chosen_cluster_n.isdecimal():

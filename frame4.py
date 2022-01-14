@@ -10,7 +10,7 @@ import scipy.io as sio
 import numpy as np
 
 import fileList as fL
-from ErrorPopupWindows import ArraySelectionPopup
+from ErrorPopupWindows import ErrorPopup
 
 #FRAME 4 – SELECTING 3D ARRAY
 
@@ -21,10 +21,9 @@ class filenamewindow4(LabelFrame):
         #constructing frame4
         self.frame4 = LabelFrame(container, text = "Select 3D array", bg = "white", padx = 120, pady = 50)
 
-
         #displaying the frame in row 3 and column 0
         #self.frame4.grid(row=3, column=0, sticky='nsew')
-        self.frame4.grid(row=1, column=0, sticky='nsew')
+        self.frame4.grid(row=2, column=0, sticky='nsew')
 
         # configuration of grid on frame
         self.columnconfigure(0, weight=1)
@@ -32,8 +31,8 @@ class filenamewindow4(LabelFrame):
 
         self.main_btn = Button(self.frame4, text = "Browse Arrays", command = self.browse_arrays)
         self.main_btn.grid(row=0, column=0, columnspan=2)
-        
-        
+
+
         #self.label = Label(self.frame4, text=(str(self.var4.get()) + " selected"))
         #self.label.grid(column=0, row=2, columnspan=2)
 
@@ -70,9 +69,8 @@ class filenamewindow4(LabelFrame):
         # opening selected MATLAB file
         #print("this works", fL.File)
         if not fL.File:
+            fL.ErrorMessage = "Please open a MATLAB file and confirm your selection."
             self.popup_window()
-            #tkinter.messagebox.showerror("Warning", "Please upload a file.")
-            #print("ERROR!")
         else:
             print(fL.File)
 
@@ -92,16 +90,27 @@ class filenamewindow4(LabelFrame):
             self.label = Label(self.frame4, text="No Array Selected")
             self.label.grid(column=0, row=2, columnspan=2)
 
+
     def popup_window(self):
-        ArraySelectionPopup(self.frame4)
+        ErrorPopup(self.frame4)
+
+    # def confirm(self):
+    #     fL.Array = fL.Data[self.var4.get()]
+    #     fL.Array_name = self.var4.get()
+    #     self.label['text'] = str(fL.Array_name + " Selected")
+    #     #print(fL.Array)
 
     def confirm(self):
-        fL.Array = fL.Data[self.var4.get()]
-        fL.Array_name = self.var4.get()
-        print(self.var4.get())
-        self.label['text'] = str(fL.Array_name + " Selected")
-
-        print(fL.Array)
+        try:
+            fL.Array = fL.Data[self.var4.get()]
+            fL.Array_name = self.var4.get()
+            self.label['text'] = str(fL.Array_name + " Selected")
+        except KeyError as e:
+            print("KeyError:", e)
+            fL.ErrorMessage = "Please select a 3D array from the drop-down menu."
+            self.popup_window()
+        except Exception as e:
+            print("Error:", e)
 
     def open_file(self):
         try:
@@ -111,8 +120,8 @@ class filenamewindow4(LabelFrame):
                 selected_file = sio.loadmat(fL.File)
             except Exception as e:
                 #print(e, "\n MATLAB file not supported.")
+                fL.ErrorMessage = "MATLAB file not supported."
                 self.popup_window()
-                #selected_file = "dummy"
         return selected_file
 
     def filter_options(self, file):
@@ -121,9 +130,11 @@ class filenamewindow4(LabelFrame):
         class_list = [np.float32, np.float64, np.int8, np.uint8, np.int16, np.uint16, np.int32, np.uint32, np.int64, np.uint64]
         for i in range(len(file_variables)):
             if type(file[file_variables[i]]) == np.ndarray:
-                if (file[file_variables[i]].squeeze().ndim == 3) and (np.array(list(file[file_variables[i]])).dtype in class_list):
+                if (file[file_variables[i]].squeeze().ndim == 3) and (np.array(list(file[file_variables[i]])).dtype in class_list) and (file[file_variables[i]].squeeze().shape[2] >= 3):
                     menu_options.append(file_variables[i])
         if menu_options == ["Select an array"]:
-            menu_options.append("File selected does not contain 3D number data.")
+            fL.ErrorMessage = "File selected does not contain 3D number data."
+            self.popup_window()
+            #menu_options.append("File selected does not contain 3D number data.")
             #tkinter.messagebox.showerror("Warning", "File selected does not contain 3D number data.")
         return menu_options

@@ -49,7 +49,7 @@ class PlotInteract:
         if str(event.button)!='MouseButton.RIGHT': return #Ensure right click to open new plot
         fig2, ax2 = plt.subplots()
         plt.plot(self.data[int(round(event.ydata))][int(round(event.xdata))][:]) #Double check why this is flipped
-        plt.title('Raman Spectra from' + self.title + ' at pixel (' + str(int(round(event.xdata))) + ', ' + str(int(round(event.ydata))) + ')')
+        plt.title('Raman Spectra from' + ' pixel (' + str(int(round(event.xdata))) + ', ' + str(int(round(event.ydata))) + ')')
         plt.show()
 
     def on_motion(self, event):

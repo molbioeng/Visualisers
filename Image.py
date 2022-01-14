@@ -38,5 +38,3 @@ class Image(ABC):
         show = PlotInteract(ax, self.data)
         show.connect()
         plt.show()
-
-
