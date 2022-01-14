@@ -17,6 +17,7 @@ import mat73
 class PlotInteract:
     def __init__(self, ax, data):
         #self.title = name
+
         self.ax = ax
         self.data = data
         self.text = ax.text(0.7, 0.95, '', transform=ax.transAxes, color = 'w')

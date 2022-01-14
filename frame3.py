@@ -8,7 +8,7 @@ from tkinter import messagebox as tkMessageBox
 
 from tkinter import filedialog as fd
 from tkinter.messagebox import showinfo
-from drawing import drawing
+from ImageDB import ImageDB
 import fileList as fL
 #import filenamewindow
 from ErrorPopupWindows import ImagePopup, FileSelectionPopup, NoImageForKMCPopup
@@ -54,7 +54,7 @@ class filenamewindow3(LabelFrame):
 
         self.b1 = Button(self.frame3, text="Show Image", command=self.show_plot).grid(column=0, row=0, columnspan=2)#self.show_plot(filename)).pack()
 
-        self.draw = drawing()
+        self.draw = ImageDB()
         # self.ldb = LoadingsDB().loadingDB
         self.pcdb = PrincipalComponentDB().principalComponents
 
