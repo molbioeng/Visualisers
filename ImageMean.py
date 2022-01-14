@@ -24,5 +24,8 @@ class ImageMean(Image):
         for j in range(np.shape(self.img)[0]):
             for i in range(np.shape(self.img)[1]):
                 self.img[i][j] =  np.average(self.data[i][j][:])
+        filename = (os.path.basename(fL.File)).rsplit(".", 1)[0]
+        self.name = str(filename)+ '/' + str(fL.Array_name)+'/'+'mean'
+        self.img_name = self.name
 
 

@@ -17,7 +17,6 @@ import os
 import fileList as fL
 from plotInteract import PlotInteract
 
-
 class ImagePCA(Image):
 
     def __init__(self, array, pca):
@@ -30,7 +29,6 @@ class ImagePCA(Image):
         self.name = str(filename) + '/' + str(fL.Array_name) + '/' + 'PCA'
         self.img_name = self.name
 
-        #self.list_store_pc_n = []
 
     def __repr__(self):
         return self.img_name
@@ -42,20 +40,22 @@ class ImagePCA(Image):
         self.img = self.reshaped_score
         return self.reshaped_score
 
-    def display(self, pc_n):
+
+    def display(self,pc_n):
         """Module allows for plot interaction"""
 
-        pc_n_text = 'PC' + str(pc_n)
-        #self.list_store_pc_n.append(pc_n)
+        pc_n_text = 'PC'+str(pc_n)
 
-        self.img_name = self.name + '/' + pc_n_text
-        # for img in self.img:
+        self.img_name = self.name+'/'+pc_n_text
+        #for img in self.img:
+
         fig, ax = plt.subplots()
         fig.suptitle(self.img_name)
         imgplt = plt.imshow(self.img)
         plt.colorbar()
 
         # Plot interaction and connect to event manager
+
         show = PlotInteract(ax, self.data)
         show.connect()
         plt.show()
@@ -102,6 +102,7 @@ class ImagePCA(Image):
     def scree_plot(self):
         fig, ax = plt.subplots()
         fig.canvas.set_window_title('Image ' + self.name)
+
         ax.plot(
             self.df_explained_variance['PC'],
             self.df_explained_variance['Cumulative Variance'],
@@ -125,6 +126,7 @@ class ImagePCA(Image):
         else:
             fig = plt.figure()
             fig.canvas.set_window_title('Image ' + self.name)
+
             fig.suptitle('Scores plot')
             if self.pca.n_components == 1:
                 print('One PC')

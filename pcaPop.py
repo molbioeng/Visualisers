@@ -25,6 +25,7 @@ import fileList as fL
 import pcaGraphs
 
 
+
 class pcaPop(Toplevel):  # Create a window
     def __init__(self, pcdb, data, draw, master=None):
         # using toplevel to create a new window that isn't root
@@ -45,12 +46,12 @@ class pcaPop(Toplevel):  # Create a window
         self.new_pc =False
         self.pca_t3 = None
         self.draw = draw
+        self.did_select = False # Used to check if the user had selected PC
 
         # TITLE ON WINDOW AND SUBMIT BUTTON
 
         buttonX = ttk.Button(self, text="Submit", command=self.submit)
         buttonX.grid(column=0, row=10, columnspan=3, sticky=S, padx=10, pady=10)
-
 
         print("This is pcdb before if", self.pcdb_names)
         if len(self.pcdb_names)!=0:
@@ -72,9 +73,10 @@ class pcaPop(Toplevel):  # Create a window
             self.cfm_opt_btn.grid(column=2, row=1, sticky=N, pady=10, padx=10)
 
         # LINE TO SEPARATE MENU IN TWO SECTIONS
-        self.canvas_line = Canvas(self, height=10, bd=0)
-        self.canvas_line.grid(column=0, row=2, columnspan=3, sticky='EW')
-        self.canvas_line.create_line(15, 5, 785, 5, dash=(8, 3))
+        # self.canvas_line = Canvas(self, height=10, bd=0)
+        # self.canvas_line.grid(column=0, row=2, columnspan=3, sticky='EW')
+        # self.canvas_line.create_line(15, 5, 785, 5, dash=(8, 3))
+
 
         # PC CHECK LIST CODE
         # label at the top of the check list
@@ -119,18 +121,19 @@ class pcaPop(Toplevel):  # Create a window
     # self.canvas_preview2.get_tk_widget().grid(column=1,row=4, columnspan=2,rowspan=6, sticky='EW')
     # self.canvas_preview2.get_tk_widget().configure(bg="grey")
 
-    # def display_preview2(self,var):
-    #     # ldb list
-    #     # ldb[var] ---> PC selected from Option menu
-
     def get_sel_principal_component(self):
         if self.dd_var.get()=="Create new PCs":
-            print('User selected \'Create new PCs\'')
+            pc_selected_text = 'User selected \'Create new PCs\''
+            print(pc_selected_text)
             self.new_pc = True
         else:
             self.pca_t3=self.pcdb[self.dd_var.get()]
+            pc_selected_text = self.dd_var.get()+' has been selected'
+        label_pc_selected = Label(self, text=pc_selected_text, font="lucida 14")
+        label_pc_selected.grid(column=0, row=1, columnspan=2, sticky=N, padx=10, pady=5)
 
     def display_preview(self, rb_var):
+        self.did_select=True
         f = Figure()
         a = f.add_subplot(111)
         a.axis('off')
@@ -157,6 +160,7 @@ class pcaPop(Toplevel):  # Create a window
         self.image = ImagePCA(self.data, self.pca_t3)
         #self.draw.addImagePCA(self.image)
         self.canvas_preview2 = FigureCanvasTkAgg(f, self)
+
         if rb_var == 1:
             print('Var1 is 1')
             self.image.img = self.image.return_Image(1)
@@ -164,6 +168,7 @@ class pcaPop(Toplevel):  # Create a window
             self.canvas_preview2.draw()
             self.canvas_preview2.get_tk_widget().grid(column=1, row=4, columnspan=2, rowspan=6, sticky='EW')
             self.canvas_preview2.get_tk_widget().configure(bg="grey")
+
         elif rb_var == 2:
             print('Var2 is 1')
             self.image.img = self.image.return_Image(2)
@@ -182,14 +187,18 @@ class pcaPop(Toplevel):  # Create a window
             print('error')
 
     def submit(self):
-        self.destroy()
-        self.pcdb[self.pca_t3.name] = self.pca_t3
-        self.image.display(self.rb_var.get())
-        self.draw.addImagePCA(self.image)
-        #fL.Pc_n[self.image.name] = int(self.rb_var.get())
+        if self.pca_t3 is None or self.did_select==False:
+            submit_error_text = "Please select PC before submitting."
+            print(submit_error_text) #To display error in terminal
+            submit_error_label = Label(self, text=submit_error_text, font="lucida 14", fg='red')
+            submit_error_label.grid(column=1, row=11, pady=10)
+        else:
+            self.destroy()
+            self.pcaGraphs = pcaGraphs(self.image)
+            self.pcdb[self.pca_t3.name] = self.pca_t3
+            self.image.display(self.rb_var.get())
+            self.draw.addImagePCA(self.image)
 
-
-        # self.pcaGraphs = pcaGraphs()
 
 # FOR TESTING
 def openSettings():

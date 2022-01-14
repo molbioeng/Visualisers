@@ -11,6 +11,9 @@ import os
 from ImageKMCluster import ImageKMCluster
 from ImagePCA import ImagePCA
 
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+from matplotlib.figure import Figure
+
 class KMClusterPop(Toplevel):
     def __init__(self, imgDB, master=None):
 
@@ -26,7 +29,6 @@ class KMClusterPop(Toplevel):
         self.columnconfigure(0, weight=1)
         # self.columnconfigure(1, weclight=1)
         # self.columnconfigure(2, weight=2)
-
 
         #LABEL at the top of the textfield
         self.label_sel_img= Label(self, text="Select image:", font="lucida 14 underline")
@@ -67,16 +69,19 @@ class KMClusterPop(Toplevel):
         # self.input_widget.delete()
 
         # add text inside the box of the input field
-        self.input_widget.insert(0,"Enter number of clusters: ")
+        self.placeholder = "Enter number of clusters" #Used as instruction text for entry widget
+        self.add() #Display instruction text inside the box
+        self.input_widget.bind('<FocusIn>',self.erase) #Used to remove the text when clicked
+        self.input_widget.bind('<FocusOut>',self.add)
 
-
+        #PREVIEW BUTTON
+        self.buttonPreview = ttk.Button(self,text='Preview', command = self.preview)
+        self.buttonPreview.grid(column=0, row=8, sticky=S, padx=10, pady=10)
         #SUBMISSION BUTTON to display clustered img
         self.buttonSubmit = ttk.Button(self, text="Submit", command=self.display_clustered_img)
-        self.buttonSubmit.grid(column=0, row=8, columnspan=2, sticky=S, padx=10, pady=10)
-        
-        # Label to confirm selected file 
-        #self.label = Label(self.frame1, text=tkinter.String())
-        #self.label.grid(column=0, row=2, columnspan=2)
+        self.buttonSubmit.grid(column=0, row=9, sticky=S, padx=10, pady=10)
+
+
 
     def get_sel_img(self):
         self.selected_img = self.imgDB[self.iM_var.get()]
@@ -117,13 +122,36 @@ class KMClusterPop(Toplevel):
         else:
             print('Dataset from PCA is not passed')
 
+    def erase(self,event=None): #Used to erase placeholder text when clicked on the entry
+        if self.input_widget.get() == self.placeholder:
+            self.input_widget.delete(0,'end')
+    def add(self,event=None): #Used to add placeholder text when main window is displayed
+        if self.input_widget.get() == '':
+            self.input_widget.insert(0,self.placeholder)
 
+    def preview(self):
+        self.chosen_cluster_n = self.input_widget.get()
+        if self.chosen_cluster_n =='':
+            print('nothing there')
+        elif self.chosen_cluster_n.isdecimal():
+            f = Figure()
+            a = f.add_subplot(111)
+            a.axis('off')
+            self.canvas_preview = FigureCanvasTkAgg(f, self)
 
+            n_cluster_int=int(self.chosen_cluster_n)
 
-##### AFTER PCApopup --> display at the same as interactive plot
-        # window for pca graphs
-        # window that has checkbutton
-        # - Scree plot
-        # - Loading plots
-        # submit
-        # display selected graphs
+            clustered_img = ImageKMCluster(array=self.selected_img.img,n_clusters=n_cluster_int)
+            img_to_show = clustered_img.return_r_data()#reconstructed datapoints
+            a.imshow(img_to_show)
+
+            self.canvas_preview.draw()
+            self.canvas_preview.get_tk_widget().grid(column=1, row=3,columnspan=2, rowspan=6, sticky='EW')
+            self.canvas_preview.get_tk_widget().configure(bg="grey")
+            self.resize()
+
+    def resize(self):
+        #400x600
+        w = 1000
+        h = 600
+        self.geometry(f"{w}x{h}")

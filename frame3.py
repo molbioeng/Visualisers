@@ -11,7 +11,7 @@ from tkinter.messagebox import showinfo
 from drawing import drawing
 import fileList as fL
 #import filenamewindow
-from ErrorPopupWindows import ImagePopup, FileSelectionPopup
+from ErrorPopupWindows import ImagePopup, FileSelectionPopup, NoImageForKMCPopup
 from PrincipalComponentDB import PrincipalComponentDB
 from pcaPop import pcaPop
 from KMClusterPop import KMClusterPop
@@ -82,7 +82,13 @@ class filenamewindow3(LabelFrame):
             self.pcaPop = pcaPop(self.pcdb, fL.Array,draw=self.draw)
 
         elif fL.method == "K-Means Clustering":
-            self.KMClusterPop = KMClusterPop(self.draw.imgDB.images)
+            if bool(self.draw.imgDB.images):
+                self.KMClusterPop = KMClusterPop(self.draw.imgDB.images)
+            else:
+                print('no images to work on')
+                noImgPopup = NoImageForKMCPopup()
+                #To display erroPopup window if there is no image class which user can apply KMClustering method to
+
 
 
         #if self.method == 0:

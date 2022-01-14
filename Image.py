@@ -19,9 +19,15 @@ class Image(ABC):
     def __init__(self, array):
         self.data = array #data passed into the image
         self.img = np.empty(shape=(np.shape(array)[0:2])) #Flattened Raman data
-        
-        filename = (os.path.basename(fL.File)).rsplit(".", 1)[0]
-        self.name = str(filename)+ '/' + str(fL.Array_name)
+        self.img_name = ''
+
+    def plot(self):
+        """Module allows for plot interaction"""
+        fig, ax = plt.subplots()
+        imgplt = plt.imshow(self.img)
+        show = PlotInteract(ax, self.data)
+        show.connect()
+
 
     def __repr__(self):
         return self.name
@@ -31,6 +37,7 @@ class Image(ABC):
 
         #for img in self.img:
         fig, ax = plt.subplots()
+        fig.suptitle(self.img_name)
         imgplt = plt.imshow(self.img)
         plt.colorbar()
         plt.title(self.name)
