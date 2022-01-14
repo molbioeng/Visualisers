@@ -57,13 +57,6 @@ class PrincipalComponent:
 
         self.name = str(filename)+ '/' + str(fL.Array_name)
 
-
-        # for index in range(3):
-        #     current_loading = Loadings(filename, fL.Array_name, index+1, self.loadings[:,index])
-        #     print("this is from pc class", current_loading.__repr__())
-        #     self.ldb.append(current_loading)
-
-
         self.explained_variance = self.X_pca.explained_variance_ratio_
 
     def __repr__(self):
@@ -72,11 +65,3 @@ class PrincipalComponent:
     def transform(self,array):
         r_data = self.X_pca.transform(array)
         return r_data
-
-
-# #TEST IT OUT
-# matFile = mat73.loadmat('tissue_t3_1_workspace.mat') # .mat file must be in the same local directory
-# my_data = np.array(matFile["map_t3"])
-# pca_t3 = PrincipalComponent(my_data)
-# print(pca_t3.explained_variance.shape)
-# print(pca_t3.select_n_components(0.99))

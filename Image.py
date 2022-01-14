@@ -19,7 +19,7 @@ class Image(ABC):
     def __init__(self, array):
         self.data = array #data passed into the image
         self.img = np.empty(shape=(np.shape(array)[0:2])) #Flattened Raman data
-        self.img_name = ''
+        self.name = ''
 
     def plot(self):
         """Module allows for plot interaction"""
@@ -46,5 +46,3 @@ class Image(ABC):
         show = PlotInteract(ax, self.data, self.name)
         show.connect()
         plt.show()
-
-
