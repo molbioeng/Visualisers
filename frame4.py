@@ -19,16 +19,16 @@ class filenamewindow4(LabelFrame):
     def __init__(self, container):
         super().__init__(container)
         #constructing frame4
-        self.frame4 = LabelFrame(container, text = "Select 3D array", bg = "white", padx = 120, pady = 50)
+        self.frame4 = LabelFrame(container, text = "Select 3D array", bg = "white", padx=120, pady=50)
 
 
         #displaying the frame in row 3 and column 0
         #self.frame4.grid(row=3, column=0, sticky='nsew')
-        self.frame4.grid(row=1, column=0, sticky='nsew')
+        self.frame4.grid(column=0, row=2, sticky="nsew")
 
         # configuration of grid on frame
         self.columnconfigure(0, weight=1)
-        self.columnconfigure(1, weight=2)
+        self.columnconfigure(1, weight=1)
 
         self.main_btn = Button(self.frame4, text = "Browse Arrays", command = self.browse_arrays)
         self.main_btn.grid(row=0, column=0, columnspan=2)
@@ -87,10 +87,10 @@ class filenamewindow4(LabelFrame):
 
             # creating dropdown menu
             self.drop4 = OptionMenu(self.frame4, self.var4, *self.options)
-            self.drop4.grid(row=1, column=0)
+            self.drop4.grid(row=1, column=0, sticky="NSEW")
             self.btn4 = Button(self.frame4, text="Confirm Selection", command=self.confirm).grid(row=1, column=1)
             self.label = Label(self.frame4, text="No Array Selected")
-            self.label.grid(column=0, row=2, columnspan=2)
+            self.label.grid(row=2, column=0, columnspan=2, sticky=NSEW)
 
     def popup_window(self):
         ArraySelectionPopup(self.frame4)

@@ -110,15 +110,16 @@ class pcaPop(Toplevel):  # Create a window
 
         # variables to store on/off value of radiobutton
         self.rb_var = IntVar()
+        self.rb_var.set(0)
 
         # Radiobuttons
-        self.rb_1 = Radiobutton(self, text="PC 1", variable=self.rb_var, value=0, command=lambda: self.display_preview(self.rb_var.get()))
+        self.rb_1 = Radiobutton(self, text="PC 1", variable=self.rb_var, value=1, command=lambda: self.display_preview(self.rb_var.get()))
         self.rb_1.grid(column=0, row=4)
 
-        self.rb_2 = Radiobutton(self, text="PC 2", variable=self.rb_var, value=1, command=lambda: self.display_preview(self.rb_var.get()))
+        self.rb_2 = Radiobutton(self, text="PC 2", variable=self.rb_var, value=2, command=lambda: self.display_preview(self.rb_var.get()))
         self.rb_2.grid(column=0, row=5)
 
-        self.rb_3 = Radiobutton(self, text="PC 3", variable=self.rb_var, value=2, command=lambda: self.display_preview(self.rb_var.get()))
+        self.rb_3 = Radiobutton(self, text="PC 3", variable=self.rb_var, value=3, command=lambda: self.display_preview(self.rb_var.get()))
         self.rb_3.grid(column=0, row=6)
 
         # PREVIEW BOX
@@ -182,21 +183,21 @@ class pcaPop(Toplevel):  # Create a window
         self.image = ImagePCA(self.data, self.pca_t3)
         self.draw.addImagePCA(self.image)
         self.canvas_preview2 = FigureCanvasTkAgg(f, self)
-        if rb_var == 0:
+        if rb_var == 1:
             print('Var1 is 1')
             self.image.img = self.image.return_Image(1)
             a.imshow(self.image.img)
             self.canvas_preview2.draw()
             self.canvas_preview2.get_tk_widget().grid(column=1, row=4, columnspan=2, rowspan=6, sticky='EW')
             self.canvas_preview2.get_tk_widget().configure(bg="grey")
-        elif rb_var == 1:
+        elif rb_var == 2:
             print('Var2 is 1')
             self.image.img = self.image.return_Image(2)
             a.imshow(self.image.img)
             self.canvas_preview2.draw()
             self.canvas_preview2.get_tk_widget().grid(column=1, row=4, columnspan=2, rowspan=6, sticky='EW')
             self.canvas_preview2.get_tk_widget().configure(bg="grey")
-        elif rb_var == 2:
+        elif rb_var == 3:
             print('Var3 is 1')
             self.image.img = self.image.return_Image(3)
             a.imshow(self.image.img)
