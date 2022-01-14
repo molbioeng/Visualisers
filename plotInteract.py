@@ -15,8 +15,7 @@ from matplotlib.patches import Rectangle
 import mat73
 
 class PlotInteract:
-    def __init__(self, ax, data, name):
-        self.title = name
+    def __init__(self, ax, data):
         self.ax = ax
         self.data = data
         self.text = ax.text(0.7, 0.95, '', transform=ax.transAxes, color = 'w')

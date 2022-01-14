@@ -40,10 +40,10 @@ class Image(ABC):
         fig.suptitle(self.img_name)
         imgplt = plt.imshow(self.img)
         plt.colorbar()
-        plt.title(self.name)
+        #plt.title(self.name)
 
         #Plot interaction and connect to event manager
-        show = PlotInteract(ax, self.data, self.name)
+        show = PlotInteract(ax, self.data)
         show.connect()
         plt.show()
 
