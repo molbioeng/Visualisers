@@ -1,139 +1,110 @@
-import tkinter
+# import the tkinter library
 from tkinter import *
-from tkinter import filedialog as fd
-from tkinter import messagebox
+from PIL import ImageTk, Image
+from tkinter import filedialog
 import os
+import tkinter
+from tkinter import messagebox as tkMessageBox
+
+from tkinter import filedialog as fd
+from tkinter.messagebox import showinfo
+from drawing import drawing
+import fileList as fL
+#import filenamewindow
+from ErrorPopupWindows import ImagePopup, FileSelectionPopup, NoImageForKMCPopup
+from PrincipalComponentDB import PrincipalComponentDB
+from pcaPop import pcaPop
+from KMClusterPop import KMClusterPop
+from ImageMean import ImageMean
+from ImageViewerPop import *
+
+"""
+The final frame on the main app window. Allows user to display an interactive image, generated based on selections made 
+in previous frames, as well as from pop up setting windows. Each image displayed is stored in the 
+image database (ImageDB). 
+
+The frame contains a button that opens a window where the user can view all images contained in the image database.
+"""
+
+
+#FRAME 4 - SHOW 2D IMAGE
 
 import mat73
-import scipy
 import scipy.io as sio
-import numpy as np
 
-import fileList as fL
-from ErrorPopupWindows import ArraySelectionPopup
+class plot_frame(LabelFrame):
+    #Constructor
+    def load_data(self):
+        """Update the Array"""
+        print("current file load")
+        if fL.File is not None :
+            try:
+                print(fL.File)
+                mat = mat73.loadmat(fL.File)
+                return fL.Array
+            except NotImplementedError:
+                print(fL.File)
+                mat = sio.loadmat(fL.File)
+            except:
+                ValueError('Could not read at all')
 
-"""
-The second frame on the main app window. Checks that the file selected by user is a .mat file that can be loaded 
-by the program and that contains a 3D array. The aim of the program is to apply data reduction techniques to 3D array
-data for it to be visualized in an intuitive manner. If the file doesn't contain any 3D arrays, an error pop up window
-will appear. 
+    def button_clicked(self):
+        print('Button clicked')
 
-The frame also has widgets enabling the user to select which array out of those contained in the selected file,
-they wish to analyze. 
-"""
-
-#FRAME 4 – SELECTING 3D ARRAY
-
-class filenamewindow4(LabelFrame):
-    #constructor
     def __init__(self, container):
         super().__init__(container)
-        #constructing frame4
-        self.frame4 = LabelFrame(container, text = "Select 3D array", bg = "white", padx=120, pady=50)
-
-
-        #displaying the frame in row 3 and column 0
-        #self.frame4.grid(row=3, column=0, sticky='nsew')
-        self.frame4.grid(column=0, row=2, sticky="nsew")
+        self.frame3 = LabelFrame(container, text = "2D image", bg = "white", padx = 120, pady = 50)
+        self.frame3.grid(row=4, column=0, sticky="nsew")
 
         # configuration of grid on frame
         self.columnconfigure(0, weight=1)
-        self.columnconfigure(1, weight=1)
+        self.columnconfigure(1, weight=2)
 
-        self.main_btn = Button(self.frame4, text = "Browse Arrays", command = self.browse_arrays)
-        self.main_btn.grid(row=0, column=0, columnspan=2)
-        
-        
-        #self.label = Label(self.frame4, text=(str(self.var4.get()) + " selected"))
-        #self.label.grid(column=0, row=2, columnspan=2)
 
-        #self.label = Label(self.frame4, text="No File Selected").pack()
-        #print(type(self.label))
+        self.b1 = Button(self.frame3, text="Show Image", command=self.show_plot).grid(column=0, row=0, columnspan=2)#self.show_plot(filename)).pack()
 
-        # self.filename = fL.File
-        # self.filename2 ='/Users/Shirin/Desktop/Prog3 Project/tissue_t3_1_workspace.mat'
-        # #self.filename = self.select_files()
-        #
-        # #opening selected MATLAB file
-        # print("this works",self.filename)
-        #
-        # self.selected_files = self.open_file(self.filename2)
-        #
-        # #filtering through arrays in MATLAB file and creating options list for dropdown menu
-        # self.options = self.filter_options(self.selected_files)
-        # #self.options = ["Testing"]
-        #
-        # self.var4 = StringVar() #datatype of menu text
-        # self.var4.set(self.options[0]) #initial menu text
-        #
-        # #creating dropdown menu
-        # self.drop4 = OptionMenu(self.frame4, self.var4, *self.options)
-        # self.drop4.pack(side=RIGHT)
-        #
-        # self.btn4= Button(self.frame4, text = "Show Array", command=self.show).pack()
+        self.draw = drawing()
+        # self.ldb = LoadingsDB().loadingDB
+        self.pcdb = PrincipalComponentDB().principalComponents
 
-    def browse_arrays(self):
-        #self.filename = fL.File
-        #self.filename2 = '/Users/Shirin/Desktop/Prog3 Project/tissue_t3_1_workspace.mat'
-        # self.filename = self.select_files()
+        self.b2 = Button(self.frame3, text="Show All Images", command=self.open_img_viewer).grid(column=0, row=1, columnspan=2)
 
-        # opening selected MATLAB file
-        #print("this works", fL.File)
-        if not fL.File:
-            self.popup_window()
-            #tkinter.messagebox.showerror("Warning", "Please upload a file.")
-            #print("ERROR!")
-        else:
-            print(fL.File)
 
-            fL.Data = self.open_file()
-
-            # filtering through arrays in MATLAB file and creating options list for dropdown menu
-            self.options = self.filter_options(fL.Data)
-            # self.options = ["Testing"]
-
-            self.var4 = StringVar()  # datatype of menu text
-            self.var4.set(self.options[0])  # initial menu text
-
-            # creating dropdown menu
-            self.drop4 = OptionMenu(self.frame4, self.var4, *self.options)
-            self.drop4.grid(row=1, column=0, sticky="NSEW")
-            self.btn4 = Button(self.frame4, text="Confirm Selection", command=self.confirm).grid(row=1, column=1)
-            self.label = Label(self.frame4, text="No Array Selected")
-            self.label.grid(row=2, column=0, columnspan=2, sticky=NSEW)
+    def open_img_viewer(self):
+        self.img_viewer_pop = ImgViewPop(self.draw.imgDB.images)
 
     def popup_window(self):
-        ArraySelectionPopup(self.frame4)
+        FileSelectionPopup(self.frame3)
 
-    def confirm(self):
-        fL.Array = fL.Data[self.var4.get()]
-        fL.Array_name = self.var4.get()
-        print(self.var4.get())
-        self.label['text'] = str(fL.Array_name + " Selected")
+    def show_plot(self):
+        print("No worky")
+        c = self.load_data()
+        print("Selected option is " , fL.method)
+        #"Mean","PCA", "K-Means Clustering"
+        if fL.method == "Mean":
+            print("Adding mean...")
+            img_mean = ImageMean(c)
+            self.draw.addImageMean(img_mean)
+            self.draw.displayImage(img_mean)
 
-        print(fL.Array)
+        elif fL.method == "PCA":
+            self.pcaPop = pcaPop(self.pcdb, fL.Array,draw=self.draw)
 
-    def open_file(self):
-        try:
-            selected_file = mat73.loadmat(fL.File)
-        except Exception:
-            try:
-                selected_file = sio.loadmat(fL.File)
-            except Exception as e:
-                #print(e, "\n MATLAB file not supported.")
-                self.popup_window()
-                #selected_file = "dummy"
-        return selected_file
+        elif fL.method == "K-Means Clustering":
+            if bool(self.draw.imgDB.images):
+                self.KMClusterPop = KMClusterPop(self.draw.imgDB.images)
+            else:
+                print('no images to work on')
+                noImgPopup = NoImageForKMCPopup()
+                #To display erroPopup window if there is no image class which user can apply KMClustering method to
 
-    def filter_options(self, file):
-        file_variables = list(file.keys())
-        menu_options = ["Select an array"]
-        class_list = [np.float32, np.float64, np.int8, np.uint8, np.int16, np.uint16, np.int32, np.uint32, np.int64, np.uint64]
-        for i in range(len(file_variables)):
-            if type(file[file_variables[i]]) == np.ndarray:
-                if (file[file_variables[i]].squeeze().ndim == 3) and (np.array(list(file[file_variables[i]])).dtype in class_list):
-                    menu_options.append(file_variables[i])
-        if menu_options == ["Select an array"]:
-            menu_options.append("File selected does not contain 3D number data.")
-            #tkinter.messagebox.showerror("Warning", "File selected does not contain 3D number data.")
-        return menu_options
+
+
+        #if self.method == 0:
+        #
+        #else:
+        #    print("Selected option is 1")
+
+        #if array and method not select, display warning message
+        # if not fL.Array and fL.method:
+        #     self.popup_window()

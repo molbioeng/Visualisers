@@ -16,13 +16,13 @@ from PIL import ImageTk, Image
 import os
 
 import fileList as fL
-from frame4 import filenamewindow4
+from frame2 import array_select_frame
 from ErrorPopupWindows import FileSelectionPopup
 
 #FRAME 1 – OPEN AND SELECT FILE
 
 #BUTTON 1 – FILENAME
-class filenamewindow(LabelFrame):
+class filename_select_frame(LabelFrame):
     def __init__(self, container):
         super().__init__(container)
         # configuration of grid on frame

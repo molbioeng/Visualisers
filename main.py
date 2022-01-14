@@ -8,17 +8,17 @@ Created on Sun Dec 12 13:04:20 2021
 
 # Import the library tkinter
 from tkinter import *
-from newuser_pop import *
+from newuserPop import *
 from newuser_instructions import *
 
 from app import *
 
 from main_frame import *
-from frame1 import filenamewindow
-from frame2 import filenamewindow2
-from frame3 import filenamewindow3
-from frame4 import filenamewindow4
-from ImageViewerPop import filenamewindow5
+from frame1 import filename_select_frame
+from frame2 import array_select_frame
+from frame3 import method_select_frame
+from frame4 import plot_frame
+
 
 import fileList as fL
 
@@ -38,31 +38,29 @@ fL.init()
 #FRAME 1
 
 
-filenamewindow1=filenamewindow(frame.second_frame)
+frame1=filename_select_frame(frame.second_frame)
 
 #filename="tissue_t3_2_workspace_old.mat"
 #print(filename)
 
 ################################################################################
 
-#FRAME 4 – 3D array selection
+#FRAME 2 – 3D array selection
 
-filenamewindow4=filenamewindow4(frame.second_frame)
-
-################################################################################
-#FRAME 2
-
-
-filenamewindow2=filenamewindow2(frame.second_frame)
+frame2=array_select_frame(frame.second_frame)
 
 ################################################################################
 #FRAME 3
 
 
-filenamewindow3=filenamewindow3(frame.second_frame)
+frame3=method_select_frame(frame.second_frame)
 
-#Image Viewer Frame
-#filenamewindow5(frame.second_frame, imgDB=filenamewindow3.draw.imgDB.images)
+################################################################################
+#FRAME 4
+
+
+frame4=plot_frame(frame.second_frame)
+
 
 
 
