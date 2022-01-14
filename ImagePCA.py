@@ -13,7 +13,9 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import axes3d
-
+import os
+import fileList as fL
+from plotInteract import PlotInteract
 
 class ImagePCA(Image):
 
@@ -24,6 +26,15 @@ class ImagePCA(Image):
         #data = self.data
         data = self.data.reshape(len(self.data)*len(self.data[0]),len(self.data[0][0]))
         self.scores = self.pca.transform(data)  # reconstructed data
+        filename = (os.path.basename(fL.File)).rsplit(".", 1)[0]
+        self.name = str(filename)+ '/' + str(fL.Array_name)+'/'+'PCA'
+        self.img_name = self.name
+
+        self.list_store_pc_n =[]
+
+    def __repr__(self):
+        return self.name
+
 
     def return_Image(self,pc): #Used for displaying an image in the given window
         #You have to specify the pc for which the image has to be displayed
@@ -31,6 +42,24 @@ class ImagePCA(Image):
         self.reshaped_score =  np.reshape(score,(len(self.data), len(self.data[0])))
         self.img = self.reshaped_score
         return self.reshaped_score
+
+    def display(self,pc_n):
+        """Module allows for plot interaction"""
+
+        pc_n_text = 'PC'+str(pc_n)
+        self.list_store_pc_n.append(pc_n)
+
+        self.img_name = self.name+'/'+pc_n_text
+        #for img in self.img:
+        fig, ax = plt.subplots()
+        fig.suptitle(self.img_name)
+        imgplt = plt.imshow(self.img)
+        plt.colorbar()
+
+        #Plot interaction and connect to event manager
+        show = PlotInteract(ax, self.data)
+        show.connect()
+        plt.show()
 
     # def display(self): #For displaying image in a separate window
     #     plt.imshow(self.img)
@@ -73,6 +102,7 @@ class ImagePCA(Image):
 
     def scree_plot(self):
         fig, ax = plt.subplots()
+        fig.canvas.set_window_title('Image '+self.name)
         ax.plot(
                 self.df_explained_variance['PC'],
                 self.df_explained_variance['Cumulative Variance'],
@@ -96,6 +126,7 @@ class ImagePCA(Image):
             return True
         else:
             fig =plt.figure()
+            fig.canvas.set_window_title('Image '+self.name)
             fig.suptitle('Scores plot')
             if self.pca.n_components==1:
                 print('One PC')
@@ -131,6 +162,7 @@ class ImagePCA(Image):
     def scores_plt_higher_dim(self,bool,dim=2,pc_lst=['PC1','PC2']):
         if bool == True:
             fig =plt.figure()
+            fig.canvas.set_window_title('Image '+self.name)
             fig.suptitle('Scores plot')
             if dim==2:
                 print('2D')
@@ -161,6 +193,7 @@ class ImagePCA(Image):
         n = self.pca.n_components # to estimate the number of PCs
         n_columns = (n+3-1)//3 # To estimate the # of subplots (columns)
         fig = plt.figure()
+        fig.canvas.set_window_title('Image '+self.name)
         fig.suptitle('Loadings plots')
         for pc in range(n):
             ax = fig.add_subplot(3,n_columns,pc+1)

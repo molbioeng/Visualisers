@@ -45,7 +45,19 @@ class ImagePopup():
         window.title("Warning")
 
         label = tk.Label(window, text = "Please open a MATLAB file, select an array, and choose an analysis method.")
-        label.pack(fill = 'x', padx=50, pady=5)
+        label.pack(fill = 'x', pady=5)
 
         button_close = tk.Button(window, text = "Close", command = window.destroy)
         button_close.pack(fill = 'x')
+
+class NoImageForKMCPopup():
+
+    def __init__(self,master):
+        window = tk.Toplevel(master)
+        window.title("Warning")
+
+        label = tk.Label(window,text="No images in memory.\nPlease apply reduction method before KM-Clustering.")
+        label.pack(fill='x', padx=50,pady=10)
+
+        button_close = tk.Button(window,text='Close',command=window.destroy)
+        button_close.pack()
