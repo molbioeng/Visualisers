@@ -21,9 +21,10 @@ class ImagePCA(Image):
 
     def __init__(self,array,pca):
         super().__init__(array)
+        self.name = self.name + '/'+'PCA'
         self.pca = pca
-        data = self.data
-        data = data.reshape(len(data)*len(data[0]),len(data[0][0]))
+        #data = self.data
+        data = self.data.reshape(len(self.data)*len(self.data[0]),len(self.data[0][0]))
         self.scores = self.pca.transform(data)  # reconstructed data
         filename = (os.path.basename(fL.File)).rsplit(".", 1)[0]
         self.name = str(filename)+ '/' + str(fL.Array_name)+'/'+'PCA'
@@ -33,6 +34,7 @@ class ImagePCA(Image):
 
     def __repr__(self):
         return self.name
+
 
     def return_Image(self,pc): #Used for displaying an image in the given window
         #You have to specify the pc for which the image has to be displayed

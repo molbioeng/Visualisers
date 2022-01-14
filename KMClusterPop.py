@@ -82,8 +82,10 @@ class KMClusterPop(Toplevel):
         self.buttonSubmit.grid(column=0, row=9, sticky=S, padx=10, pady=10)
 
 
+
     def get_sel_img(self):
         self.selected_img = self.imgDB[self.iM_var.get()]
+        #self.label['text'] = "Selected image is: " + str(self.selected_img)
         print('This is selected img: '+str(self.selected_img))
 
     def display_clustered_img(self):
@@ -93,7 +95,8 @@ class KMClusterPop(Toplevel):
         elif self.chosen_cluster_n.isdecimal():
             print('it is a number')
             n_cluster_int=int(self.chosen_cluster_n)
-            self.clustered_img = ImageKMCluster(array=self.selected_img.img,n_clusters=n_cluster_int)
+            #self.clustered_img = ImageKMCluster(data=self.selected_img.data, array=self.selected_img.img,n_clusters=n_cluster_int)
+            self.clustered_img = ImageKMCluster(self.selected_img, n_cluster_int)
             self.clustered_img.display()
             self.destroy()
 

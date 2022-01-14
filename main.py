@@ -12,13 +12,6 @@ from newuser_pop import *
 from newuser_instructions import *
 
 from app import *
-from PIL import ImageTk, Image
-from tkinter import filedialog
-import os
-import tkinter
-
-from tkinter import filedialog as fd
-from tkinter.messagebox import showinfo
 
 from main_frame import *
 from frame1 import filenamewindow

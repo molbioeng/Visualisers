@@ -32,6 +32,10 @@ class filenamewindow4(LabelFrame):
 
         self.main_btn = Button(self.frame4, text = "Browse Arrays", command = self.browse_arrays)
         self.main_btn.grid(row=0, column=0, columnspan=2)
+        
+        
+        #self.label = Label(self.frame4, text=(str(self.var4.get()) + " selected"))
+        #self.label.grid(column=0, row=2, columnspan=2)
 
         #self.label = Label(self.frame4, text="No File Selected").pack()
         #print(type(self.label))
@@ -85,6 +89,8 @@ class filenamewindow4(LabelFrame):
             self.drop4 = OptionMenu(self.frame4, self.var4, *self.options)
             self.drop4.grid(row=1, column=0)
             self.btn4 = Button(self.frame4, text="Confirm Selection", command=self.confirm).grid(row=1, column=1)
+            self.label = Label(self.frame4, text="No Array Selected")
+            self.label.grid(column=0, row=2, columnspan=2)
 
     def popup_window(self):
         ArraySelectionPopup(self.frame4)
@@ -93,9 +99,7 @@ class filenamewindow4(LabelFrame):
         fL.Array = fL.Data[self.var4.get()]
         fL.Array_name = self.var4.get()
         print(self.var4.get())
-        self.myLabel = Label(self.frame4, text=(str(self.var4.get()) + " selected")).grid(column=0, row=2, columnspan=2)
-        #self.label = Label(self.frame4, text=self.var4.get()).grid(column=0, row=2, columnspan=2)
-        #self.label.config(text = self.var4.get())
+        self.label['text'] = str(fL.Array_name + " Selected")
 
         print(fL.Array)
 

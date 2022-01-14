@@ -26,15 +26,13 @@ class ImageDB(object):
 
     def addImageMean(self, currentImg):
         """Creates and adds an image to the database"""
-        # self.images.append(ImageMean(currentFile))
         self.images[currentImg.name] = currentImg
 
     def addImagePCA(self, currentImg):
         """Creates and adds an image to the database"""
-        # self.images.append(imgPCA))
         self.images[currentImg.name] = currentImg
 
-    def addImageKMCluster(self,currentFile, n_clusters):
+    def addImageKMCluster(self,currentImg, n_clusters):
         """Creates and adds an image to the database"""
         # self.images.append(ImageKMCluster(currentFile, n_clusters))
         pass

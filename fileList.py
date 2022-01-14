@@ -12,7 +12,7 @@ def init():
     global File #MAKE GLOBAL FILE NAME LATERRR
     File = None
     global method
-    method = 0
+    method = "Mean"
     global Array
     global Data
     global Array_name

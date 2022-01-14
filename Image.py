@@ -11,6 +11,8 @@ from abc import ABC, abstractmethod
 import numpy as np
 import matplotlib.pyplot as plt
 from plotInteract import PlotInteract
+import fileList as fL
+import os
 
 class Image(ABC):
 
@@ -26,7 +28,9 @@ class Image(ABC):
         show = PlotInteract(ax, self.data)
         show.connect()
 
-        plt.show()
+
+    def __repr__(self):
+        return self.name
 
     def display(self):
         """Module allows for plot interaction"""
@@ -36,19 +40,11 @@ class Image(ABC):
         fig.suptitle(self.img_name)
         imgplt = plt.imshow(self.img)
         plt.colorbar()
+        plt.title(self.name)
 
         #Plot interaction and connect to event manager
-        show = PlotInteract(ax, self.data)
+        show = PlotInteract(ax, self.data, self.name)
         show.connect()
         plt.show()
 
-        #for img in self.img:
-        #    fig, ax = plt.subplots()
-        #    imgplt = plt.imshow(self.img)
-        #    plt.colorbar()
 
-            #Plot interaction and connect to event manager
-        #    show = PlotInteract(ax, self.data)
-        #    show.connect()
-
-        #    plt.show()
