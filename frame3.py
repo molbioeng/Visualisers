@@ -16,40 +16,34 @@ from PrincipalComponentDB import PrincipalComponentDB
 from pcaPop import pcaPop
 from KMClusterPop import KMClusterPop
 from ImageMean import ImageMean
-from ImageViewerFrame import *
+from ImageViewerPop import *
 
 #FRAME 3 - SHOW 2D IMAGE
 
 import mat73
 import scipy.io as sio
 
+# FRAME 4 - PLOTTING
+
+"""
+The final frame on the main app window. Allows user to display an interactive image, generated based on selections made 
+in previous frames, as well as from pop up setting windows. Each image displayed is stored in the 
+image database (ImageDB). 
+
+The frame contains a button that opens a window where the user can view all images contained in the image database.
+"""
+
+
 class filenamewindow3(LabelFrame):
     #Constructor
-    def load_data(self):
-        """Update the Array"""
-        print("current file load")
-        if fL.File is not None :
-            try:
-                print(fL.File)
-                mat = mat73.loadmat(fL.File)
-                return fL.Array
-            except NotImplementedError:
-                print(fL.File)
-                mat = sio.loadmat(fL.File)
-            except:
-                ValueError('Could not read at all')
-
-    def button_clicked(self):
-        print('Button clicked')
-
     def __init__(self, container):
         super().__init__(container)
-        self.frame3 = LabelFrame(container, text = "2D image", bg = "white", padx = 120, pady = 50)
+        self.frame3 = LabelFrame(container, text = "2D image", bg = "white", padx=120, pady=50, width=300)
         self.frame3.grid(row=4, column=0, sticky="nsew")
 
         # configuration of grid on frame
-        self.columnconfigure(0, weight=1)
-        self.columnconfigure(1, weight=2)
+        self.frame3.grid_columnconfigure(0, weight=1)
+        self.frame3.grid_columnconfigure(1, weight=1)
 
 
         self.b1 = Button(self.frame3, text="Show Image", command=self.show_plot).grid(column=0, row=0, columnspan=2)#self.show_plot(filename)).pack()
@@ -61,8 +55,19 @@ class filenamewindow3(LabelFrame):
         self.b2 = Button(self.frame3, text="Show All Images", command=self.open_img_viewer).grid(column=0, row=1, columnspan=2)
 
 
+    # NOT USED ANYWHERE - DELETE?
+    def button_clicked(self):
+        print('Button clicked')
+
     def open_img_viewer(self):
-        self.img_viewer_pop = filenamewindow5(self.draw.imgDB.images)
+        """ If the user has already produced images using the program, it will open the image viewer
+            pop up window.
+        """
+        if not self.imgdb.images:
+            fL.ErrorMessage = "No images have been produced yet."
+            self.popup_window() # Error pop up
+        else:
+            self.img_viewer_pop = imgviewPop(self.imgdb.images)
         # try:
         #     self.img_viewer_pop = filenamewindow5(self.draw.imgDB.images)
         # except Exception as e:
@@ -74,32 +79,34 @@ class filenamewindow3(LabelFrame):
         ErrorPopup(self.frame3)
 
     def show_plot(self):
-        c = self.load_data()
+        """ Plots based on selections made by user in previous frames. Accordingly, it will
+         create settings pop up windows.
+        """
         print("Selected option is " , fL.method)
-        #"Mean","PCA", "K-Means Clustering"
-        try:
+        if fL.Array.any():
+            
             if fL.method == "Mean":
                 print("Adding mean...")
-                img_mean = ImageMean(c)
-                self.draw.addImage(img_mean)
-                self.draw.displayImage(img_mean)
+                img_mean = ImageMean(fL.Array)
+                self.imgdb.addImage(img_mean)
+                self.imgdb.displayImage(img_mean)
 
             elif fL.method == "PCA":
                 self.pcaPop = pcaPop(self.pcdb, fL.Array,draw=self.imgdb)
 
             elif fL.method == "K-Means Clustering":
                 if bool(self.imgdb.images):
-                    self.KMClusterPop = KMClusterPop(self.draw.imgdb.images)
+                    self.KMClusterPop = KMClusterPop(self.imgdb.images)
                 else:
                     print('No images to work on')
                     #noImgPopup = NoImageForKMCPopup()
                     fL.ErrorMessage = "No images in memory. \n Please apply reduction method before KM-Clustering."
                     self.popup_window()
                     #To display erroPopup window if there is no image class which user can apply KMClustering method to
-        except Exception as e:
-            print("The error is: \n", e)
-            #fL.ErrorMessage = "Please select a 3D array and method of analysis."
-            #self.popup_window()
+        else:
+            #print("The error is: \n", e)
+            fL.ErrorMessage = "Please select a 3D array and method of analysis."
+            self.popup_window()
 
 
 
@@ -111,3 +118,6 @@ class filenamewindow3(LabelFrame):
         #if array and method not select, display warning message
         # if not fL.Array and fL.method:
         #     self.popup_window()
+            
+
+

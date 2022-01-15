@@ -9,6 +9,7 @@ import tkinter as tk
 from tkinter import ttk
 import os
 from ImagePCA import ImagePCA
+import matplotlib.pyplot as plt
 
 class pcaGraphs(Toplevel):
 
@@ -72,3 +73,4 @@ class pcaGraphs(Toplevel):
             # if self.is_error == True:
             #     self.no_select_error.grid_remove()
             #     self.is_error=False
+        plt.show()
