@@ -13,25 +13,18 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import axes3d
-import os
-import fileList as fL
+
 from plotInteract import PlotInteract
 
 class ImagePCA(Image):
 
     def __init__(self, array, pca):
         super().__init__(array)
+        self.name = self.name + '/PCA'
         self.pca = pca
         data = self.data
         data = data.reshape(len(data) * len(data[0]), len(data[0][0]))
         self.scores = self.pca.transform(data)  # reconstructed data
-        filename = (os.path.basename(fL.File)).rsplit(".", 1)[0]
-        self.name = str(filename) + '/' + str(fL.Array_name) + '/' + 'PCA'
-        self.img_name = self.name
-
-
-    def __repr__(self):
-        return self.img_name
 
     def return_Image(self, pc):  # Used for displaying an image in the given window
         # You have to specify the pc for which the image has to be displayed
@@ -39,31 +32,7 @@ class ImagePCA(Image):
         self.reshaped_score = np.reshape(score, (len(self.data), len(self.data[0])))
         self.img = self.reshaped_score
         return self.reshaped_score
-
-
-    def display(self,pc_n):
-        """Module allows for plot interaction"""
-
-        pc_n_text = 'PC'+str(pc_n)
-
-        self.img_name = self.name+'/'+pc_n_text
-        #for img in self.img:
-
-        fig, ax = plt.subplots()
-        fig.suptitle(self.img_name)
-        imgplt = plt.imshow(self.img)
-        plt.colorbar()
-
-        # Plot interaction and connect to event manager
-
-        show = PlotInteract(ax, self.data)
-        show.connect()
-        plt.show()
-
-    # def display(self): #For displaying image in a separate window
-    #     plt.imshow(self.img)
-    #     plt.colorbar()
-    #     plt.show()
+      
 
     def preview(self, pc):  # For dislaying image in a separate window (no navigation bar)
         self.img = self.return_Image(self, pc)
@@ -102,7 +71,7 @@ class ImagePCA(Image):
     def scree_plot(self):
         fig, ax = plt.subplots()
         fig.canvas.set_window_title('Image ' + self.name)
-
+        fig.suptitle('Scree plot')
         ax.plot(
             self.df_explained_variance['PC'],
             self.df_explained_variance['Cumulative Variance'],
@@ -117,14 +86,14 @@ class ImagePCA(Image):
             color='#98F5FF'
         )
         plt.legend()
-        plt.show()
+
 
     def scores_plot(self):
         if self.pca.n_components > 3:
             print('More than 3PCs')
             return True
         else:
-            fig = plt.figure()
+            fig = plt.figure(1)
             fig.canvas.set_window_title('Image ' + self.name)
 
             fig.suptitle('Scores plot')
@@ -133,7 +102,7 @@ class ImagePCA(Image):
                 ax = fig.add_subplot(111)
                 ax.plot(self.df_scores.PC1, ',', color='red')
                 ax.set_xlabel('PC1')
-                plt.show()
+
                 return False  # used for estimating whether there is more than 3PCs calculated
             elif self.pca.n_components == 2:
                 print('Two PCs')
@@ -144,7 +113,7 @@ class ImagePCA(Image):
                            )
                 ax.set_xlabel('PC1')
                 ax.set_ylabel('PC2')
-                plt.show()
+
                 return False
             elif self.pca.n_components == 3:
                 print('Three PCs')
@@ -156,12 +125,12 @@ class ImagePCA(Image):
                 ax.set_xlabel('PC1')
                 ax.set_ylabel('PC2')
                 ax.set_zlabel('PC3')
-                plt.show()
+
                 return False
 
     def scores_plt_higher_dim(self, bool, dim=2, pc_lst=['PC1', 'PC2']):
         if bool == True:
-            fig = plt.figure()
+            fig = plt.figure(2)
             fig.canvas.set_window_title('Image ' + self.name)
             fig.suptitle('Scores plot')
             if dim == 2:
@@ -173,7 +142,7 @@ class ImagePCA(Image):
                            )
                 ax.set_xlabel(pc_lst[0])
                 ax.set_ylabel(pc_lst[1])
-                plt.show()
+
             elif dim == 3:
                 print('3D')
                 ax = fig.add_subplot(111, projection='3d')
@@ -184,14 +153,14 @@ class ImagePCA(Image):
                 ax.set_xlabel(pc_lst[0])
                 ax.set_ylabel(pc_lst[1])
                 ax.set_zlabel(pc_lst[2])
-                plt.show()
+       
             else:
                 print('error')
 
     def loadings_plot(self):
         n = self.pca.n_components  # to estimate the number of PCs
         n_columns = (n + 3 - 1) // 3  # To estimate the # of subplots (columns)
-        fig = plt.figure()
+        fig = plt.figure(3)
         fig.canvas.set_window_title('Image ' + self.name)
         fig.suptitle('Loadings plots')
         for pc in range(n):
@@ -199,7 +168,7 @@ class ImagePCA(Image):
             PCidx = 'PC' + str(pc + 1)
             ax.plot(self.df_loadings[PCidx])
             ax.set_title(PCidx)
-        plt.show()
+
 
 ######## FOR TESTING OUT #####
 # matFile = mat73.loadmat('tissue_t3_1_workspace.mat') # .mat file must be in the same local directory

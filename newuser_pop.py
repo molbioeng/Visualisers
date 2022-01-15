@@ -1,9 +1,14 @@
 from tkinter import *
 from newuser_instructions import *
 
+"""
+Pop up that will appear when program is started. Based on user clicking on yes or no button,
+the newuser_instructions pop up will appear with full instructions on how to use the program. 
+"""
+
 class newuser_pop(Toplevel): #Create a window
     def __init__(self, master=None):
-        #using toplevel to create a new window that isn't root
+        #using toplevel to create a new window that isn't app
         Toplevel.__init__(self, master)
         self.title("Welcome")
         self.geometry('300x120')
@@ -24,6 +29,9 @@ class newuser_pop(Toplevel): #Create a window
         self.yes_btn.grid(column=1, row=1, padx=10, pady=10)
 
     def openInstructions(self):
+        """
+        Creates newuser_instructions pop up window and destroys the current pop up window.
+        """
         b = ft_instructions()
         self.destroy()
 

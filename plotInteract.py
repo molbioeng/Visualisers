@@ -10,14 +10,12 @@ and indicators for what pixel is currently being selected.
 
 
 import matplotlib.pyplot as plt
-import numpy as np
 from matplotlib.patches import Rectangle
-import mat73
 
 class PlotInteract:
     def __init__(self, ax, data):
-        #self.title = name
-
+        """Constructor - take in data for the plot and Raman spectra, initialise 
+        the square and background"""
         self.ax = ax
         self.data = data
         self.text = ax.text(0.7, 0.95, '', transform=ax.transAxes, color = 'w')
@@ -66,5 +64,5 @@ class PlotInteract:
         self.ax.figure.canvas.restore_region(self.background)
         self.ax.draw_artist(self.text)
         self.ax.draw_artist(self.square)
-        self.ax.figure.canvas.blit(self.ax.bbox)
+        self.ax.figure.canvas.blit(self.ax.bbox) #blitting - rectangle on background image
 

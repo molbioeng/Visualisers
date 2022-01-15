@@ -19,9 +19,15 @@ import numpy as np
 
 import fileList as fL
 
-#IMAGE VIEWER FRAME - VIEW THROUGH ALL IMAGES PRODUCED USING THE APP
+#IMAGE VIEWER POP - VIEW THROUGH ALL IMAGES PRODUCED USING THE APP
 
-class filenamewindow5(Toplevel):
+"""
+Pop up window with display of all images in image database (ImageDB). The display is mouse click sensitive, if 
+clicked it will create a pop up of the same image in its matplotlib interactive version.  
+"""
+
+
+class imgviewPop(Toplevel):
     #constructor
     def __init__(self, imgDB, master=None):
         # using toplevel to create a new window that isn't root
@@ -31,8 +37,8 @@ class filenamewindow5(Toplevel):
         self.geometry('600x400')
 
         # CONFIGURING GRID GEOMETRY OF WINDOW
-        self.columnconfigure(0, weight=1)
-        self.columnconfigure(1, weight=1)
+        self.grid_columnconfigure(0, weight=1)
+        self.grid_columnconfigure(1, weight=1)
 
         # Variables
         self.imgDB = imgDB
@@ -48,42 +54,32 @@ class filenamewindow5(Toplevel):
 
         #index
         self.index = 0
-
-        # THE CONSTRUCTOR BELOW WAS TO HAVE THIS AS A FRAME IN THE APP WINDOW
-    #def __init__(self, container, imgDB):
-        #super().__init__(container)
-        #constructing frame4
-        #self.imgframe = LabelFrame(container, text = "View All Images Produced", bg = "white", padx=120, pady=50)
-        #self.imgframe.grid(row=8, column=0, sticky="NSEW")
-
-        
-        #self.imgList = list(imgDB.values())
-        #imgdb[name]
         
         self.fig = Figure()
         self.fig.suptitle(self.imgDB_names[0])
         self.a = self.fig.add_subplot(111)
         self.a.axis('off')
         self.canvas_preview = FigureCanvasTkAgg(self.fig, self)
+        # the next line allows the plot to be mouse click sensitive, and execute self.onclick_display
+        # when there is a mouse button click on the plot
         self.canvas_preview.mpl_connect('button_press_event', self.onclick_display)
         
-        if imgDB:
-            self.imgList = list(imgDB.values())
-            self.image = self.imgList[self.index]
-            self.image = self.image.img
-            print("these are the objects in imgDB", self.imgList)
-
-            # PLOTTING
-            mappable = self.a.imshow(self.image)
-            self.fig.colorbar(mappable)
-            self.canvas_preview.draw()
-            self.canvas_preview.get_tk_widget().grid(column=0, row=0, columnspan=2, sticky='EW')
-            self.canvas_preview.get_tk_widget().configure(bg="grey")
-            
-        else:
-            print("no Image yet")
+        self.imgList = list(imgDB.values())
+        self.image = self.imgList[self.index]
+        # The next line is necessary because .img allows us to access the actual array which is needed
+        # for a.imshow plotting
+        self.image = self.image.img
+        
+        # PLOTTING
+        mappable = self.a.imshow(self.image)
+        self.fig.colorbar(mappable)
+        self.canvas_preview.draw()
+        self.canvas_preview.get_tk_widget().grid(column=0, row=0, columnspan=2, sticky='EW')
 
     def back(self):
+        """Command for backwards button, allowing us to change position in the list of image objects
+        by going to previous object and plotting accordingly"""
+        # If statement accounting for being at first position in index
         if self.index == 0:
             pass
         else:
@@ -95,13 +91,12 @@ class filenamewindow5(Toplevel):
 
             self.canvas_preview.draw()
             self.canvas_preview.get_tk_widget().grid(column=0, row=0, columnspan=2, sticky='EW')
-            self.canvas_preview.get_tk_widget().configure(bg="grey")
-
-        #self.fig.clear()
         return
 
     def forward(self):
-        #self.canvas_preview.clear()
+        """Command for forwards button, allowing us to change position in the list of image objects
+        by going to next object and plotting accordingly"""
+        # If statement accounting for being at last position in index
         if self.index == len(self.imgList)-1:
             pass
         else:
@@ -112,16 +107,11 @@ class filenamewindow5(Toplevel):
             self.a.imshow(self.image)
             self.canvas_preview.draw()
             self.canvas_preview.get_tk_widget().grid(column=0, row=0, columnspan=2, sticky='EW')
-            self.canvas_preview.get_tk_widget().configure(bg="grey")
         return
 
     def onclick_display(self, event):
-        print("this has been clicked")
+        """Command connected to mouse click event, produces the interactive plot from which you
+        can get raw Raman spectra if user clicks mouse button on canvas"""
         self.image = self.imgList[self.index]
-        if type(self.image) is ImagePCA.ImagePCA:
-            pc_n_str = str(self.image)
-            pc_n = int(pc_n_str[-1])
-            print(pc_n)
-            self.image.display(pc_n)
-        else:
-            self.image.display()
+        # Produces the interactive plot from which you can get raw Raman spectra
+        self.image.display()

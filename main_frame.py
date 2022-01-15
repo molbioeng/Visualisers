@@ -1,5 +1,10 @@
 from tkinter import *
 
+"""
+Frame designed to enable integration of a vertical scrollbar on main app window, as well as configuring a
+grid that can be used to plot other frames onto the main app window.
+"""
+
 class main_frame(Frame):
     def __init__(self, container):
         super().__init__(container)
@@ -15,23 +20,20 @@ class main_frame(Frame):
 
         # Configure the Canvas
         self.scroll_canvas.configure(yscrollcommand=self.scrollbar.set)
-        # lambda e -> we are passing an event eg. mouse clicking
-        self.scroll_canvas.bind('<Configure>',
-                                lambda e: self.scroll_canvas.configure(scrollregion=self.scroll_canvas.bbox("all")))
+        # lambda e -> we are passing an event
+        self.scroll_canvas.bind('<Configure>', lambda e: self.scroll_canvas.configure(scrollregion=self.scroll_canvas.bbox("all")))
 
         # Create ANOTHER Frame INSIDE the Canvas
         self.second_frame = Frame(self.scroll_canvas)
-        # configuration of grid on frame
+        # Configuration of grid on second_frame
         self.second_frame.grid_columnconfigure(0, weight=1)
-        #self.second_frame.grid_columnconfigure(1, weight=1)
-        #self.second_frame.columnconfigure(2, weight=1)
 
-        # Add that New frame to a Window in the Canvas
+        # Add that second_frame to a Window in the Canvas
         self.scroll_canvas.create_window((0, 0), window=self.second_frame, anchor="nw")
 
         # Expands frames to the size of container
         self.pack(fill=BOTH, expand=1)
 
-        # Add logo at the top of second_frame
+        # Add Logo at the top of second_frame
         self.logo = PhotoImage(file='logo.png')
         self.logo_lb = Label(self.second_frame, image=self.logo).grid(row=0, column=0, columnspan=2, sticky="nsew")
