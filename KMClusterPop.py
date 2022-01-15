@@ -65,24 +65,24 @@ class KMClusterPop(Toplevel):
         # self.rb_3.grid(column=0, row=6)
 
         # #ENTRY WIDGET
-        # self.input_widget = Entry(self)
-        # self.input_widget.grid(column=0,row=7, pady=20)
-        # # self.input_widget.delete()
+        self.input_widget = Entry(self)
+        self.input_widget.grid(column=0,row=4, pady=20)
+        # self.input_widget.delete()
 
-        # # add text inside the box of the input field
-        # self.placeholder = "Enter number of clusters" #Used as instruction text for entry widget
-        # self.add() #Display instruction text inside the box
-        # self.input_widget.bind('<FocusIn>',self.erase) #Used to remove the text when clicked
-        # self.input_widget.bind('<FocusOut>',self.add)
+        # add text inside the box of the input field
+        self.placeholder = "Enter number of clusters" #Used as instruction text for entry widget
+        self.add() #Display instruction text inside the box
+        self.input_widget.bind('<FocusIn>',self.erase) #Used to remove the text when clicked
+        self.input_widget.bind('<FocusOut>',self.add)
         
-        # SLIDER
-        self.horizontal = Scale(root, from_=0, to=20, orient=HORIZONTAL)
-        self.horizontal.grid(column=0, row=3, sticky='ew') ##pack(side=BOTTOM, fill=BOTH)
+        # # SLIDER
+        # self.horizontal = Scale(root, from_=0, to=20, orient=HORIZONTAL)
+        # self.horizontal.grid(column=0, row=3, sticky='ew') ##pack(side=BOTTOM, fill=BOTH)
 
-        # .get() gives you value slider is at
-        # doesn't change automatically if you change slider, need a function
-        self.label = Label(root,text=self.horizontal.get())
-        self.label.grid(column=0, row=4, sticky='nsew')
+        # # .get() gives you value slider is at
+        # # doesn't change automatically if you change slider, need a function
+        # self.label = Label(root,text=self.horizontal.get())
+        # self.label.grid(column=0, row=4, sticky='nsew')
         
         
 
@@ -99,24 +99,29 @@ class KMClusterPop(Toplevel):
         self.selected_img = self.imgDB[self.iM_var.get()]
         #self.label['text'] = "Selected image is: " + str(self.selected_img)
         print('This is selected img: '+str(self.selected_img))
+        
+    def check_input(self):
+        self.chosen_cluster_n = self.input_widget.get()
+        self.chosen_cluster_n = self.chosen_cluster_n.replace(" ", "")
+        #self.chosen_cluster_n = self.horizontal.get()
+        if self.chosen_cluster_n =='':
+            print('nothing there')
+            return 0
+        elif self.chosen_cluster_n.isdecimal():
+            print('it is a number')
+            self.n_cluster_int=int(self.chosen_cluster_n)
+            if self.n_cluster_int >= 20: self.n_cluster_int = 20
+            return 1
+        else:
+            print('not number')
+            return 0
 
     def display_clustered_img(self):
-        #self.chosen_cluster_n = self.input_widget.get()
-        #self.chosen_cluster_n = self.chosen_cluster_n.replace(" ", "")
-        self.chosen_cluster_n = self.horizontal.get()
-        # if self.chosen_cluster_n =='':
-        #     print('nothing there')
-        # elif self.chosen_cluster_n.isdecimal():
-        #     print('it is a number')
-        #     n_cluster_int=int(self.chosen_cluster_n)
-            #self.clustered_img = ImageKMCluster(data=self.selected_img.data, array=self.selected_img.img,n_clusters=n_cluster_int)
-        self.clustered_img = ImageKMCluster(self.selected_img.img, self.chosen_cluster_n)
-        self.clustered_img.display()
-        self.imgDB.addImage(self.clustered_img)
-        self.destroy()
-
-        # else:
-        #     print('not number')
+        if self.check_input():
+            self.clustered_img = ImageKMCluster(self.selected_img.img, self.n_cluster_int)
+            self.clustered_img.display()
+            self.imgDB.addImage(self.clustered_img)
+            self.destroy()
 
     def is_imgPCA(self):
         if type(self.selected_img) is ImagePCA:
@@ -144,26 +149,20 @@ class KMClusterPop(Toplevel):
             self.input_widget.insert(0,self.placeholder)
 
     def preview(self):
-        self.chosen_cluster_n = self.horizontal.get()
-        #self.chosen_cluster_n = self.input_widget.get()
-        # if self.chosen_cluster_n =='':
-        #     print('nothing there')
-        # elif self.chosen_cluster_n.isdecimal():
-        f = Figure()
-        a = f.add_subplot(111)
-        a.axis('off')
-        self.canvas_preview = FigureCanvasTkAgg(f, self)
+        if self.check_input():
+            f = Figure()
+            a = f.add_subplot(111)
+            a.axis('off')
+            self.canvas_preview = FigureCanvasTkAgg(f, self)
 
-            #n_cluster_int=int(self.chosen_cluster_n)
+            clustered_img = ImageKMCluster(array=self.selected_img.img,n_clusters=self.n_cluster_int)
+            img_to_show = clustered_img.return_r_data()#reconstructed datapoints
+            a.imshow(img_to_show)
 
-        clustered_img = ImageKMCluster(array=self.selected_img.img,n_clusters=self.chosen_cluster_n)
-        img_to_show = clustered_img.return_r_data()#reconstructed datapoints
-        a.imshow(img_to_show)
-
-        self.canvas_preview.draw()
-        self.canvas_preview.get_tk_widget().grid(column=1, row=3,columnspan=2, rowspan=6, sticky='EW')
-        self.canvas_preview.get_tk_widget().configure(bg="grey")
-        self.resize()
+            self.canvas_preview.draw()
+            self.canvas_preview.get_tk_widget().grid(column=1, row=3,columnspan=2, rowspan=6, sticky='EW')
+            self.canvas_preview.get_tk_widget().configure(bg="grey")
+            self.resize()
 
     def resize(self):
         #400x600
