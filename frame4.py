@@ -5,7 +5,7 @@ import numpy as np
 import fileList as fL
 from ErrorPopupWindows import ErrorPopup
 
-#FRAME 2 – SELECTING 3D ARRAY
+#FRAME 4 – SELECTING 3D ARRAY
 
 """
 The second frame on the main app window. Checks that the file selected by user is a .mat file that can be loaded

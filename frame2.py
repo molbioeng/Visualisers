@@ -1,7 +1,7 @@
 from tkinter import *
 import fileList as fL
 
-#FRAME 3 – METHOD SELECTION
+#FRAME 2 – METHOD SELECTION
 
 """
 The third frame on the main app window. Allows user to select data reduction method of choice.

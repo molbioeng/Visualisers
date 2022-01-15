@@ -7,12 +7,8 @@ from KMClusterPop import KMClusterPop
 from ImageMean import ImageMean
 from ImageViewerPop import *
 
-#FRAME 3 - SHOW 2D IMAGE
 
-#import mat73
-#import scipy.io as sio
-
-# FRAME 4 - PLOTTING
+# FRAME 3 - PLOTTING
 
 """
 The final frame on the main app window. Allows user to display an interactive image, generated based on selections made 
