@@ -12,4 +12,6 @@ class PrincipalComponentDB(object):
 
     #Constructor
     def __init__(self):
-        self.principalComponents = {} #List of principal components
+        self.principalComponents = {} #Dictionary of principal components
+        # Keys - names of objects
+        # Values - objects themselves 

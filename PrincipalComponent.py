@@ -5,29 +5,33 @@ Created on Wed Dec 22 17:09 2021
 Class for all PCs calculated from an input dataset
 """
 import os
-
 from sklearn.decomposition import PCA
 import fileList as fL
 import numpy as np
 
-
-# #For testing:
-# import mat73
-
 class PrincipalComponent:
     def __init__(self, array, goal_var=0.99):
-        # TODO: SET UP ERROR HANDLING FOR GOAL_VAR
-        # loadings database variable
+        '''
+        TODO:
+        goal_var - amount of variance that needs to be explained.
+        The goal_var would be used in the future by the program to create all PCs that would fit data
+        within this percentage.
 
-        npArray = np.array(array) #transform into numpy array
-        data = npArray.reshape(len(npArray)*len(npArray[0]),len(npArray[0][0])) #Convert 3D array to 2D array NxP
-        # self.pca = PCA(3) #3 PCs
-        # self.pca = PCA(n_components=0.99) #all possible PCs
-        pca = PCA(n_components=None) #all possible PCs
-        X_pca =pca.fit(data)
+        For now, the program is set up to do PC analysis only using the first 3 most important principal components.
+        '''
 
-        pca_var_ratio = X_pca.explained_variance_ratio_   #Retrieve explained variance for each PC
 
+        array = np.array(array) #transform into numpy array
+        data = array.reshape(len(array)*len(array[0]),len(array[0][0])) #Convert 3D array to 2D array NxP
+
+        pca = PCA(n_components=None) #first, compute all possible PCs that can explained on the given data
+        fitted_pca_all =pca.fit(data)
+
+        pca_var_ratio = fitted_pca_all.explained_variance_ratio_   #Retrieve explained variance for each PC
+
+        # Code below will calculate the amount of PCs that need to by computed given the goal_var set by the user
+
+        ########################################################################
         #Set initial variance explained so far
         total_variance = 0.0
 
@@ -46,22 +50,26 @@ class PrincipalComponent:
             if total_variance >=goal_var:
                 #End the loop
                 break
-
-        #TO REMOVE LATER##########
+        ########################################################################
+        ########################## Hard-coded setting to 3 PCs:
         self.n_components =  3
         ##########################
         self.pca = PCA(n_components=self.n_components)
-        self.X_pca = self.pca.fit(data)
-        self.loadings = self.X_pca.components_.T #Retrieve the loadings values
-        filename = (os.path.basename(fL.File)).rsplit(".", 1)[0]
+        self.fit_pca = self.pca.fit(data)
 
+        self.loadings = self.fit_pca.components_.T #Retrieve the loadings values
+        # loadings = princiapl components
+
+        self.explained_variance = self.fit_pca.explained_variance_ratio_
+
+        ### Create a name of the object
+        # The name consist of the name of the file and the name of the array where the original dataset comes from
+        filename = (os.path.basename(fL.File)).rsplit(".", 1)[0]
         self.name = str(filename)+ '/' + str(fL.Array_name)
 
-        self.explained_variance = self.X_pca.explained_variance_ratio_
-
-    def __repr__(self):
+    def __repr__(self): # used to print out a name of PC
         return self.name
 
-    def transform(self,array):
-        r_data = self.X_pca.transform(array)
+    def transform(self,array): #Used in ImagePCA class to reconstruct data
+        r_data = self.fit_pca.transform(array) #from sklearn.decomposition module
         return r_data
