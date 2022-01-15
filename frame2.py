@@ -30,7 +30,6 @@ class filenamewindow2(LabelFrame):
 
         self.var2.set(self.options[0]) #.index())
 
-        print("method in frame 2 is...",fL.method)
 
         # Variable to keep track of the option selected in OptionMenu
         self.drop2 = OptionMenu(self.frame2, self.var2, *self.options)

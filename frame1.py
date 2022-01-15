@@ -74,7 +74,6 @@ class filenamewindow(LabelFrame):
         """ Sets fL.File variable to the filename chosen by user, produces a confirmation message on
         the window """
         fL.File = self.value_inside.get()
-        #fL.arrdb = None
         if not fL.File:
             fL.ErrorMessage = "Please open a MATLAB file."
             self.popup_window()
@@ -82,6 +81,5 @@ class filenamewindow(LabelFrame):
             self.label['text'] = str(fL.File + " Selected")
         
             #Update Array browser
-            print("Updating from frame 1")
             self.controller.filenamewindow4.update()
 

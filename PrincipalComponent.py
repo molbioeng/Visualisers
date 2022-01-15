@@ -20,8 +20,8 @@ class PrincipalComponent:
         For now, the program is set up to do PC analysis only using the first 3 most important principal components.
         '''
 
-
-        array = np.array(array) #transform into numpy array
+        self.name = array[0]
+        array = np.array(array[1]) #transform into numpy array
         data = array.reshape(len(array)*len(array[0]),len(array[0][0])) #Convert 3D array to 2D array NxP
 
         pca = PCA(n_components=None) #first, compute all possible PCs that can explained on the given data
@@ -64,10 +64,6 @@ class PrincipalComponent:
 
         self.explained_variance = self.fit_pca.explained_variance_ratio_
 
-        ### Create a name of the object
-        # The name consist of the name of the file and the name of the array where the original dataset comes from
-        filename = (os.path.basename(fL.File)).rsplit(".", 1)[0]
-        self.name = str(filename)+ '/' + str(fL.Array_name)
 
     def __repr__(self): # used to print out a name of PC
         return self.name
