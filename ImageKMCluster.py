@@ -14,14 +14,13 @@ class ImageKMCluster(Image):
     def __init__(self, image, n_clusters): #inputs projected data and outputs projected data that is grouped into clusters
         super().__init__((image.name, image.data))
         self.name = self.name + '/'+'KMCluster'+str(n_clusters)
-        #The user has to specify the number of clusters for analysis. By default. it's 10
-        # kmeans = KMeans(n_clusters,random_state=0).fit(np.array.reshape(-1,1))
+        #The name would consist of number of clusters used for analysis.
+        
         kmeans = KMeans(n_clusters,random_state=0).fit(np.reshape(image.img,(-1,1)))
+        #Data is reshaped into one single columns for analysis
         clustered_score = kmeans.labels_
         self.img=clustered_score.reshape([len(image.img),len(image.img[0])])
-
+        #In order to display, data has to be reshaped back
 
     def return_r_data(self):
         return self.img
-
-

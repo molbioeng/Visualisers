@@ -18,9 +18,6 @@ class pcaGraphs(Toplevel):
         self.image = pca_image
         self.image.data_frames() #To get access to all data inside the image
 
-        # self.is_error = False #Used to switch error labels when the user does not select anything
-        # self.no_select_error = Label(self, text = "None of the graphs has been selected.", fg='red')
-
         Toplevel.__init__(self, master)
         self.geometry('400x500')
         self.title("Principal Component Analysis")
@@ -52,25 +49,15 @@ class pcaGraphs(Toplevel):
         if self.cb_var1.get()==0 and self.cb_var2.get()==0 and self.cb_var3.get()==0:
             no_select_error = Label(self, text = "None of the graphs has been selected.", fg='red')
             no_select_error.grid(column=0,row=6, pady=(0,15))
-            print('Nothing has been selected')
-            # self.is_error = True
-
+    
         if self.cb_var1.get() == 1:
-            print('Scree plot selected')
             self.image.scree_plot()
-            # if self.is_error == True:
-            #     self.no_select_error.grid_remove()
-            #     self.is_error=False
+
+
         if self.cb_var2.get() == 1:
-            print('Scores plot selected')
             self.image.scores_plot()
-            # if self.is_error == True:
-            #     self.no_select_error.grid_remove()
-            #     self.is_error=False
+
         if self.cb_var3.get() == 1:
             self.image.loadings_plot()
-            print('Loadings plot selected')
-            # if self.is_error == True:
-            #     self.no_select_error.grid_remove()
-            #     self.is_error=False
+
         plt.show()

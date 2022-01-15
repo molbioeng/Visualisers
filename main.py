@@ -31,7 +31,9 @@ class MainApp(tk.Tk):
     """App class, used OOP to pass information between the frames"""
     def __init__(self, *args, **kwargs):
         tk.Tk.__init__(self, *args, **kwargs)
-        
+
+        self.title('Visualize')
+        self.geometry('850x550')
         frame = main_frame(self)
 
         # Set a menu bar so users can access the instructions again
@@ -44,36 +46,38 @@ class MainApp(tk.Tk):
         # New user pop up
         a = newuser_pop(master=self)
         a.wm_attributes("-topmost", 1) # allows the newuser_pop to appear above the app window
+
         
         self.geometry('850x550')
         
         ###THE FRAMES OF THE APP###
+
         ################################################################################
         #FRAME 1
-        
-        
+
+
         self.filenamewindow1=filenamewindow(frame.second_frame, self)
-        
+
         ################################################################################
         #FRAME 4 – 3D array selection
-        
+
         self.filenamewindow4=filenamewindow4(frame.second_frame, self)
-        
+
         ################################################################################
         #FRAME 2
-        
-        
+
+
         self.filenamewindow2=filenamewindow2(frame.second_frame, self)
-        
+
         ################################################################################
         #FRAME 3
-        
-        
+
+
         self.filenamewindow3=filenamewindow3(frame.second_frame, self)
-        
+
     def instructions(self):
         a = ft_instructions()
-        
+
 
 if __name__ == "__main__":
     """Create MainApp object and loop through it"""
