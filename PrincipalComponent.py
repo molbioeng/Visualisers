@@ -37,6 +37,7 @@ class PrincipalComponent:
 
         pca_var_ratio = fit_pca_all.explained_variance_ratio_   #Retrieve explained variance for each PC
 
+        ########################################################################
         #Set initial variance explained so far
         total_variance = 0.0
 
