@@ -23,8 +23,6 @@ class main_frame(Frame):
         self.second_frame = Frame(self.scroll_canvas)
         # configuration of grid on frame
         self.second_frame.grid_columnconfigure(0, weight=1)
-        #self.second_frame.grid_columnconfigure(1, weight=1)
-        #self.second_frame.columnconfigure(2, weight=1)
 
         # Add that New frame to a Window in the Canvas
         self.scroll_canvas.create_window((0, 0), window=self.second_frame, anchor="nw")

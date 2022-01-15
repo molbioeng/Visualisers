@@ -17,11 +17,11 @@ class filenamewindow2(LabelFrame):
 
     def __init__(self, container):
         super().__init__(container)
-        self.frame2 = LabelFrame(container, text = "Select method", bg = "white", padx = 120, pady = 50) # Constructing the second frame, frame2
+        self.frame2 = LabelFrame(container, text = "Select method", bg = "white", padx=120, pady=50, width=300) # Constructing the second frame, frame2
 
         # configuration of grid on frame
-        self.columnconfigure(0)
-        self.columnconfigure(1)
+        self.frame2.grid_columnconfigure(0,weight = 1)
+        self.frame2.grid_columnconfigure(1, weight=1)
 
         # Displaying the frame2 in row 0 and column 1
         self.frame2.grid(column=0, row=3, sticky="nsew")
@@ -48,3 +48,5 @@ class filenamewindow2(LabelFrame):
     def show(self):
         fL.method = self.var2.get()
         self.label['text'] = str(fL.method + " Selected")
+
+### TESTING ###

@@ -67,21 +67,18 @@ class filenamewindow5(Toplevel):
         self.canvas_preview = FigureCanvasTkAgg(self.fig, self)
         self.canvas_preview.mpl_connect('button_press_event', self.onclick_display)
         
-        if imgDB:
-            self.imgList = list(imgDB.values())
-            self.image = self.imgList[self.index]
-            self.image = self.image.img
-            print("these are the objects in imgDB", self.imgList)
-
-            # PLOTTING
-            mappable = self.a.imshow(self.image)
-            self.fig.colorbar(mappable)
-            self.canvas_preview.draw()
-            self.canvas_preview.get_tk_widget().grid(column=0, row=0, columnspan=2, sticky='EW')
-            self.canvas_preview.get_tk_widget().configure(bg="grey")
+        self.imgList = list(imgDB.values())
+        self.image = self.imgList[self.index]
+        self.image = self.image.img
+        print("these are the objects in imgDB", self.imgList)
+        
+        # PLOTTING
+        mappable = self.a.imshow(self.image)
+        self.fig.colorbar(mappable)
+        self.canvas_preview.draw()
+        self.canvas_preview.get_tk_widget().grid(column=0, row=0, columnspan=2, sticky='EW')
+        self.canvas_preview.get_tk_widget().configure(bg="grey")
             
-        else:
-            print("no Image yet")
 
     def back(self):
         if self.index == 0:
@@ -118,10 +115,4 @@ class filenamewindow5(Toplevel):
     def onclick_display(self, event):
         print("this has been clicked")
         self.image = self.imgList[self.index]
-        if type(self.image) is ImagePCA.ImagePCA:
-            pc_n_str = str(self.image)
-            pc_n = int(pc_n_str[-1])
-            print(pc_n)
-            self.image.display(pc_n)
-        else:
-            self.image.display()
+        self.image.display()

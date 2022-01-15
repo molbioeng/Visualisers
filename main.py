@@ -40,8 +40,6 @@ fL.init()
 
 filenamewindow1=filenamewindow(frame.second_frame)
 
-#filename="tissue_t3_2_workspace_old.mat"
-#print(filename)
 
 ################################################################################
 
@@ -63,7 +61,6 @@ filenamewindow3=filenamewindow3(frame.second_frame)
 
 #Image Viewer Frame
 #filenamewindow5(frame.second_frame, imgDB=filenamewindow3.draw.imgDB.images)
-
 
 
 # Make the loop for displaying app

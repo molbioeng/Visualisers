@@ -22,7 +22,7 @@ import numpy as np
 from ImagePCA import ImagePCA
 from PrincipalComponentDB import*
 import fileList as fL
-import pcaGraphs
+from pcaGraphs import pcaGraphs
 
 
 
@@ -200,7 +200,7 @@ class pcaPop(Toplevel):  # Create a window
             self.destroy()
             self.pcaGraphs = pcaGraphs(self.image)
             self.pcdb[self.pca_t3.name] = self.pca_t3
-            self.image.name = self.image.name + '/' + str(self.rb_var.get()+1)
+            self.image.name = self.image.name + '/' + str(self.rb_var.get())
             self.imgdb.addImage(self.image)
             self.image.display()
 

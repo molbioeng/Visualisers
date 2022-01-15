@@ -8,7 +8,6 @@ Class for all of the Raman images reduced by K-means Clustering
 from Image import Image
 import numpy as np
 from sklearn.cluster import KMeans
-import matplotlib.pyplot as plt
 
 
 class ImageKMCluster(Image):
@@ -17,7 +16,7 @@ class ImageKMCluster(Image):
         self.name = self.name + '/'+'KMCluster'+str(n_clusters)
         #The user has to specify the number of clusters for analysis. By default. it's 10
         # kmeans = KMeans(n_clusters,random_state=0).fit(np.array.reshape(-1,1))
-        kmeans = KMeans(n_clusters,random_state=0).fit(np.reshape(par.img,(-1,1)))
+        kmeans = KMeans(n_clusters,random_state=0).fit(np.reshape(array,(-1,1)))
         clustered_score = kmeans.labels_
         self.img=clustered_score.reshape([len(array),len(array[0])])
 
