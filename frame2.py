@@ -1,12 +1,4 @@
-# import the tkinter library
 from tkinter import *
-from PIL import ImageTk, Image
-from tkinter import filedialog
-import tkinter
-
-from tkinter import filedialog as fd
-from tkinter.messagebox import showinfo
-
 import fileList as fL
 
 #FRAME 3 – METHOD SELECTION
@@ -55,4 +47,3 @@ class filenamewindow2(LabelFrame):
         fL.method = self.var2.get()
         self.label['text'] = str(fL.method + " Selected")
 
-### TESTING ###
