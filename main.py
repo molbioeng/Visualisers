@@ -20,6 +20,7 @@ from frame3 import filenamewindow3
 from frame4 import filenamewindow4
 from ImageViewerPop import imgviewPop
 
+
 import fileList as fL
 
 # Create a GUI app
@@ -34,15 +35,12 @@ a.wm_attributes("-topmost", 1) # allows the newuser_pop to appear above the app 
 fL.init()
 
 ################################################################################
-
 #FRAME 1
 
 
 filenamewindow1=filenamewindow(frame.second_frame)
 
-
 ################################################################################
-
 #FRAME 4 – 3D array selection
 
 filenamewindow4=filenamewindow4(frame.second_frame)

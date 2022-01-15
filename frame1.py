@@ -1,14 +1,6 @@
-# Import the tkinter library
-import tkinter
-
 from tkinter import *
 from tkinter import filedialog as fd
-from tkinter.messagebox import showinfo
-from PIL import ImageTk, Image
-import os
-
 import fileList as fL
-from frame4 import filenamewindow4
 from ErrorPopupWindows import ErrorPopup
 
 #FRAME 1 – OPEN AND SELECT FILE
@@ -79,7 +71,7 @@ class filenamewindow(LabelFrame):
 
     def select_from_list(self):
         """ Sets fL.File variable to the filename chosen by user, produces a confirmation message on
-        the widnow """
+        the window """
         fL.File = self.value_inside.get() 
         if not fL.File:
             fL.ErrorMessage = "Please open a MATLAB file."
@@ -87,6 +79,6 @@ class filenamewindow(LabelFrame):
         else:
             self.label['text'] = str(fL.File + " Selected")
 
-    # THIS FUNCTION IS NOT USED ANYWHERE HERE - DELETE?F
-    def get_filename(self):
-        return self.value_inside
+    # THIS FUNCTION IS NOT USED ANYWHERE HERE - DELETE?
+   # def get_filename(self):
+     #   return self.value_inside

@@ -1,15 +1,7 @@
-# import the tkinter library
 from tkinter import *
-from PIL import ImageTk, Image
-from tkinter import filedialog
-import tkinter
-
-from tkinter import filedialog as fd
-from tkinter.messagebox import showinfo
-
 import fileList as fL
 
-#FRAME 3 – METHOD SELECTION
+#FRAME 2 – METHOD SELECTION
 
 """
 The third frame on the main app window. Allows user to select data reduction method of choice.
@@ -53,4 +45,3 @@ class filenamewindow2(LabelFrame):
         fL.method = self.var2.get()
         self.label['text'] = str(fL.method + " Selected")
 
-### TESTING ###
