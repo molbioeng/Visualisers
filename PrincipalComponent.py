@@ -18,8 +18,8 @@ class PrincipalComponent:
     def __init__(self, array, goal_var=0.99):
         # TODO: SET UP ERROR HANDLING FOR GOAL_VAR
         # loadings database variable
-
-        npArray = np.array(array) #transform into numpy array
+        self.name = array[0]
+        npArray = np.array(array[1]) #transform into numpy array
         data = npArray.reshape(len(npArray)*len(npArray[0]),len(npArray[0][0])) #Convert 3D array to 2D array NxP
         # self.pca = PCA(3) #3 PCs
         # self.pca = PCA(n_components=0.99) #all possible PCs
@@ -55,7 +55,7 @@ class PrincipalComponent:
         self.loadings = self.X_pca.components_.T #Retrieve the loadings values
         filename = (os.path.basename(fL.File)).rsplit(".", 1)[0]
 
-        self.name = str(filename)+ '/' + str(fL.Array_name)
+        
 
         self.explained_variance = self.X_pca.explained_variance_ratio_
 

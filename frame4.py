@@ -109,12 +109,18 @@ class filenamewindow4(LabelFrame):
     #     fL.Array_name = self.var4.get()
     #     self.label['text'] = str(fL.Array_name + " Selected")
     #     #print(fL.Array)
+    def check_ArrayDB(self,name, array):
+        if name not in fL.arrdb.arrays.keys():
+            fL.arrdb.addArray(array, name)
+        fL.arrdb.current_array = name
+
 
     def confirm(self):
         try:
-            fL.Array = fL.Data[self.var4.get()]
-            fL.Array_name = self.var4.get()
-            self.label['text'] = str(fL.Array_name + " Selected")
+            name = self.var4.get()
+            self.label['text'] = str(self.var4.get() + " Selected")
+            name = (os.path.basename(fL.File)).rsplit(".", 1)[0] + '/' + name
+            self.check_ArrayDB(name, fL.Data[self.var4.get()])
         except KeyError as e:
             print("KeyError:", e)
             fL.ErrorMessage = "Please select a 3D array from the drop-down menu."
