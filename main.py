@@ -18,7 +18,7 @@ from frame1 import filenamewindow
 from frame2 import filenamewindow2
 from frame3 import filenamewindow3
 from frame4 import filenamewindow4
-from ImageViewerFrame import filenamewindow5
+from ImageViewerPop import filenamewindow5
 
 import fileList as fL
 
@@ -28,7 +28,7 @@ frame = main_frame(app)
 
 # new user pop up
 a = newuser_pop(master=app)
-a.wm_attributes("-topmost", 1)
+a.wm_attributes("-topmost", 1) # allows the newuser_pop to appear above the app window
 
 #Global variables
 fL.init()

@@ -24,11 +24,15 @@ from PrincipalComponentDB import*
 import fileList as fL
 from pcaGraphs import pcaGraphs
 
-
+"""
+Pop up window that enables user to select the settings for PCA data reduction and plotting.
+They can either plot based on PCs calculated for a previous data set or generate new ones for the current
+data set. 
+"""
 
 class pcaPop(Toplevel):  # Create a window
     def __init__(self, pcdb, data, draw, master=None):
-        # using toplevel to create a new window that isn't root
+        # using toplevel to create a new window that isn't app
         Toplevel.__init__(self, master)
         # configuring the pop up window
         self.title("PCA Settings")
@@ -53,6 +57,8 @@ class pcaPop(Toplevel):  # Create a window
         buttonX = ttk.Button(self, text="Submit", command=self.submit)
         buttonX.grid(column=0, row=10, columnspan=3, sticky=S, padx=10, pady=10)
 
+        # DROP DOWN MENU WITH PREVIOUSLY CALCULATED PCs USER CAN SELECT FOR PLOTTING
+
         print("This is pcdb before if", self.pcdb_names)
         if len(self.pcdb_names)!=0:
             self.dd_var = StringVar()
@@ -72,13 +78,8 @@ class pcaPop(Toplevel):  # Create a window
             self.cfm_opt_btn = Button(self, text="Confirm Selection", command=self.get_sel_principal_component)
             self.cfm_opt_btn.grid(column=2, row=1, sticky=N, pady=10, padx=10)
 
-        # LINE TO SEPARATE MENU IN TWO SECTIONS
-        # self.canvas_line = Canvas(self, height=10, bd=0)
-        # self.canvas_line.grid(column=0, row=2, columnspan=3, sticky='EW')
-        # self.canvas_line.create_line(15, 5, 785, 5, dash=(8, 3))
+        # PC RADIOBUTTON CODE - SELECTING PCs
 
-
-        # PC CHECK LIST CODE
         # label at the top of the check list
         self.cl_label = Label(self, text="Select PC to be included in the image:", font="lucida 14 underline")
         self.cl_label.grid(column=0, row=3, pady=(15, 5))
@@ -122,6 +123,8 @@ class pcaPop(Toplevel):  # Create a window
     # self.canvas_preview2.get_tk_widget().configure(bg="grey")
 
     def get_sel_principal_component(self):
+        """ Confirms user selection in drop down menu (through label) and stores it.
+        """
         if self.dd_var.get()=="Create new PCs":
             pc_selected_text = 'User selected \'Create new PCs\''
             print(pc_selected_text)
@@ -133,13 +136,12 @@ class pcaPop(Toplevel):  # Create a window
         label_pc_selected.grid(column=0, row=1, columnspan=2, sticky=N, padx=10, pady=5)
 
     def display_preview(self, rb_var):
+        """ Plots on preview box based on PC chosen
+        """
         self.did_select=True
         f = Figure()
         a = f.add_subplot(111)
         a.axis('off')
-        #matFile = mat73.loadmat(
-        #    '/Users/Shirin/Desktop/Prog3 Project/tissue_t3_1_workspace.mat')  # .mat file must be in the same local directory
-        #my_data = np.array(matFile["map_t3"])
 
         # if there is saved PCs
         # if ldb length is none --->
@@ -178,8 +180,6 @@ class pcaPop(Toplevel):  # Create a window
             self.canvas_preview.get_tk_widget().grid(column=1, row=4, columnspan=2, rowspan=6, sticky='EW')
             self.canvas_preview.get_tk_widget().configure(bg="grey")
 
-
-
         elif rb_var == 3:
             print('Var3 is 1')
             self.image.img = self.image.return_Image(3)
@@ -191,6 +191,8 @@ class pcaPop(Toplevel):  # Create a window
             print('error')
 
     def submit(self):
+        """ Creates interactive image based on PC chosen, defines a name and adds object to Image Database
+        """
         if self.pca_t3 is None or self.did_select==False:
             submit_error_text = "Please select PC before submitting."
             print(submit_error_text) #To display error in terminal
@@ -205,12 +207,12 @@ class pcaPop(Toplevel):  # Create a window
             self.image.display()
 
 
-
+'''
 # FOR TESTING
 def openSettings():
     a=pcaPop()
 
-'''
+
 def openSettings():
     a = pcaPop(master=app)
 

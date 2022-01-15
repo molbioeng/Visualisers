@@ -7,9 +7,13 @@ import tkinter
 from tkinter import filedialog as fd
 from tkinter.messagebox import showinfo
 
+"""
+Pop up window with instructions for how to use the program.
+"""
+
 class ft_instructions(Toplevel): #Create a window
     def __init__(self, master=None):
-        #using toplevel to create a new window that isn't root
+        #using toplevel to create a new window that isn't app
         Toplevel.__init__(self, master)
         #configuring the pop up window
         self.title("How to Navigate Visualizer")
@@ -33,7 +37,7 @@ class ft_instructions(Toplevel): #Create a window
 
         # Configure the Canvas
         self.scroll_canvas.configure(yscrollcommand=self.scrollbar.set)
-        # lambda e -> we are passing an event eg. mouse clicking
+        # lambda e -> we are passing an event
         self.scroll_canvas.bind('<Configure>', lambda e: self.scroll_canvas.configure(scrollregion=self.scroll_canvas.bbox("all")))
 
         # Create ANOTHER Frame INSIDE the Canvas

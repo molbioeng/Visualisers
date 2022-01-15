@@ -9,7 +9,12 @@ from tkinter.messagebox import showinfo
 
 import fileList as fL
 
-#FRAME 2 – METHOD SELECTION
+#FRAME 3 – METHOD SELECTION
+
+"""
+The third frame on the main app window. Allows user to select data reduction method of choice.
+When the choice is confirmed it gets stored into global variable fL.method.    
+"""
 
 class filenamewindow2(LabelFrame):
 
@@ -46,6 +51,7 @@ class filenamewindow2(LabelFrame):
         self.label.grid(column=0, row=1, columnspan=2, sticky="nsew")
 
     def show(self):
+        """ Sets fL.method variable to method selected by user, produces confirmation message on window """
         fL.method = self.var2.get()
         self.label['text'] = str(fL.method + " Selected")
 

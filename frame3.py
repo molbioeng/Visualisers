@@ -16,12 +16,23 @@ from PrincipalComponentDB import PrincipalComponentDB
 from pcaPop import pcaPop
 from KMClusterPop import KMClusterPop
 from ImageMean import ImageMean
-from ImageViewerFrame import *
+from ImageViewerPop import *
 
 #FRAME 3 - SHOW 2D IMAGE
 
 import mat73
 import scipy.io as sio
+
+# FRAME 4 - PLOTTING
+
+"""
+The final frame on the main app window. Allows user to display an interactive image, generated based on selections made 
+in previous frames, as well as from pop up setting windows. Each image displayed is stored in the 
+image database (ImageDB). 
+
+The frame contains a button that opens a window where the user can view all images contained in the image database.
+"""
+
 
 class filenamewindow3(LabelFrame):
     #Constructor
@@ -43,15 +54,20 @@ class filenamewindow3(LabelFrame):
 
         self.b2 = Button(self.frame3, text="Show All Images", command=self.open_img_viewer).grid(column=0, row=1, columnspan=2)
 
+
+    # NOT USED ANYWHERE - DELETE?
     def button_clicked(self):
         print('Button clicked')
 
     def open_img_viewer(self):
+        """ If the user has already produced images using the program, it will open the image viewer
+            pop up window.
+        """
         if not self.imgdb.images:
             fL.ErrorMessage = "No images have been produced yet."
-            self.popup_window()
+            self.popup_window() # Error pop up
         else:
-            self.img_viewer_pop = filenamewindow5(self.imgdb.images)
+            self.img_viewer_pop = imgviewPop(self.imgdb.images)
         # try:
         #     self.img_viewer_pop = filenamewindow5(self.draw.imgDB.images)
         # except Exception as e:
@@ -63,6 +79,9 @@ class filenamewindow3(LabelFrame):
         ErrorPopup(self.frame3)
 
     def show_plot(self):
+        """ Plots based on selections made by user in previous frames. Accordingly, it will
+         create settings pop up windows.
+        """
         print("Selected option is " , fL.method)
         if fL.Array.any():
             

@@ -13,7 +13,11 @@ from ErrorPopupWindows import ErrorPopup
 
 #FRAME 1 – OPEN AND SELECT FILE
 
-#BUTTON 1 – FILENAME
+"""
+The first frame on the main app window. It contains an button that opens an open file dialog box
+and widgets that allow the user to select the file they want to analyze.
+"""
+
 class filenamewindow(LabelFrame):
     def __init__(self, container):
         super().__init__(container)
@@ -41,6 +45,8 @@ class filenamewindow(LabelFrame):
 
 
     def select_files(self):
+        """ Generates openfile dialog box, stores filenames of selected files and adds those to drop down
+        menu of all the files chosen by the user. """
         try:
             self.filetypes = (("MAT files", "*.mat"), ("all files", ''))
             self.filenames = fd.askopenfilenames(
@@ -68,9 +74,12 @@ class filenamewindow(LabelFrame):
             self.popup_window()
 
     def popup_window(self):
+        """ Error popup window """
         ErrorPopup(self.frame1)
 
     def select_from_list(self):
+        """ Sets fL.File variable to the filename chosen by user, produces a confirmation message on
+        the widnow """
         fL.File = self.value_inside.get() 
         if not fL.File:
             fL.ErrorMessage = "Please open a MATLAB file."
@@ -78,5 +87,6 @@ class filenamewindow(LabelFrame):
         else:
             self.label['text'] = str(fL.File + " Selected")
 
+    # THIS FUNCTION IS NOT USED ANYWHERE HERE - DELETE?F
     def get_filename(self):
         return self.value_inside

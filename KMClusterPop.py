@@ -1,10 +1,3 @@
-'''
-This class will be used to display window for KMClustering
-Created 9 Jan 2022
-author: pg
-
-'''
-
 from tkinter import *
 from tkinter import ttk
 import os
@@ -14,19 +7,25 @@ from ImagePCA import ImagePCA
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 
+"""
+Pop up window that enables user to select the settings for KM Clustering data reduction and plotting.
+They user can enter the number of clusters they want to create, and see a preview of the image before
+the interactive plot is generated. 
+"""
+
 class KMClusterPop(Toplevel):
     def __init__(self, imgDB, master=None):
 
         
         self.imgDB = imgDB
         self.imgDB_names = list(imgDB.keys())
-        # using toplevel to create a new window that isn't root
+        # using toplevel to create a new window that isn't app
         Toplevel.__init__(self, master)
         # configuring the pop up window
         self.title("K-means clustering")
         self.geometry('400x600')
 
-        # CONFIGURING GRID GEOMETRY OF WINDOW
+        #CONFIGURING GRID GEOMETRY OF WINDOW
         self.columnconfigure(0, weight=1)
         # self.columnconfigure(1, weclight=1)
         # self.columnconfigure(2, weight=2)
@@ -45,29 +44,9 @@ class KMClusterPop(Toplevel):
         self.confirm_bt = Button(self, text='Confirm Selection', command=self.get_sel_img)
         self.confirm_bt.grid(column=0,row=2, pady=(5,0))
 
-
-        #LABEL at the top of the PC list
-        #self.label_sel_pc = Label(self, text="Select PC for which you want to cluster the image:", font="lucida 14 underline")
-        #self.label_sel_pc.grid(column=0, row=3, pady=(15, 5))
-
-
-        # variables to store on/off value of radiobutton
-        #self.rb_var = IntVar()
-
-        # #RADIOBUTTONS
-        # self.rb_1 = Radiobutton(self, text="Image from PC1", variable=self.rb_var, value=0, command=lambda: self.get_pca_dataset(self.rb_var.get()))
-        # self.rb_1.grid(column=0, row=4)
-
-        # self.rb_2 = Radiobutton(self, text="Image from PC2", variable=self.rb_var, value=1, command=lambda: self.get_pca_dataset(self.rb_var.get()))
-        # self.rb_2.grid(column=0, row=5)
-
-        # self.rb_3 = Radiobutton(self, text="Image from PC3", variable=self.rb_var, value=2, command=lambda: self.get_pca_dataset(self.rb_var.get()))
-        # self.rb_3.grid(column=0, row=6)
-
-        # #ENTRY WIDGET
+        #ENTRY WIDGET
         self.input_widget = Entry(self)
         self.input_widget.grid(column=0,row=4, pady=20)
-        # self.input_widget.delete()
 
         # add text inside the box of the input field
         self.placeholder = "Enter number of clusters" #Used as instruction text for entry widget
@@ -83,8 +62,6 @@ class KMClusterPop(Toplevel):
         # # doesn't change automatically if you change slider, need a function
         # self.label = Label(root,text=self.horizontal.get())
         # self.label.grid(column=0, row=4, sticky='nsew')
-        
-        
 
         #PREVIEW BUTTON
         self.buttonPreview = ttk.Button(self,text='Preview', command = self.preview)
@@ -92,7 +69,6 @@ class KMClusterPop(Toplevel):
         #SUBMISSION BUTTON to display clustered img
         self.buttonSubmit = ttk.Button(self, text="Submit", command=self.display_clustered_img)
         self.buttonSubmit.grid(column=0, row=6, sticky=S, padx=10, pady=10)
-
 
 
     def get_sel_img(self):
