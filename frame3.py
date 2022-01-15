@@ -12,9 +12,9 @@ from ImageViewerPop import *
 # FRAME 3 - PLOTTING
 
 """
-The final frame on the main app window. Allows user to display an interactive image, generated based on selections made 
-in previous frames, as well as from pop up setting windows. Each image displayed is stored in the 
-image database (ImageDB). 
+The final frame on the main app window. Allows user to display an interactive image, generated based on selections made
+in previous frames, as well as from pop up setting windows. Each image displayed is stored in the
+image database (ImageDB).
 
 The frame contains a button that opens a window where the user can view all images contained in the image database.
 """
@@ -52,7 +52,7 @@ class filenamewindow3(LabelFrame):
             self.popup_window() # Error pop up
         else:
             self.img_viewer_pop = imgviewPop(self.imgdb.images)
-     
+
 
     def popup_window(self):
         ErrorPopup(self.frame3)
