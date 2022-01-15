@@ -22,17 +22,18 @@ class ImagePCA(Image):
         super().__init__(array)
         self.name = self.name + '/PCA'
         self.pca = pca
-        data = self.data
+        data = self.data #instantiate data for reconstruction
         data = data.reshape(len(data) * len(data[0]), len(data[0][0]))
-        self.scores = self.pca.transform(data)  # reconstructed data
+        self.scores = self.pca.transform(data)  # reconstructed data (it consists of 3 long columns which are called scores)
 
     def return_Image(self, pc):  # Used for displaying an image in the given window
-        # You have to specify the pc for which the image has to be displayed
-        score = self.scores[:, pc - 1]  # get the score for chosen pc
+        # The pc number for which the image has to be displayed must be specified
+        score = self.scores[:, pc - 1]  # get the score for the chosen pc
         self.reshaped_score = np.reshape(score, (len(self.data), len(self.data[0])))
-        self.img = self.reshaped_score
+        #recostructed data need to be reshaped before plotting
+        self.img = self.reshaped_score #reconstructed image updated
         return self.reshaped_score
-      
+
 
     def preview(self, pc):  # For dislaying image in a separate window (no navigation bar)
         self.img = self.return_Image(self, pc)
@@ -48,25 +49,22 @@ class ImagePCA(Image):
         for i in range(np.shape(self.scores)[1]):
             col_list.append('PC' + str(i + 1))
         # Retrieve the score values
-        # self.df_scores = pd.DataFrame(self.scores, columns=['PC1','PC2','PC3'])
         self.df_scores = pd.DataFrame(self.scores, columns=col_list)
-        # print(self.df_scores)
         # # to call: df_scores.PC1 or df_scores.["PC1"]
         self.df_loadings = pd.DataFrame(self.pca.loadings, columns=col_list)
-        # self.df_loadings = pd.DataFrame(self.pca.loadings, columns=['PC1','PC2','PC3'])
+
         # Prepare the explained variance data
         explained_variance = np.insert(self.pca.explained_variance, 0, 0)
         # Prepare the cumulative variance data
         cumulative_variance = np.cumsum(np.round(explained_variance, decimals=3))
         # Combining the dataframe
-        col_list.insert(0, '')
+        col_list.insert(0, '') #Used to plot cumulative variance on the plot
         # pc_df = pd.DataFrame(['','PC1','PC2','PC3'], columns=['PC'])
         pc_df = pd.DataFrame(col_list, columns=['PC'])
 
         explained_variance_df = pd.DataFrame(explained_variance, columns=['Explained Variance'])
         cumulative_variance_df = pd.DataFrame(cumulative_variance, columns=['Cumulative Variance'])
         self.df_explained_variance = pd.concat([pc_df, explained_variance_df, cumulative_variance_df], axis=1)
-        # print(self.df_explained_variance)
 
     def scree_plot(self):
         fig, ax = plt.subplots()
@@ -97,14 +95,14 @@ class ImagePCA(Image):
             fig.canvas.set_window_title('Image ' + self.name)
 
             fig.suptitle('Scores plot')
-            if self.pca.n_components == 1:
+            if self.pca.n_components == 1: #1D plot
                 print('One PC')
                 ax = fig.add_subplot(111)
                 ax.plot(self.df_scores.PC1, ',', color='red')
                 ax.set_xlabel('PC1')
 
                 return False  # used for estimating whether there is more than 3PCs calculated
-            elif self.pca.n_components == 2:
+            elif self.pca.n_components == 2: #2D plot
                 print('Two PCs')
                 ax = fig.add_subplot(111)
                 ax.scatter(self.df_scores.PC1, self.df_scores.PC2,
@@ -115,7 +113,7 @@ class ImagePCA(Image):
                 ax.set_ylabel('PC2')
 
                 return False
-            elif self.pca.n_components == 3:
+            elif self.pca.n_components == 3: #3D plot
                 print('Three PCs')
                 ax = fig.add_subplot(111, projection='3d')
                 ax.scatter(self.df_scores.PC1, self.df_scores.PC2, self.df_scores.PC3,
@@ -129,6 +127,14 @@ class ImagePCA(Image):
                 return False
 
     def scores_plt_higher_dim(self, bool, dim=2, pc_lst=['PC1', 'PC2']):
+        '''
+        This method would be used in the future approach.
+        The user would select the PCs that he/she want to plot against each other
+
+        Example:
+        Instead of plotting 2D plot of scores between PC1 and PC2, he can plot PC1 against PC3
+        (if # of components is greater or equal to 3 in this case)
+        '''
         if bool == True:
             fig = plt.figure(2)
             fig.canvas.set_window_title('Image ' + self.name)
@@ -153,13 +159,17 @@ class ImagePCA(Image):
                 ax.set_xlabel(pc_lst[0])
                 ax.set_ylabel(pc_lst[1])
                 ax.set_zlabel(pc_lst[2])
-       
+
             else:
                 print('error')
 
     def loadings_plot(self):
         n = self.pca.n_components  # to estimate the number of PCs
         n_columns = (n + 3 - 1) // 3  # To estimate the # of subplots (columns)
+        '''
+        This would be useful in the future approach when there is more than 3 principal components.
+        The method would adjust plots depending on n_components.
+        '''
         fig = plt.figure(3)
         fig.canvas.set_window_title('Image ' + self.name)
         fig.suptitle('Loadings plots')
