@@ -19,8 +19,7 @@ class ImageMean(Image):
 
         super().__init__(array)
         self.name = self.name +'/'+'mean'
-        for j in range(np.shape(self.img)[0]):
+
+        for j in range(np.shape(self.img)[0]): #Nested loop 
             for i in range(np.shape(self.img)[1]):
                 self.img[i][j] =  np.average(self.data[i][j][:])
-
-

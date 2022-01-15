@@ -18,7 +18,6 @@ from frame1 import filenamewindow
 from frame2 import filenamewindow2
 from frame3 import filenamewindow3
 from frame4 import filenamewindow4
-from ImageViewerPop import filenamewindow5
 
 import fileList as fL
 

@@ -14,8 +14,6 @@ matplotlib.use('TkAgg')
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 import matplotlib.pyplot as plt
-
-import mat73
 from Image import Image
 from PrincipalComponent import PrincipalComponent
 import numpy as np
@@ -27,11 +25,11 @@ from pcaGraphs import pcaGraphs
 """
 Pop up window that enables user to select the settings for PCA data reduction and plotting.
 They can either plot based on PCs calculated for a previous data set or generate new ones for the current
-data set. 
+data set.
 """
 
 class pcaPop(Toplevel):  # Create a window
-    def __init__(self, pcdb, data, draw, master=None):
+    def __init__(self, pcdb, data, imgDB, master=None):
         # using toplevel to create a new window that isn't app
         Toplevel.__init__(self, master)
         # configuring the pop up window
@@ -44,12 +42,12 @@ class pcaPop(Toplevel):  # Create a window
         self.columnconfigure(2, weight=2)
 
         # variables for PCA analysis
-        self.pcdb = pcdb
-        self.pcdb_names = list(pcdb.keys())
+        self.pcdb = pcdb #Principal component DB
+        self.pcdb_names = list(pcdb.keys()) #get all names of PCs from DB
         self.data = data
-        self.new_pc =False
-        self.pca_t3 = None
-        self.imgdb = draw
+        self.new_pc =False #Used to create new pca if the user has selected
+        self.pca_t3 = None #To check if there is any PC in db or selected
+        self.imgdb = imgDB
         self.did_select = False # Used to check if the user had selected PC
 
         # TITLE ON WINDOW AND SUBMIT BUTTON
@@ -59,12 +57,9 @@ class pcaPop(Toplevel):  # Create a window
 
         # DROP DOWN MENU WITH PREVIOUSLY CALCULATED PCs USER CAN SELECT FOR PLOTTING
 
-        print("This is pcdb before if", self.pcdb_names)
-        if len(self.pcdb_names)!=0:
+        if len(self.pcdb_names)!=0: #If there are PCs in DB
             self.dd_var = StringVar()
-            print("This is first dd_var ",self.dd_var)
-            self.dd_var.set(self.pcdb_names[0])
-            print("This is second dd_var ",self.dd_var)
+            self.dd_var.set(self.pcdb_names[0]) #Assign StringVar to the first name of PC in DB
 
             # label for drop down menu
             drop_down_text = "If you would like to use PCs from a previous image please select:"
@@ -104,33 +99,14 @@ class pcaPop(Toplevel):  # Create a window
         self.pb_label.grid(column=1, row=3, columnspan=2, sticky='N', pady=(15, 0))
         self.image = None
 
-    # setting up canvas
-    # self.canvas_preview = Canvas(self, height=400, bd=0, bg='Grey')
-    # self.canvas_preview.grid(column=1, row=4, columnspan=2, rowspan=6, sticky='EW')
-
-    # PREVIEW BOX CODE
-
-    # canvas = FigureCanvasTkAgg(f,self)
-    # canvas.draw()
-    # # # canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=True )
-    # canvas.get_tk_widget().grid(column=0,row=11, columnspan=3, sticky=S, padx=10, pady=10)
-    # canvas.get_tk_widget().configure(bg="black")
-
-    # self.canvas_preview2 = FigureCanvasTkAgg(f,self)
-    # self.canvas_preview2.draw()
-    # # canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=True )
-    # self.canvas_preview2.get_tk_widget().grid(column=1,row=4, columnspan=2,rowspan=6, sticky='EW')
-    # self.canvas_preview2.get_tk_widget().configure(bg="grey")
-
     def get_sel_principal_component(self):
         """ Confirms user selection in drop down menu (through label) and stores it.
         """
         if self.dd_var.get()=="Create new PCs":
             pc_selected_text = 'User selected \'Create new PCs\''
-            print(pc_selected_text)
-            self.new_pc = True
+            self.new_pc = True #The user has decided to create new PCA
         else:
-            self.pca_t3=self.pcdb[self.dd_var.get()]
+            self.pca_t3=self.pcdb[self.dd_var.get()] #Get selected object based on the input name
             pc_selected_text = self.dd_var.get()+' has been selected'
         label_pc_selected = Label(self, text=pc_selected_text, font="lucida 14")
         label_pc_selected.grid(column=0, row=1, columnspan=2, sticky=N, padx=10, pady=5)
@@ -138,73 +114,54 @@ class pcaPop(Toplevel):  # Create a window
     def display_preview(self, rb_var):
         """ Plots on preview box based on PC chosen
         """
-        self.did_select=True
+        self.did_select=True #User selected PC
         f = Figure()
         a = f.add_subplot(111)
         a.axis('off')
 
-        # if there is saved PCs
-        # if ldb length is none --->
-        # else pca_new = self.ldb[selected]
-        # new_image = ImagePCA(self.data,)
-        # img = new_image.return_Image()
-        # img.display()
-        if (self.pca_t3==None) or (self.new_pc==True):
+        if (self.pca_t3==None) or (self.new_pc==True): #If the user did not select new pc or if there has not PC been created yet
             self.pca_t3 = PrincipalComponent(array=self.data)
             self.new_pc=False
-            print('Creating new pc')
-            #new_pc= False
-        # if self.new_pc==True:
-        #     self.pca_t3 = PrincipalComponent(array=self.data)
-        #     self.new_pc=False
-        #     print('new_pc is true!')
 
-        self.image = ImagePCA(self.data, self.pca_t3)
-        
-        self.canvas_preview = FigureCanvasTkAgg(f, self)
+        self.image = ImagePCA(self.data, self.pca_t3)  #Create an object
 
+        self.canvas_preview = FigureCanvasTkAgg(f, self) #Used to set up canvas for preview image
 
         if rb_var == 1:
-            print('Var1 is 1')
             self.image.img = self.image.return_Image(1)
             a.imshow(self.image.img)
             self.canvas_preview.draw()
             self.canvas_preview.get_tk_widget().grid(column=1, row=4, columnspan=2, rowspan=6, sticky='EW')
-            self.canvas_preview.get_tk_widget().configure(bg="grey")
 
         elif rb_var == 2:
-            print('Var2 is 1')
             self.image.img = self.image.return_Image(2)
             a.imshow(self.image.img)
             self.canvas_preview.draw()
             self.canvas_preview.get_tk_widget().grid(column=1, row=4, columnspan=2, rowspan=6, sticky='EW')
-            self.canvas_preview.get_tk_widget().configure(bg="grey")
 
         elif rb_var == 3:
-            print('Var3 is 1')
             self.image.img = self.image.return_Image(3)
             a.imshow(self.image.img)
             self.canvas_preview.draw()
             self.canvas_preview.get_tk_widget().grid(column=1, row=4, columnspan=2, rowspan=6, sticky='EW')
-            self.canvas_preview.get_tk_widget().configure(bg="grey")
         else:
             print('error')
 
     def submit(self):
         """ Creates interactive image based on PC chosen, defines a name and adds object to Image Database
         """
-        if self.pca_t3 is None or self.did_select==False:
+        if self.pca_t3 is None or self.did_select==False: # if there is no chosen from option menu or PC selected
             submit_error_text = "Please select PC before submitting."
-            print(submit_error_text) #To display error in terminal
             submit_error_label = Label(self, text=submit_error_text, font="lucida 14", fg='red')
             submit_error_label.grid(column=1, row=11, pady=10)
         else:
             self.destroy()
-            self.pcaGraphs = pcaGraphs(self.image)
-            self.pcdb[self.pca_t3.name] = self.pca_t3
+            self.pcaGraphs = pcaGraphs(self.image) #Pop up window for PCA graphs
+            self.pcdb[self.pca_t3.name] = self.pca_t3 #Adds new PrincipalComponent to DB
             self.image.name = self.image.name + '/' + str(self.rb_var.get())
+            # Updates imagePCA name
             self.imgdb.addImage(self.image)
-            self.image.display()
+            self.image.display() #Display interactive image
 
 
 '''

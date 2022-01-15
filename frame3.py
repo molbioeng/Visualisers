@@ -26,9 +26,9 @@ import scipy.io as sio
 # FRAME 4 - PLOTTING
 
 """
-The final frame on the main app window. Allows user to display an interactive image, generated based on selections made 
-in previous frames, as well as from pop up setting windows. Each image displayed is stored in the 
-image database (ImageDB). 
+The final frame on the main app window. Allows user to display an interactive image, generated based on selections made
+in previous frames, as well as from pop up setting windows. Each image displayed is stored in the
+image database (ImageDB).
 
 The frame contains a button that opens a window where the user can view all images contained in the image database.
 """
@@ -84,7 +84,7 @@ class filenamewindow3(LabelFrame):
         """
         print("Selected option is " , fL.method)
         if fL.Array.any():
-            
+
             if fL.method == "Mean":
                 print("Adding mean...")
                 img_mean = ImageMean(fL.Array)
@@ -92,7 +92,7 @@ class filenamewindow3(LabelFrame):
                 self.imgdb.displayImage(img_mean)
 
             elif fL.method == "PCA":
-                self.pcaPop = pcaPop(self.pcdb, fL.Array,draw=self.imgdb)
+                self.pcaPop = pcaPop(self.pcdb, fL.Array,imgDB=self.imgdb)
 
             elif fL.method == "K-Means Clustering":
                 if bool(self.imgdb.images):
@@ -118,6 +118,3 @@ class filenamewindow3(LabelFrame):
         #if array and method not select, display warning message
         # if not fL.Array and fL.method:
         #     self.popup_window()
-            
-
-
