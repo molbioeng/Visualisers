@@ -17,7 +17,7 @@ class ft_instructions(Toplevel): #Create a window
         Toplevel.__init__(self, master)
         #configuring the pop up window
         self.title("How to Navigate Visualizer")
-        self.geometry('460x600')
+        self.geometry('600x600')
 
         # The following set up with frame and canvas is to enable coding of a scrollbar
 

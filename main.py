@@ -32,20 +32,20 @@ class MainApp(tk.Tk):
         frame = main_frame(self)
 
         # new user pop up
-        menubar = Menu(app, background='#ff8000', foreground='black', activebackground='white', activeforeground='black')
+        menubar = Menu(self, background='#ff8000', foreground='black', activebackground='white', activeforeground='black')
         filemenu= Menu(menubar, tearoff=False)
         menubar.add_cascade(label= "Help",underline=0, menu= filemenu)
         # filemenu.add_command(label="How to navigate Visualiser", underline= 1, command= instructions, accelerator= "Ctrl+H")
-        filemenu.add_command(label="How to navigate Visualiser", underline= 1, command= instructions)
+        filemenu.add_command(label="How to navigate Visualiser", underline= 1, command= self.instructions)
         # help = Menu(menubar, tearoff=0)
         # help.add_command(label="Help", command=instructions, accelerator= "Ctrl+H")
         # menubar.add_cascade(label="How to navigate Visualiser", menu=help)
-        app.config(menu=menubar)
+        self.config(menu=menubar)
         # filemenu.bind_all("<Control-h>", instructions)
 
 
 
-        a = newuser_pop(master=app)
+        a = newuser_pop(master=self)
         a.wm_attributes("-topmost", 1) # allows the newuser_pop to appear above the app window
         
         self.geometry('850x550')
@@ -73,6 +73,10 @@ class MainApp(tk.Tk):
         
         self.filenamewindow3=filenamewindow3(frame.second_frame, self)
         
+    def instructions(self):
+        a = ft_instructions()
+        
+        
         #Image Viewer Frame
     #filenamewindow5(frame.second_frame, imgDB=filenamewindow3.draw.imgDB.images)
 
@@ -87,8 +91,6 @@ if __name__ == "__main__":
 #app = App()
 #frame = main_frame(app)
 
-def instructions():
-    a = ft_instructions()
 
 
 
