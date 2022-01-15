@@ -94,9 +94,9 @@ class KMClusterPop(Toplevel):
 
     def display_clustered_img(self):
         if self.check_input():
-            self.clustered_img = ImageKMCluster(self.selected_img.img, self.n_cluster_int)
+            self.clustered_img = ImageKMCluster(self.selected_img, self.n_cluster_int)
             self.clustered_img.display()
-            self.imgDB.addImage(self.clustered_img)
+            self.imgDB[self.clustered_img.name] = self.clustered_img
             self.destroy()
 
     def is_imgPCA(self):
@@ -131,7 +131,7 @@ class KMClusterPop(Toplevel):
             a.axis('off')
             self.canvas_preview = FigureCanvasTkAgg(f, self)
 
-            clustered_img = ImageKMCluster(array=self.selected_img.img,n_clusters=self.n_cluster_int)
+            clustered_img = ImageKMCluster(self.selected_img, self.n_cluster_int)
             img_to_show = clustered_img.return_r_data()#reconstructed datapoints
             a.imshow(img_to_show)
 

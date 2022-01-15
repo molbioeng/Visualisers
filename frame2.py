@@ -32,10 +32,8 @@ class filenamewindow2(LabelFrame):
 
         print("method in frame 2 is...",fL.method)
 
-        # Variable to keep track of the option
-        # selected in OptionMenu
+        # Variable to keep track of the option selected in OptionMenu
         self.drop2 = OptionMenu(self.frame2, self.var2, *self.options)
-
         self.drop2.grid(column=0, row=0, sticky="nsew")
 
         self.btn2= Button(self.frame2, text="Confirm Selection", command=self.show).grid(row=0, column=1, sticky="nsew")
