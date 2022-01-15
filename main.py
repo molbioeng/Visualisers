@@ -8,6 +8,7 @@ Created on Sun Dec 12 13:04:20 2021
 
 # Import the library tkinter
 from tkinter import *
+import tkinter as tk
 from newuser_pop import *
 from newuser_instructions import *
 
@@ -21,59 +22,105 @@ from frame4 import filenamewindow4
 from ImageViewerPop import imgviewPop
 
 import fileList as fL
+
+fL.init()
+
+class MainApp(tk.Tk):
+    def __init__(self, *args, **kwargs):
+        tk.Tk.__init__(self, *args, **kwargs)
+        
+        frame = main_frame(self)
+
+        # new user pop up
+        menubar = Menu(app, background='#ff8000', foreground='black', activebackground='white', activeforeground='black')
+        filemenu= Menu(menubar, tearoff=False)
+        menubar.add_cascade(label= "Help",underline=0, menu= filemenu)
+        # filemenu.add_command(label="How to navigate Visualiser", underline= 1, command= instructions, accelerator= "Ctrl+H")
+        filemenu.add_command(label="How to navigate Visualiser", underline= 1, command= instructions)
+        # help = Menu(menubar, tearoff=0)
+        # help.add_command(label="Help", command=instructions, accelerator= "Ctrl+H")
+        # menubar.add_cascade(label="How to navigate Visualiser", menu=help)
+        app.config(menu=menubar)
+        # filemenu.bind_all("<Control-h>", instructions)
+
+
+
+        a = newuser_pop(master=app)
+        a.wm_attributes("-topmost", 1) # allows the newuser_pop to appear above the app window
+        
+        self.geometry('850x550')
+        
+        ################################################################################
+        #FRAME 1
+        
+        
+        self.filenamewindow1=filenamewindow(frame.second_frame, self)
+        
+        ################################################################################
+        #FRAME 4 – 3D array selection
+        
+        self.filenamewindow4=filenamewindow4(frame.second_frame, self)
+        
+        ################################################################################
+        #FRAME 2
+        
+        
+        self.filenamewindow2=filenamewindow2(frame.second_frame, self)
+        
+        ################################################################################
+        #FRAME 3
+        
+        
+        self.filenamewindow3=filenamewindow3(frame.second_frame, self)
+        
+        #Image Viewer Frame
+    #filenamewindow5(frame.second_frame, imgDB=filenamewindow3.draw.imgDB.images)
+
+if __name__ == "__main__":
+    #root = tk.Tk()
+    #MainApp(root).pack(side="top", fill="both", expand=True)
+    app = MainApp()
+    app.mainloop()
+
+
 # Create a GUI app
-app = App()
-frame = main_frame(app)
+#app = App()
+#frame = main_frame(app)
 
 def instructions():
     a = ft_instructions()
 
-# new user pop up
-menubar = Menu(app, background='#ff8000', foreground='black', activebackground='white', activeforeground='black')
-filemenu= Menu(menubar, tearoff=False)
-menubar.add_cascade(label= "Help",underline=0, menu= filemenu)
-# filemenu.add_command(label="How to navigate Visualiser", underline= 1, command= instructions, accelerator= "Ctrl+H")
-filemenu.add_command(label="How to navigate Visualiser", underline= 1, command= instructions)
-# help = Menu(menubar, tearoff=0)
-# help.add_command(label="Help", command=instructions, accelerator= "Ctrl+H")
-# menubar.add_cascade(label="How to navigate Visualiser", menu=help)
-app.config(menu=menubar)
-# filemenu.bind_all("<Control-h>", instructions)
 
 
+# #Global variables
+# fL.init()
 
-a = newuser_pop(master=app)
-a.wm_attributes("-topmost", 1) # allows the newuser_pop to appear above the app window
-
-#Global variables
-fL.init()
-
-################################################################################
-#FRAME 1
+# ################################################################################
+# #FRAME 1
 
 
-filenamewindow1=filenamewindow(frame.second_frame)
+# filenamewindow1=filenamewindow(frame.second_frame, app)
 
-################################################################################
-#FRAME 4 – 3D array selection
+# ################################################################################
+# #FRAME 4 – 3D array selection
 
-filenamewindow4=filenamewindow4(frame.second_frame)
+# filenamewindow4=filenamewindow4(frame.second_frame, app)
 
-################################################################################
-#FRAME 2
-
-
-filenamewindow2=filenamewindow2(frame.second_frame)
-
-################################################################################
-#FRAME 3
+# ################################################################################
+# #FRAME 2
 
 
-filenamewindow3=filenamewindow3(frame.second_frame)
+# filenamewindow2=filenamewindow2(frame.second_frame, app)
+
+# ################################################################################
+# #FRAME 3
+
+
+# filenamewindow3=filenamewindow3(frame.second_frame, app)
 
 #Image Viewer Frame
 #filenamewindow5(frame.second_frame, imgDB=filenamewindow3.draw.imgDB.images)
 
 
 # Make the loop for displaying app
-app.mainloop()
+#app.mainloop()

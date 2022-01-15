@@ -22,7 +22,7 @@ The frame contains a button that opens a window where the user can view all imag
 
 class filenamewindow3(LabelFrame):
     #Constructor
-    def __init__(self, container):
+    def __init__(self, container, controller):
         super().__init__(container)
         self.frame3 = LabelFrame(container, text = "2D image", bg = "white", padx=120, pady=50, width=300)
         self.frame3.grid(row=4, column=0, sticky="nsew")
@@ -36,7 +36,7 @@ class filenamewindow3(LabelFrame):
 
         # Setting up arrays
         self.imgdb = ImageDB()
-        self.arrdb = ArrayDB()
+        #self.arrdb = ArrayDB()
 
         self.pcdb = PrincipalComponentDB().principalComponents
 

@@ -11,10 +11,11 @@ and widgets that allow the user to select the file they want to analyze.
 """
 
 class filenamewindow(LabelFrame):
-    def __init__(self, container):
+    def __init__(self, container, controller):
         super().__init__(container)
+        self.controller = controller
         self.frame1 = LabelFrame(container, text = "Select file", bg = "white", padx=120, pady=50, width=300)
-
+        
         # configuration of grid on frame
         self.frame1.grid_columnconfigure(0, weight=1)
         self.frame1.grid_columnconfigure(1, weight=1)
@@ -72,13 +73,15 @@ class filenamewindow(LabelFrame):
     def select_from_list(self):
         """ Sets fL.File variable to the filename chosen by user, produces a confirmation message on
         the window """
-        fL.File = self.value_inside.get() 
+        fL.File = self.value_inside.get()
+        #fL.arrdb = None
         if not fL.File:
             fL.ErrorMessage = "Please open a MATLAB file."
             self.popup_window()
         else:
             self.label['text'] = str(fL.File + " Selected")
+        
+            #Update Array browser
+            print("Updating from frame 1")
+            self.controller.filenamewindow4.update()
 
-    # THIS FUNCTION IS NOT USED ANYWHERE HERE - DELETE?
-   # def get_filename(self):
-     #   return self.value_inside
