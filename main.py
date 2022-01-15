@@ -28,7 +28,9 @@ fL.init()
 class MainApp(tk.Tk):
     def __init__(self, *args, **kwargs):
         tk.Tk.__init__(self, *args, **kwargs)
-        
+
+        self.title('Visualize')
+        self.geometry('850x550')
         frame = main_frame(self)
 
         # new user pop up
@@ -47,36 +49,36 @@ class MainApp(tk.Tk):
 
         a = newuser_pop(master=self)
         a.wm_attributes("-topmost", 1) # allows the newuser_pop to appear above the app window
-        
-        self.geometry('850x550')
-        
+
+
+
         ################################################################################
         #FRAME 1
-        
-        
+
+
         self.filenamewindow1=filenamewindow(frame.second_frame, self)
-        
+
         ################################################################################
         #FRAME 4 – 3D array selection
-        
+
         self.filenamewindow4=filenamewindow4(frame.second_frame, self)
-        
+
         ################################################################################
         #FRAME 2
-        
-        
+
+
         self.filenamewindow2=filenamewindow2(frame.second_frame, self)
-        
+
         ################################################################################
         #FRAME 3
-        
-        
+
+
         self.filenamewindow3=filenamewindow3(frame.second_frame, self)
-        
+
     def instructions(self):
         a = ft_instructions()
-        
-        
+
+
         #Image Viewer Frame
     #filenamewindow5(frame.second_frame, imgDB=filenamewindow3.draw.imgDB.images)
 
