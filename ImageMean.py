@@ -18,6 +18,7 @@ class ImageMean(Image):
         """Initiates + reduces the image in one step"""
 
         super().__init__(array)
+        self.img = np.empty(shape=(np.shape(self.data)[0:2]))
         self.name = self.name +'/'+'mean'
         for j in range(np.shape(self.img)[0]):
             for i in range(np.shape(self.img)[1]):

@@ -18,7 +18,6 @@ class Image(ABC):
         #data passed into the image
         self.name = array[0]
         self.data = array[1]
-        self.img = np.empty(shape=(np.shape(self.data)[0:2])) #Flattened Raman data IS THIS NEEDED HERE
         
 
     def __repr__(self):

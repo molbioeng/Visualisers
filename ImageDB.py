@@ -20,8 +20,6 @@ class ImageDB(object):
     def addImage(self, currentImg):
         """Creates and adds an image to the database"""
         self.images[currentImg.name] = currentImg
-        print("Current images in imageDB:")
-        print(self.images.keys())
 
     def displayImage(self, img):
         """Displays image"""

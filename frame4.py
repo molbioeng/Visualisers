@@ -39,18 +39,17 @@ class filenamewindow4(LabelFrame):
         self.drop4 = None
 
     def browse_arrays(self):
+        """ Checks if a MATLAB file has been loaded, then creates an option menu
+        + confirm button for the user to browse through its corresponding arrays"""
         if not fL.File: #if no MATLAB file has been opened or confirmed, display error message
             fL.ErrorMessage = "Please open a MATLAB file and confirm your selection."
             self.popup_window()
         else:
-            print(fL.File)
-
             fL.Data = self.open_file() #loading selected MATLAB file
             
 
             # filtering through arrays in MATLAB file and creating options list for dropdown menu
             self.options = self.filter_options(fL.Data) #keeps 3D arrays of floats, integers and unsigned integers
-            # self.options = ["Testing"]
 
             self.var4 = StringVar()  # datatype of menu text
             self.var4.set(self.options[0])  # initial menu text
@@ -64,43 +63,46 @@ class filenamewindow4(LabelFrame):
 
 
     def popup_window(self): #general error message popup window
+        """Error popup"""
         ErrorPopup(self.frame4)
 
 
     def check_ArrayDB(self,name, array):
-        print(fL.arrdb)
+        """Updates the ArrayDB, and assigns current_array to the selected file"""
         if name not in fL.arrdb.arrays.keys():
             fL.arrdb.addArray(array, name)
-        
         fL.arrdb.current_array = name
 
 
-    def confirm(self): #saves array selection
+    def confirm(self): 
+        """Checks that a valid array has been selected, and saves array selection"""
         try:
             name = self.var4.get() 
             self.label['text'] = str(self.var4.get() + " Selected")
             name = (os.path.basename(fL.File)).rsplit(".", 1)[0] + '/' + name #Set array name
             self.check_ArrayDB(name, fL.Data[self.var4.get()])  #loads array data
         except KeyError as e: #if array isn't selected, display error message
-            #print("KeyError:", e)
             fL.ErrorMessage = "Please select a 3D array from the drop-down menu."
             self.popup_window()
         except Exception as e: #any other error
-            print("Error:", e)
+            fL.ErrorMessage = e
+            self.popup_window()
 
     def open_file(self): #loads MATLAB file
+        """Loads the MATLAB file, checks if it can be loaded"""
         try:
             selected_file = mat73.loadmat(fL.File) #for -v7.3 MATLAB files
         except Exception:
             try:
                 selected_file = sio.loadmat(fL.File) #for previous versions of MATLAB files
             except Exception as e: #if import of MATLAB file doesn't work, display error message
-                #print(e, "\n MATLAB file not supported.")
                 fL.ErrorMessage = "MATLAB file not supported."
                 self.popup_window()
         return selected_file
 
     def filter_options(self, file): #input = imported MATLAB file
+        """Runs through the MATLAB file and checks if there are valid arrays present
+        + loads them into the option menu"""
         file_variables = list(file.keys()) #extracting workspace variables from MATLAB file & storing them in list
         menu_options = ["Select an array"] #dropdown menu options (default = "Select an array")
         class_list = [np.float32, np.float64, np.int8, np.uint8, np.int16, np.uint16, np.int32, np.uint32, np.int64, np.uint64] #accepted variable classes/types
@@ -112,10 +114,11 @@ class filenamewindow4(LabelFrame):
         if menu_options == ["Select an array"]: #if no 3D arrays of numbers in file, display error message instead
             fL.ErrorMessage = "File selected does not contain 3D number data."
             self.popup_window()
-            #menu_options.append("File selected does not contain 3D number data.")
         return menu_options
     
     def update(self):
+        """Deletes the option menu, label, and 'Confirm selection' button after 
+        new file has been selected to prevent the user from selecting invalid arrays"""
         if self.drop4:
             self.drop4.destroy()
             self.label.destroy()

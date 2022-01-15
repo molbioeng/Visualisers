@@ -34,15 +34,6 @@ class ImagePCA(Image):
         return self.reshaped_score
       
 
-    def preview(self, pc):  # For dislaying image in a separate window (no navigation bar)
-        self.img = self.return_Image(self, pc)
-        import matplotlib as mpl
-        mpl.rcParams['toolbar'] = 'None'
-        plt.imshow(self.img)
-        plt.axis('off')
-        plt.show()
-        mpl.rcParams['toolbar'] = 'toolbar2'
-
     def data_frames(self):
         col_list = []  # Used for creating column names
         for i in range(np.shape(self.scores)[1]):

@@ -152,7 +152,6 @@ class pcaPop(Toplevel):  # Create a window
         if (self.pca_t3==None) or (self.new_pc==True):
             self.pca_t3 = PrincipalComponent(array=self.data)
             self.new_pc=False
-            print('Creating new pc')
             #new_pc= False
         # if self.new_pc==True:
         #     self.pca_t3 = PrincipalComponent(array=self.data)

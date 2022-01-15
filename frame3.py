@@ -36,7 +36,6 @@ class filenamewindow3(LabelFrame):
 
         # Setting up arrays
         self.imgdb = ImageDB()
-        #self.arrdb = ArrayDB()
 
         self.pcdb = PrincipalComponentDB().principalComponents
 
@@ -65,7 +64,6 @@ class filenamewindow3(LabelFrame):
         if fL.arrdb.current_array:
             array = (fL.arrdb.current_array, fL.arrdb.arrays[fL.arrdb.current_array])
             if fL.method == "Mean":
-                print("Adding mean...")
                 img_mean = ImageMean(array)
                 self.imgdb.addImage(img_mean)
                 self.imgdb.displayImage(img_mean)
@@ -77,12 +75,9 @@ class filenamewindow3(LabelFrame):
                 if bool(self.imgdb.images):
                     self.KMClusterPop = KMClusterPop(self.imgdb.images)
                 else:
-                    print('No images to work on')
-                    #noImgPopup = NoImageForKMCPopup()
                     fL.ErrorMessage = "No images in memory. \n Please apply reduction method before KM-Clustering."
                     self.popup_window()
                     #To display erroPopup window if there is no image class which user can apply KMClustering method to
         else:
-            #print("The error is: \n", e)
             fL.ErrorMessage = "Please select a 3D array and method of analysis."
             self.popup_window()
