@@ -54,19 +54,29 @@ class ft_instructions(Toplevel): #Create a window
         # Instructions
 
         # STEP 1
-        self.step1_label = Label(self.second_frame, text="Step(1): Click on the button on the top and select the file or files \n you would like to analyse",
+        self.step1_label = Label(self.second_frame, text="Step(1): Click on the button on the top \"Open File\" and select the \n file or files you would like to analyse. After this select the single file \n you would like to analyse and click \"Select Filename from list\"",
                                  font="lucida 14")
         self.step1_label.pack(pady=(20,5), padx=5, side= TOP, anchor="w")
         self.step1_note_label = Label(self.second_frame, text="Note - The program only accepts .mat files",
                                  font="lucida 14 underline")
         self.step1_note_label.pack(padx=5)
-        # STEP 2
-        self.step2_label = Label(self.second_frame, text="Step(2): Click on the dropdown menu at the bottom to select the \n method you'd like to employ to visualize the data",
-                                 font="lucida 14")
+         # STEP 2
+        self.step2_label = Label(self.second_frame, text="Step(2): Click on \"Browse Array\" to open up your arrays, then \n select array you would like to analyse from dropdown menu \n and click \"Confirm Selection\" ",
+                                 font="lucida 14", justify=CENTER)
         self.step2_label.pack(pady=10, side= TOP, anchor="w", padx=5)
-        self.step2_note_text = Label(self.second_frame,
-                                 text="Note: The options available are Mean or \n PCA (Principal Component Analysis)",
+        
+        # STEP 3
+        self.step3_label = Label(self.second_frame, text="Step(3): Click on the dropdown menu at the bottom to select the \n method you'd like to employ to visualize the data.",
+                                 font="lucida 14")
+        self.step3_label.pack(pady=10, side= TOP, anchor="w", padx=5)
+        self.step3_note_text = Label(self.second_frame,
+                                 text="Note: The options available are Mean or \n PCA (Principal Component Analysis), K-Means Clustering.",
                                  font="lucida 14 underline").pack(expand=True, fill=BOTH, padx=5)
+        # STEP 4
+        self.step4_label = Label(self.second_frame, text="Step(4): Click on \"Show Image\". ",
+                                 font="lucida 14")
+        self.step4_label.pack(pady=10, side= TOP, anchor="w", padx=5)
+        
         # IF PCA SELECTED
         self.pca_lf = LabelFrame(self.second_frame, text="If PCA is selected", font="lucida 14 bold", bg="Light Grey",
                                  height="100", pady=5, padx=5)
@@ -82,26 +92,52 @@ class ft_instructions(Toplevel): #Create a window
                               bg="Light Grey").pack(expand=True, fill=BOTH, side=TOP, anchor="w")
         self.pca_lf_5 = Label(self.pca_lf, text="(2) You can plot based on PCs calculated on the current data set.",
                               bg="Light Grey", font="lucida 13 underline").pack(side=TOP, anchor="w", pady=(10,5))
-        self.pca_lf_6 = Label(self.pca_lf, text="Using the checkbox you can select the number of PCs you'd like \n to use for plotting.",
+        self.pca_lf_6 = Label(self.pca_lf, text="Using the radio button you can select the PC number you'd like \n to use for plotting.",
                               bg="Light Grey", font="lucida 13").pack(side=TOP, anchor="w")
         self.pca_lf_7 = Label(self.pca_lf, text="To aid you in making this decision, there is a preview box on the \n right, here "
                                                 "you can see what the image will look like with \n the PCs chosen.",
                           bg="Light Grey", font="lucida 13").pack(side=TOP, anchor="w")
         self.pca_lf_8 = Label(self.pca_lf, text="Once you have finalized your selection, click Submit.",
                               bg="Light Grey", font="lucida 13 underline").pack(side=TOP, anchor="w")
+        self.pca_lf_9 = Label(self.pca_lf, text="After this, you will get an additional popup window for extra plots. ",
+                          bg="Light Grey", font="lucida 13").pack(side=TOP, anchor="w")
+        
+        # IF K-Means Clustering SELECTED
+        self.KMeans_lf = LabelFrame(self.second_frame, text="If K-Means Clustering is selected", font="lucida 14 bold", bg="Light Grey",
+                                 height="100", pady=5, padx=5)
+        self.KMeans_lf.pack(fill="both", expand="yes", padx=10, pady=10)
 
+        self.KMeans_lf_1 = Label(self.KMeans_lf, text="When K-Means Clustering is selected, a new settings window \n will pop up.",
+                              bg="Light Grey").pack(side= TOP, anchor="w")
+        self.KMeans_lf_2 = Label(self.KMeans_lf, text="Note you will need a previously created image to cluster ",
+                              bg="Light Grey", font="lucida 13 bold").pack(side= TOP, anchor="w", pady=(1,8))
+        self.KMeans_lf_3 = Label(self.KMeans_lf, text="(1) You will need to select image for clustering and click  \n \"Confirm Selection\" ",
+                              bg="Light Grey", font="lucida 13 underline", justify=CENTER).pack(side=TOP, anchor="c")
+        self.KMeans_lf_4 = Label(self.KMeans_lf, text="(2) Below you have to enter the number of clusters for analyses and \n click \"Preview\"  ",
+                              bg="Light Grey", font="lucida 13 underline", justify=CENTER).pack(side=TOP, anchor="c")
+        self.KMeans_lf_5= Label(self.KMeans_lf, text="To aid you in making this decision, there is a preview box on the \n right, here "
+                                                "you can see what the image will look like with \n the clustering chosen.",
+                          bg="Light Grey", font="lucida 13").pack(side=TOP, anchor="w")
+        
+        
+        
         # AFTER METHOD IS CHOSEN
-        self.step3_label = Label(self.second_frame, text="Step(3): Navigate the Interactive Image Plot",
+        self.step5_label = Label(self.second_frame, text="Step(5): Navigate the Interactive Image Plot",
                                  font="lucida 14").pack(side=TOP, anchor="w", padx=5, pady=(0,10))
-        self.step3_opts1_label = Label(self.second_frame, text="The interactive image will appear in a new window.",
-                                      font="lucida 14").pack(side=TOP, anchor="w", padx=5)
-        self.step3_opts2_label = Label(self.second_frame, text="At the top bar of the window, you can explore different "
-                                                              "tools such \nas zoom.",
-                                       font="lucida 14", justify=LEFT).pack(side=TOP, anchor="w", padx=5)
-        self.step3_opts3_label = Label(self.second_frame, text="The image is also mouse-click sensitive, by clicking "
-                                                               "on a pixel you \ncan have the raw raman spectrum "
-                                                               "for that (x,y) co-ordinate \nappear in a new window.",
-                                       font="lucida 14", justify=LEFT).pack(side=TOP,anchor="w", padx=5)
+        
+        self.step5_opts1_label = Label(self.second_frame, text="At the bottom bar of the window, you can explore different tools"
+                                                              "\n  such as zoom.",
+                                       font="lucida 14", justify=CENTER).pack(side=TOP, anchor="w", padx=5)
+        self.step5_opts2_label = Label(self.second_frame, text="The image is also mouse-click sensitive, by right-clicking "
+                                                               "on a pixel \n you can have the raw raman spectrum "
+                                                               "for that (x,y) coordinate \nappear in a new window.",
+                                       font="lucida 14", justify=CENTER).pack(side=TOP,anchor="w", padx=5)
+        
+        self.step6_label = Label(self.second_frame, text="Step(6): Browse through ",
+                                 font="lucida 14").pack(side=TOP, anchor="w", padx=5, pady=(0,10))
+        self.step5_opts1_label = Label(self.second_frame, text="By clicking on \"Show All Images\" you will be able to browse \n through all the images.",
+                                       font="lucida 14", justify=CENTER).pack(side=TOP, anchor="w", padx=5)
+        
 
         #Goodbye Message
 
