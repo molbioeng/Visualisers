@@ -57,8 +57,12 @@ class PrincipalComponent:
         self.pca = PCA(n_components=self.n_components)
         self.fit_pca = self.pca.fit(data)
 
+<<<<<<< HEAD
         self.loadings = self.fit_pca.components_.T #Retrieve the loadings values
         # loadings = princiapl components
+=======
+
+>>>>>>> c9d2066c99f5a4a70d9f4b67365bc54323363570
 
         self.explained_variance = self.fit_pca.explained_variance_ratio_
 

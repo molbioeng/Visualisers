@@ -1,24 +1,15 @@
 import tkinter as tk
-from tkinter import *
-from tkinter import filedialog
-from tkinter import messagebox
-#from tkinter.messagebox import showinfo
-import requests
-
-import mat73
-import scipy
-import scipy.io as sio
-import numpy as np
-
 import fileList as fL
 
-class ErrorPopup():
+class ErrorPopup(): #general error popup window
 
     def __init__(self, master):
         window = tk.Toplevel(master)
 
         window.title("Warning")
 
+        #the global variable ErrorMessage contains the warning/error message
+        #it is initialized for different errors every time the error popup is needed
         label = tk.Label(window, text = fL.ErrorMessage)
         label.pack(fill = 'x', padx=50, pady=5)
 
