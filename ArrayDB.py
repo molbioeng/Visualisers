@@ -12,10 +12,11 @@ class ArrayDB(object):
 
     def __init__(self):
         self.arrays = {} #List of Images, used a dict so images could be accessed by name
+        print("Arrays type is ", type(self.arrays))
         self.current_array = None
 
-    def addArray(self, currentArray, arrayName):
+    def addArray(self, newArray, arrayName):
         """Creates and adds an Array to the database"""
-        self.arrays[arrayName] = currentArray
+        self.arrays[arrayName] = newArray
         print("Current arrays in arrayDB:")
         print(self.arrays.keys())

@@ -3,6 +3,7 @@ import mat73
 import scipy.io as sio
 import numpy as np
 import fileList as fL
+import os
 from ErrorPopupWindows import ErrorPopup
 
 #FRAME 4 – SELECTING 3D ARRAY
@@ -19,7 +20,7 @@ they wish to analyze.
 
 class filenamewindow4(LabelFrame):
     #constructor
-    def __init__(self, container):
+    def __init__(self, container, controller):
         super().__init__(container)
         #constructing frame4
         self.frame4 = LabelFrame(container, text = "Select 3D array", bg = "white", padx=120, pady=50, width=300)
@@ -34,6 +35,8 @@ class filenamewindow4(LabelFrame):
         #"Browse Arrays" button
         self.main_btn = Button(self.frame4, text = "Browse Arrays", command = self.browse_arrays)
         self.main_btn.grid(row=0, column=0, columnspan=2)
+        
+        self.drop4 = None
 
     def browse_arrays(self):
         if not fL.File: #if no MATLAB file has been opened or confirmed, display error message
@@ -43,6 +46,7 @@ class filenamewindow4(LabelFrame):
             print(fL.File)
 
             fL.Data = self.open_file() #loading selected MATLAB file
+            
 
             # filtering through arrays in MATLAB file and creating options list for dropdown menu
             self.options = self.filter_options(fL.Data) #keeps 3D arrays of floats, integers and unsigned integers
@@ -64,8 +68,10 @@ class filenamewindow4(LabelFrame):
 
 
     def check_ArrayDB(self,name, array):
+        print(fL.arrdb)
         if name not in fL.arrdb.arrays.keys():
             fL.arrdb.addArray(array, name)
+        
         fL.arrdb.current_array = name
 
 
@@ -108,3 +114,9 @@ class filenamewindow4(LabelFrame):
             self.popup_window()
             #menu_options.append("File selected does not contain 3D number data.")
         return menu_options
+    
+    def update(self):
+        if self.drop4:
+            self.drop4.destroy()
+            self.label.destroy()
+            self.btn4.destroy()

@@ -12,7 +12,7 @@ class filenamewindow2(LabelFrame):
 
     #Constructor
 
-    def __init__(self, container):
+    def __init__(self, container, controller):
         super().__init__(container)
         self.frame2 = LabelFrame(container, text = "Select method", bg = "white", padx=120, pady=50, width=300) # Constructing the second frame, frame2
 
