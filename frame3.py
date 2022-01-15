@@ -1,4 +1,5 @@
 from ImageDB import ImageDB
+from ArrayDB import ArrayDB
 import fileList as fL
 from ErrorPopupWindows import ErrorPopup
 from PrincipalComponentDB import PrincipalComponentDB
@@ -7,12 +8,8 @@ from KMClusterPop import KMClusterPop
 from ImageMean import ImageMean
 from ImageViewerPop import *
 
-#FRAME 3 - SHOW 2D IMAGE
 
-#import mat73
-#import scipy.io as sio
-
-# FRAME 4 - PLOTTING
+# FRAME 3 - PLOTTING
 
 """
 The final frame on the main app window. Allows user to display an interactive image, generated based on selections made 
@@ -37,8 +34,10 @@ class filenamewindow3(LabelFrame):
 
         self.b1 = Button(self.frame3, text="Show Image", command=self.show_plot).grid(column=0, row=0, columnspan=2)
 
+        # Setting up arrays
         self.imgdb = ImageDB()
-    
+        self.arrdb = ArrayDB()
+
         self.pcdb = PrincipalComponentDB().principalComponents
 
         self.b2 = Button(self.frame3, text="Show All Images", command=self.open_img_viewer).grid(column=0, row=1, columnspan=2)
@@ -63,17 +62,16 @@ class filenamewindow3(LabelFrame):
         """ Plots based on selections made by user in previous frames. Accordingly, it will
          create settings pop up windows.
         """
-        print("Selected option is " , fL.method)
-        if fL.Array.any():
-            
+        if fL.arrdb.current_array:
+            array = (fL.arrdb.current_array, fL.arrdb.arrays[fL.arrdb.current_array])
             if fL.method == "Mean":
                 print("Adding mean...")
-                img_mean = ImageMean(fL.Array)
+                img_mean = ImageMean(array)
                 self.imgdb.addImage(img_mean)
                 self.imgdb.displayImage(img_mean)
 
             elif fL.method == "PCA":
-                self.pcaPop = pcaPop(self.pcdb, fL.Array,draw=self.imgdb)
+                self.pcaPop = pcaPop(self.pcdb, array,draw=self.imgdb)
 
             elif fL.method == "K-Means Clustering":
                 if bool(self.imgdb.images):

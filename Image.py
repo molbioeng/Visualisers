@@ -11,16 +11,15 @@ from abc import ABC
 import numpy as np
 import matplotlib.pyplot as plt
 from plotInteract import PlotInteract
-import os
-import fileList as fL
 
 class Image(ABC):
 
     def __init__(self, array):
-        self.data = array #data passed into the image
-        self.img = np.empty(shape=(np.shape(array)[0:2])) #Flattened Raman data
-        filename = (os.path.basename(fL.File)).rsplit(".", 1)[0]
-        self.name = str(filename)+ '/' + str(fL.Array_name)
+        #data passed into the image
+        self.name = array[0]
+        self.data = array[1]
+        self.img = np.empty(shape=(np.shape(self.data)[0:2])) #Flattened Raman data IS THIS NEEDED HERE
+        
 
     def __repr__(self):
         """Used later in calling the class by its name"""

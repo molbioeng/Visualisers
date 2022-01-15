@@ -5,7 +5,7 @@ import numpy as np
 import fileList as fL
 from ErrorPopupWindows import ErrorPopup
 
-#FRAME 2 – SELECTING 3D ARRAY
+#FRAME 4 – SELECTING 3D ARRAY
 
 """
 The second frame on the main app window. Checks that the file selected by user is a .mat file that can be loaded
@@ -62,11 +62,19 @@ class filenamewindow4(LabelFrame):
     def popup_window(self): #general error message popup window
         ErrorPopup(self.frame4)
 
+
+    def check_ArrayDB(self,name, array):
+        if name not in fL.arrdb.arrays.keys():
+            fL.arrdb.addArray(array, name)
+        fL.arrdb.current_array = name
+
+
     def confirm(self): #saves array selection
         try:
-            fL.Array = fL.Data[self.var4.get()] #array data
-            fL.Array_name = self.var4.get() #array name
-            self.label['text'] = str(fL.Array_name + " Selected") #display selected array name
+            name = self.var4.get() 
+            self.label['text'] = str(self.var4.get() + " Selected")
+            name = (os.path.basename(fL.File)).rsplit(".", 1)[0] + '/' + name #Set array name
+            self.check_ArrayDB(name, fL.Data[self.var4.get()])  #loads array data
         except KeyError as e: #if array isn't selected, display error message
             #print("KeyError:", e)
             fL.ErrorMessage = "Please select a 3D array from the drop-down menu."
